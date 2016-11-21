@@ -1,0 +1,52 @@
+﻿@model Project_NotesDeFrais.Models.EmployeesModel
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Creation Employer</h2>
+@using (Html.BeginForm("", "Simulation/Result", "", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Nouveau produit</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.FirstName)
+            @Html.TextBoxFor(model => @Model.FirstName, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.FirstName, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.LastName)
+            @Html.TextBoxFor(model => @Model.LastName, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.LastName, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+
+            <asp:RegularExpressionValidator ID="regexEmailValid"  ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ControlToValidate="tbEmail" ErrorMessage="Invalid Email Format"></asp:RegularExpressionValidator>
+            @Html.LabelFor(model => @Model.Email)
+            @Html.TextBoxFor(model => @Model.Email, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Email, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="editor-label">
+            <asp:RegularExpressionValidator ID="regexEmailValid"  ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ControlToValidate="tbEmail" ErrorMessage="Invalid Email Format"></asp:RegularExpressionValidator>
+            @Html.LabelFor(model => @Model.Telephone)
+            @Html.TextBoxFor(model => @Model.Telephone, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Telephone, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Poles1)
+            @Html.TextBoxFor(model => @Model.Poles1, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Poles1, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.ExpanseReports)
+            @Html.TextBoxFor(model => @Model.ExpanseReports, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.ExpanseReports, "", new { @class = "text-danger" })
+        </div>
+
+        <p>
+            <button type="submit" class="btn-success"> Enregistrer </button>
+        </p>
+    </fieldset>
+}
+
