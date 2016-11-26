@@ -198,9 +198,14 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\ExpanseTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NotesDeFraisController.cs" />
+    <Compile Include="Controllers\PolesController.cs" />
+    <Compile Include="Controllers\ProjetController.cs" />
+    <Compile Include="Controllers\TvasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -245,6 +250,9 @@
     <Compile Include="Models\NoteDeFraisModel\PolesModel.cs" />
     <Compile Include="Models\NoteDeFraisModel\ProjectsModel.cs" />
     <Compile Include="Models\NoteDeFraisModel\TvasModel.cs" />
+    <Compile Include="Models\PaginatedList.cs" />
+    <Compile Include="Models\Reposirery\CustomerRepositery.cs" />
+    <Compile Include="Models\Reposirery\ExpanseTypesRepositery.cs" />
     <Compile Include="Models\Reposirery\NoteDeFraisRepositery.cs" />
     <Compile Include="Models\Poles.cs">
       <DependentUpon>ProjectModel.tt</DependentUpon>
@@ -267,6 +275,9 @@
     <Compile Include="Models\Projects.cs">
       <DependentUpon>ProjectModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Reposirery\PolesRepository.cs" />
+    <Compile Include="Models\Reposirery\ProjetRepositery.cs" />
+    <Compile Include="Models\Reposirery\TvasRepositery.cs" />
     <Compile Include="Models\Tvas.cs">
       <DependentUpon>ProjectModel.tt</DependentUpon>
     </Compile>
@@ -350,12 +361,19 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\NotesDeFrais\Accueil.cshtml" />
     <Content Include="Views\NotesDeFrais\Menu.cshtml" />
-    <Content Include="Views\NotesDeFrais\PoleFormulaire.cshtml" />
-    <Content Include="Views\NotesDeFrais\ProjectFormulaire.cshtml" />
-    <Content Include="Views\NotesDeFrais\TvasFormulaire.cshtml" />
-    <Content Include="Views\NotesDeFrais\ExpansTypeFormulaire.cshtml" />
-    <Content Include="Views\NotesDeFrais\CostumerFormulaire.cshtml" />
+    <Content Include="Views\Poles\PoleFormulaire.cshtml" />
+    <Content Include="Views\Projet\ProjectFormulaire.cshtml" />
+    <Content Include="Views\Tvas\TvasFormulaire.cshtml" />
+    <Content Include="Views\ExpanseTypes\ExpansTypeFormulaire.cshtml" />
+    <Content Include="Views\Customer\CostumerFormulaire.cshtml" />
     <Content Include="Views\NotesDeFrais\EmployeFormulaire.cshtml" />
+    <Content Include="Views\NotesDeFrais\AffichageEmploye.cshtml" />
+    <Content Include="Views\Customer\AllCustomers.cshtml" />
+    <Content Include="Views\Projet\AllProjects.cshtml" />
+    <Content Include="Views\Tvas\AllTvas.cshtml" />
+    <Content Include="Views\ExpanseTypes\AllExpansesTypes.cshtml" />
+    <Content Include="Views\Customer\_Customers.cshtml" />
+    <Content Include="Views\Poles\AllPoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

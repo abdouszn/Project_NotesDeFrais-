@@ -2,11 +2,11 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("", "Simulation/Result", "", FormMethod.Post))
+@using (Html.BeginForm("", "Projet/createProject", new { id_Customer = @ViewData["id_Customer"] }, FormMethod.Post ))
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Nouveau produit</legend>
+        <legend> @ViewData["id_Customer"] </legend>
 
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Name)
@@ -20,15 +20,9 @@
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Budget)
-            @Html.TextBoxFor(model => @Model.Budget, new { @required = "required" })
+            @Html.TextBoxFor(model => @Model.Budget, new { @required = "required" }) 
             @Html.ValidationMessageFor(model => @Model.Budget, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Budget)
-            @Html.TextBoxFor(model => @Model.Budget, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.Budget, "", new { @class = "text-danger" })
-        </div>
-
         <p>
             <button type="submit" class="btn-success"> Enregistrer </button>
         </p>

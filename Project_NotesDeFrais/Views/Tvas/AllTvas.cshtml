@@ -1,0 +1,21 @@
+﻿@model IQueryable<Project_NotesDeFrais.Models.TvasModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Projects</h2>
+<table class="table table-striped">
+    <th>Nom</th>
+    <th>Valeur</th>
+    <th>Edition</th>
+    <th>Suppression</th>
+    @foreach (var s in Model)
+    {
+        <tr>
+            <td>@s.Name</td>
+            <td>@s.Value</td>
+            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.TVA_ID}) + "'");" /></td>
+            <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.TVA_ID})+"'");" /></td>
+        </tr>
+    }
+</table>

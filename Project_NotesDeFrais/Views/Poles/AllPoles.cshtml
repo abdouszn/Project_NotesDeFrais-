@@ -1,0 +1,27 @@
+﻿@model Project_NotesDeFrais.Models.PaginatedList<Project_NotesDeFrais.Models.PolesModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Employers</h2>
+
+
+<br />
+<br />
+<div id="projectTable">
+    <table class="table table-striped">
+        <th>Nom</th>
+        <th>Edition</th>
+        <th>Suppression</th>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Name</td>
+                <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.Pole_ID}) + "'");" /></td>
+                <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.Pole_ID})+"'");" /></td>
+            </tr>
+        }
+    </table>
+</div>
+
+

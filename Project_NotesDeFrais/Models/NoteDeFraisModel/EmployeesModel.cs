@@ -11,11 +11,8 @@ namespace Project_NotesDeFrais.Models
     {
         public EmployeesModel()
         {
-            this.ExpanseReports = new HashSet<ExpanseReportsModel>();
-            this.ExpanseReports1 = new HashSet<ExpanseReportsModel>();
-            this.Poles1 = new HashSet<PolesModel>();
+           
         }
-
         public System.Guid Employee_ID { get; set; }
         public string User_ID { get; set; }
         public string FirstName { get; set; }
@@ -23,8 +20,6 @@ namespace Project_NotesDeFrais.Models
         public string Email { get; set; }
         public string Telephone { get; set; }
         public Nullable<System.Guid> Pole_ID { get; set; }
-
-        public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual PolesModel Poles { get; set; }
        
         public virtual ICollection<ExpanseReportsModel> ExpanseReports { get; set; }

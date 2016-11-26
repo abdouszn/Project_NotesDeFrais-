@@ -1,0 +1,45 @@
+﻿@model Project_NotesDeFrais.Models.PaginatedList<Project_NotesDeFrais.Models.CustomersModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Employers</h2>
+
+@using (Ajax.BeginForm("Searche", "Customer", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "SuccessMessage",
+    OnFailure = "FailMessage",
+    UpdateTargetId = "projectTable"
+}))
+{
+    @Html.AntiForgeryToken()
+    <input type="text" name="query" />
+    <input type="submit" value="Search" class="btn-success" />
+
+}
+<br />
+<br />
+<div id="projectTable">
+    <table class="table table-striped">
+        <th>Nom</th>
+        <th>
+            Code
+        </th>
+        <th>Edition</th>
+        <th>Suppression</th>
+        <th>creation projet</th>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Name</td>
+                <td>@s.Code</td>
+                <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.Customer_ID}) + "'");" /></td>
+                <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.Customer_ID})+"'");" /></td>
+                <td><input type="button" value="nouveau projet" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Index" , "Projet",  new { id_Customer = s.Customer_ID} )+"'");" /></td>
+            </tr>
+        }
+    </table>
+</div>
+
+

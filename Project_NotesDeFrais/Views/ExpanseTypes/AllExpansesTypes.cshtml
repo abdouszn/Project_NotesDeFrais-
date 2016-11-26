@@ -1,0 +1,23 @@
+﻿@model IQueryable<Project_NotesDeFrais.Models.ExpanseTypes>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>All Employers</h2>
+<table class="table table-striped">
+    <th>Nom</th>
+    <th>Cellin</th>
+    <th>Fixed</th>
+    <th>OnlyManager</th>
+    <th>Edition</th>
+    <th>Suppression</th>
+    @foreach (var s in Model)
+    {
+        <tr>
+            <td>@s.Name</td>
+            <td>@s.Ceiling</td>
+            <td>@s.Fixed</td>
+            <td>@s.OnlyManagers</td>
+        </tr>
+    }
+</table>

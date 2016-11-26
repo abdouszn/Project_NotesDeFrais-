@@ -2,14 +2,15 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("", "Simulation/Result", "", FormMethod.Post))
+     
+@using (Html.BeginForm("", "Customer/createCustomer", "", FormMethod.Post))
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Nouveau produit</legend>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Name)
-            @Html.TextBoxFor(model => @Model.Name, new { @required = "required" })
+            @Html.TextBoxFor(model => @Model.Name, new { @required = "required"})
             @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">

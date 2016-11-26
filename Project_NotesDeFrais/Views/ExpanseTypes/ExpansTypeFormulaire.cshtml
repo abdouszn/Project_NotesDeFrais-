@@ -1,0 +1,33 @@
+﻿@model  Project_NotesDeFrais.Models.ExpanseTypesModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("", "ExpanseTypes/createExpansTypes", "", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Nouveau produit</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Name)
+            @Html.TextBoxFor(model => @Model.Name, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Ceiling)
+            @Html.TextBoxFor(model => @Model.Ceiling, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Ceiling, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            <input type="checkbox" name="Fixed" value="true" />
+            @Html.ValidationMessageFor(model => @Model.Fixed, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            <input type="checkbox" name="OnlyManagers" value="true" />
+            @Html.ValidationMessageFor(model => @Model.OnlyManagers, "", new { @class = "text-danger" })
+        </div>
+        <p>
+            <button type="submit" class="btn-success"> Enregistrer </button>
+        </p>
+    </fieldset>
+}

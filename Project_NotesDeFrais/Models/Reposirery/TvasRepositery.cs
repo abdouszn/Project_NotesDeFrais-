@@ -1,49 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 
-namespace Project_NotesDeFrais.Models
+namespace Project_NotesDeFrais.Models.Reposirery
 {
-    public class NotesDeFraisRepositery : DbContext
+    public class TvasRepositery
     {
+
         NotesDeFraisEntities e;
-        public NotesDeFraisRepositery()
+        public TvasRepositery()
         {
             e = new NotesDeFraisEntities();
 
-
         }
 
-        public IQueryable<ProjectsModel> all()
-        {
-            using (var e = new NotesDeFraisEntities())
-            {
-                var project = (IQueryable<ProjectsModel>)e.Projects.ToList();
-                return project;
-            }
-            
-        }
-
-        public void Add( Employees epl)
+        public void AddTva(Tvas tva)
         {
             using (new NotesDeFraisEntities())
             {
-                e.Employees.Add(epl);
+                e.Tvas.Add(tva);
                 e.SaveChanges();
 
             }
-               
-               
+
+
         }
 
-        public IQueryable<Employees> allEmployers()
+        public IQueryable<Tvas> allTvas()
         {
-            var employers = e.Employees.OrderBy(r => r.Employee_ID);
-            return employers;
+            var tvas = e.Tvas.OrderBy(r => r.TVA_ID);
+
+            return tvas;
         }
 
 
@@ -75,6 +65,3 @@ namespace Project_NotesDeFrais.Models
         }
     }
 }
-
-
-    

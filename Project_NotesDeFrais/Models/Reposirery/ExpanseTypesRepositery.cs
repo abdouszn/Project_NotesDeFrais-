@@ -1,49 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 
-namespace Project_NotesDeFrais.Models
+namespace Project_NotesDeFrais.Models.Reposirery
 {
-    public class NotesDeFraisRepositery : DbContext
+    public class ExpanseTypesRepositery
     {
+
         NotesDeFraisEntities e;
-        public NotesDeFraisRepositery()
+        public ExpanseTypesRepositery()
         {
             e = new NotesDeFraisEntities();
 
-
         }
 
-        public IQueryable<ProjectsModel> all()
-        {
-            using (var e = new NotesDeFraisEntities())
-            {
-                var project = (IQueryable<ProjectsModel>)e.Projects.ToList();
-                return project;
-            }
-            
-        }
-
-        public void Add( Employees epl)
+        public void AddExpanseType(ExpanseTypes expanseType)
         {
             using (new NotesDeFraisEntities())
             {
-                e.Employees.Add(epl);
+                e.ExpanseTypes.Add(expanseType);
                 e.SaveChanges();
-
             }
-               
-               
         }
 
-        public IQueryable<Employees> allEmployers()
+        public IQueryable<ExpanseTypes> allExpanseTypes()
         {
-            var employers = e.Employees.OrderBy(r => r.Employee_ID);
-            return employers;
+            var expanseTypes = e.ExpanseTypes.OrderBy(r => r.ExpenseType_ID);
+            return expanseTypes;
         }
 
 
@@ -74,7 +60,5 @@ namespace Project_NotesDeFrais.Models
             }
         }
     }
+
 }
-
-
-    

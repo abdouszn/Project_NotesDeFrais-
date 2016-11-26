@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="serchingData">
+    @using (Ajax.BeginForm("Searche", "Customer", null, new AjaxOptions
+    {
+        HttpMethod = "POST",
+        OnSuccess = "SuccessMessage",
+        OnFailure = "FailMessage",
+        UpdateTargetId = "projectTable"
+    }))
+    {
+        @Html.AntiForgeryToken()
+        <input type="text" name="query" />
+        <input type="submit" value="Search" class="btn-success" />
+    }
+
+</div>
+

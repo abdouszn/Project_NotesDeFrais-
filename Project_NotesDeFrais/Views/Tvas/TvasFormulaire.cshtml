@@ -1,25 +1,23 @@
-﻿@model  Project_NotesDeFrais.Models.ExpanseTypesModel
+﻿@model  Project_NotesDeFrais.Models.TvasModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("", "Simulation/Result", "", FormMethod.Post))
+@using (Html.BeginForm("", "Tvas/createTvas", "", FormMethod.Post))
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Nouveau produit</legend>
+
         <div class="editor-label">
-            @Html.LabelFor(model => @Model.Name)
+            @Html.LabelFor(model => @Model)
             @Html.TextBoxFor(model => @Model.Name, new { @required = "required" })
             @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => @Model.Fixed)
-            @Html.CheckBoxFor(model => @Model.Fixed , true)
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.OnlyManagers)
-            @Html.CheckBoxFor(model => @Model.OnlyManagers, true)
+            @Html.LabelFor(model => @Model.Value)
+            @Html.TextBoxFor(model => @Model.Value, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Value, "", new { @class = "text-danger" })
         </div>
         <p>
             <button type="submit" class="btn-success"> Enregistrer </button>

@@ -21,7 +21,12 @@ namespace Project_NotesDeFrais.Models
             this.ExpanseReports1 = new HashSet<ExpanseReports>();
             this.Poles1 = new HashSet<Poles>();
         }
-    
+
+        public static explicit operator Employees(EmployeesModel v)
+        {
+            throw new NotImplementedException();
+        }
+
         public System.Guid Employee_ID { get; set; }
         public string User_ID { get; set; }
         public string FirstName { get; set; }
