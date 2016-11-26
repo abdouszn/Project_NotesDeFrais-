@@ -18,15 +18,14 @@ namespace Project_NotesDeFrais.Controllers
         }
 
 
-        public void createProject(Projects projet , Guid? id_Customer)
+        public void createProject(Projects projet , Guid id_Customer)
         {
             ProjetRepositery prtRep = new ProjetRepositery();
-            var idCustomer = id_Customer != null ? (Guid)id_Customer : prtRep.maxIdCustomers();
             projet.Project_ID = Guid.NewGuid();
             projet.Name = Convert.ToString(Request.Form["Name"]);
             projet.Description = Convert.ToString(Request.Form["Description"]);
             projet.Budget = Convert.ToDouble(Request.Form["Budget"]);
-            projet.Customer_ID = idCustomer;
+            projet.Customer_ID = id_Customer;
             projet.Pole_ID = prtRep.maxIdPoles();
             prtRep.AddProjet(projet);
         }

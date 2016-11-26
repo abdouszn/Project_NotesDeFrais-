@@ -199,6 +199,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\ExpanseController.cs" />
+    <Compile Include="Controllers\ExpanseReportsController.cs" />
+    <Compile Include="Controllers\ExpansesController.cs" />
+    <Compile Include="Controllers\ExpansesRepositery.cs" />
     <Compile Include="Controllers\ExpanseTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -252,6 +256,8 @@
     <Compile Include="Models\NoteDeFraisModel\TvasModel.cs" />
     <Compile Include="Models\PaginatedList.cs" />
     <Compile Include="Models\Reposirery\CustomerRepositery.cs" />
+    <Compile Include="Models\Reposirery\ExpanseRepositery.cs" />
+    <Compile Include="Models\Reposirery\ExpanseRepportRepositery.cs" />
     <Compile Include="Models\Reposirery\ExpanseTypesRepositery.cs" />
     <Compile Include="Models\Reposirery\NoteDeFraisRepositery.cs" />
     <Compile Include="Models\Poles.cs">
@@ -377,6 +383,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ExpanseReports\" />
+    <Folder Include="Views\Expanses\" />
+    <Folder Include="Views\Expanse\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

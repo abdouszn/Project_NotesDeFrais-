@@ -33,8 +33,8 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Customers> getSerachingCustomers(String query)
         {
-            var simulations = (from s in e.Customers where s.Name.Contains(query) select s).OrderBy(r => r.Customer_ID);
-            return simulations;
+            var customer = (from s in e.Customers where s.Name.Contains(query) select s).OrderBy(r => r.Customer_ID);
+            return customer;
         }
 
 

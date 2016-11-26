@@ -7,53 +7,49 @@ using System.Web;
 
 namespace Project_NotesDeFrais.Models.Reposirery
 {
-    public class ProjetRepositery
+    public class ExpanseRepportRepositery
     {
+
         NotesDeFraisEntities e;
-        public ProjetRepositery()
+        public ExpanseRepportRepositery()
         {
             e = new NotesDeFraisEntities();
 
         }
 
-        public void AddProjet(Projects projet)
+        public void AddExpansesReports(ExpanseReports exp)
         {
             using (new NotesDeFraisEntities())
             {
-                e.Projects.Add(projet);
+                e.ExpanseReports.Add(exp);
                 e.SaveChanges();
-
             }
-
-
         }
 
-        public IQueryable<Projects> allProjects()
+        public IQueryable<ExpanseReports> allExpanseReports()
         {
-            var projects = e.Projects.OrderBy(r => r.Project_ID);
-            return projects;
+            var expansesRepport = e.ExpanseReports.OrderBy(r => r.ExpanseReport_ID);
+            return expansesRepport;
         }
 
-
-        public IQueryable<Projects> getSerachingProjects(String query)
+        /*public IQueryable<Expanses> getSerachingExpanse(String query)
         {
-            var projects = (from s in e.Projects where s.Name.Contains(query) select s).OrderBy(r => r.Project_ID);
-            return projects;
-        }
+            var simulations = (from s in e.Customers where s.Name.Contains(query) select s).OrderBy(r => r.Customer_ID);
+            return simulations;
+        }*/
 
-
-        public Projects GetById(Guid id)
+        /*public IQueryable<Expanses> getSerachingCustomers(String query)
         {
-            Projects projet = (from p in e.Projects where p.Project_ID == id select p).FirstOrDefault();
-            return projet;
-        }
-
-        public Customers GetByIdCutomer(Guid id)
-        {
-            Customers customer = (from p in e.Customers where p.Customer_ID == id select p).FirstOrDefault();
+            var expanse = (from s in e.Expanses where s.Amount_HT.Contains(Convert.ToInt32(query)) select s).OrderBy(r => r.Customer_ID);
             return customer;
-        }
+        }*/
 
+
+        public ExpanseReports GetById(Guid id)
+        {
+            ExpanseReports expanseRepport = (from ex in e.ExpanseReports where ex.ExpanseReport_ID == id select ex).FirstOrDefault();
+            return expanseRepport;
+        }
 
         /* public List<SimulationModel> AllByUser(String user) {
          var simulations = (from s in e.Simulations where s.NomClient == user select s);
@@ -67,25 +63,10 @@ namespace Project_NotesDeFrais.Models.Reposirery
          }*/
 
 
-        public void Delete(Projects p)
+        public void Delete(ExpanseReports expRep)
         {
 
-            /*var ProjectCostumer = (from pr in e.Projects where (p. == c.Customer_ID) select p);
-            foreach (var prc in ProjectCostumer.ToList())
-            {
-                e.Projects.Remove(prc);
-                e.SaveChanges();
-            }*/
-
-            e.Projects.Remove(p);
-            Save();
-        }
-
-        public Guid maxIdPoles()
-        {
-            var id = (from s in e.Poles select s.Pole_ID).FirstOrDefault();
-            return id;
-
+            e.ExpanseReports.Remove(expRep);
         }
 
         public Guid maxIdCustomers()
@@ -95,6 +76,11 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         }
 
+        public Employees GetByIdEmployes(Guid id)
+        {
+            Employees employer = (from p in e.Employees where p.Employee_ID == id select p).FirstOrDefault();
+            return employer;
+        }
 
         public void Save()
         {
