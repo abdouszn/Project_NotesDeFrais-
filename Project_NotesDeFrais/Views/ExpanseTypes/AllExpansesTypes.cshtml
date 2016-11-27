@@ -1,9 +1,25 @@
-﻿@model IQueryable<Project_NotesDeFrais.Models.ExpanseTypes>
+﻿@model Project_NotesDeFrais.Models.PaginatedList<Project_NotesDeFrais.Models.ExpanseTypesModel>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>All Employers</h2>
+
+@using (Ajax.BeginForm("Searche", "ExpanseTypes", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "SuccessMessage",
+    OnFailure = "FailMessage",
+    UpdateTargetId = "projectTable"
+}))
+{
+@Html.AntiForgeryToken()
+<input type="text" name="query" />
+<input type="submit" value="Search" class="btn-success" />
+
+}
+<br />
+<br />
 <table class="table table-striped">
     <th>Nom</th>
     <th>Cellin</th>
@@ -18,6 +34,8 @@
             <td>@s.Ceiling</td>
             <td>@s.Fixed</td>
             <td>@s.OnlyManagers</td>
+            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.ExpenseType_ID}) + "'");" /></td>
+            <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.ExpenseType_ID})+"'");" /></td>
         </tr>
     }
 </table>

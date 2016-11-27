@@ -16,14 +16,14 @@ namespace Project_NotesDeFrais.Controllers
             return View("ExpansesFormulaire");
         }
 
-        public void createCustomer(Expanses exp , Guid? expanseReport_ID, Guid? expanseType_ID , Guid? Customers_ID,
+        public void createExpanses(Expanses exp , Guid? expanseReport_ID, Guid? expanseType_ID , Guid? Customers_ID,
             Guid? project_ID)
         {
             ExpanseRepositery expRepo = new ExpanseRepositery();
             var idCustomer = Customers_ID != null ? (Guid)Customers_ID : expRepo.maxIdCustomers();
-            var idexpanseRepor = expanseReport_ID != null ? (Guid)Customers_ID : expRepo.maxIdCustomers();
-            var idexpanseType = expanseType_ID != null ? (Guid)Customers_ID : expRepo.maxIdCustomers();
-            var idprojet = project_ID != null ? (Guid)Customers_ID : expRepo.maxIdCustomers();
+            var idexpanseRepor = expanseReport_ID != null ? (Guid)Customers_ID : expRepo.maxIdExpanseReports();
+            var idexpanseType = expanseType_ID != null ? (Guid)Customers_ID : expRepo.maxIdExpanseType();
+            var idprojet = project_ID != null ? (Guid)Customers_ID : expRepo.maxIdProject();
             exp.Expanse_ID = Guid.NewGuid();
             exp.Amount_HT = Convert.ToInt32(Request.Form["Amount_HT"]);
             exp.Amount_TTC= Convert.ToInt32(Request.Form["Amount_TTC"]);
@@ -71,24 +71,38 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllExpanses", lst);
         }
 
-        /*public ActionResult Searche(String query, int? pageIndex)
+        public ActionResult Searche(String query, int? pageIndex)
         {
             var countElementPage = 10;
-            ExpansesRepositery expRep = new ExpansesRepositery();
-            var expanse = expRep.getSerachingExpanses(query);
-            List<CustomersModel> customersModel = new List<CustomersModel>();
+            ExpanseRepositery expRepo = new ExpanseRepositery();
+            var expanses = expRepo.getSerachingExpanses(query);
+            List<ExpansesModel> expanseModel = new List<ExpansesModel>();
 
-            foreach (var cust in customers)
+            foreach (var exp in expanses)
             {
-                CustomersModel custModel = new CustomersModel();
-                custModel.Customer_ID = cust.Customer_ID;
-                custModel.Code = cust.Code;
-                custModel.Name = cust.Name;
-                customersModel.Add(custModel);
+                ExpansesModel expanse = new ExpansesModel();
+                CustomersModel customer = new CustomersModel();
+                ExpanseTypesModel expType = new ExpanseTypesModel();
+                ExpanseReportsModel expanseRapport = new ExpanseReportsModel();
+                ProjectsModel projet = new ProjectsModel();
+
+                expanse.Expanse_ID = exp.Expanse_ID;
+                expanse.Amount_HT = exp.Amount_HT;
+                expanse.Amount_TTC = exp.Amount_TTC;
+                expanse.Amount_TVA = exp.Amount_TVA;
+                customer.Name = expRepo.GetByIdCutomer(exp.Customer_ID).Name;
+                projet.Name = expRepo.GetByIdProjects(exp.Project_ID).Name;
+                expType.Name = expRepo.GetByIdExpanseTypes(exp.ExpanseType_ID).Name;
+                expanseRapport.Year = expRepo.GetByIdExpansesRepport(exp.ExpanseReport_ID).Year;
+                expanse.Customers = customer;
+                expanse.Projects = projet;
+                expanse.ExpanseReports = expanseRapport;
+                expanse.ExpanseTypes = expType;
+                expanseModel.Add(expanse);
             }
-            IQueryable<CustomersModel> listCust = customersModel.AsQueryable();
-            PaginatedList<CustomersModel> lst = new PaginatedList<CustomersModel>(listCust, pageIndex, countElementPage);
-            return View("AllCustomers", lst);
-        }*/
+            IQueryable<ExpansesModel> listCust = expanseModel.AsQueryable();
+            PaginatedList<ExpansesModel> lst = new PaginatedList<ExpansesModel>(listCust, pageIndex, countElementPage);
+            return View("AllExpanses", lst);
+        }
     }
 }

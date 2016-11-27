@@ -32,6 +32,18 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return expanseTypes;
         }
 
+        public IQueryable<ExpanseTypes> getSerachingExpanses(String query)
+        {
+            var expanseType = (from s in e.ExpanseTypes where s.Name.Contains(query) select s).OrderBy(r => r.ExpenseType_ID);
+            return expanseType;
+        }
+
+        public Guid maxIdTva()
+        {
+            var id = (from s in e.Tvas select s.TVA_ID).FirstOrDefault();
+            return id;
+
+        }
 
         public void Save()
         {

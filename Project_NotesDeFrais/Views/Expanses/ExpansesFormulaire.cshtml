@@ -1,0 +1,37 @@
+﻿@model Project_NotesDeFrais.Models.ExpansesModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("", "Expanses/createExpanses", "", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Frais d'une note de frais</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Day)
+            @Html.TextBoxFor(model => @Model.Day, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Day, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Amount_TTC)
+            @Html.TextBoxFor(model => @Model.Amount_TTC, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Amount_TTC, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Amount_HT)
+            @Html.TextBoxFor(model => @Model.Amount_HT, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Amount_HT, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Amount_TVA)
+            @Html.TextBoxFor(model => @Model.Amount_TVA, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Amount_TVA, "", new { @class = "text-danger" })
+        </div>
+        <p>
+            <button type="submit" class="btn-success"> Enregistrer </button>
+        </p>
+    </fieldset>
+}
+
+

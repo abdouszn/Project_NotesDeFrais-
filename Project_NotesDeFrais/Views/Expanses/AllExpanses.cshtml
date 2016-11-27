@@ -1,4 +1,4 @@
-﻿@model   Project_NotesDeFrais.Models.PaginatedList<Project_NotesDeFrais.Models.ExpanseReportsModel>
+﻿@model   Project_NotesDeFrais.Models.PaginatedList<Project_NotesDeFrais.Models.ExpansesModel>
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -6,7 +6,7 @@
 
 <h2>Les Notes de Frais</h2>
 
-@using (Ajax.BeginForm("Searche", "ExpanseReports", null, new AjaxOptions
+@using (Ajax.BeginForm("Searche", "Expanses", null, new AjaxOptions
 {
     HttpMethod = "POST",
     OnSuccess = "SuccessMessage",
@@ -23,27 +23,25 @@
 <br />
 <div id="projectTable">
     <table class="table table-striped">
-        <th>Employee name</th>
-        <th>Date de Creation</th>
-        <th> Status</th>
-        <th>Date de validation </th>
-        <th>Date de validation Accounting</th>
-        <th>Total HT</th>
-        <th>Total TVA</th>
-        <th>Total TTC</th>
+        <th>nom client</th>
+        <th>nom projet</th>
+        <th>type de frais</th>
+        <th>jour</th>
+        <th>Amount HT</th>
+        <th>Amount TTC</th>
+        <th>Amount TVA</th>
         <th>Editer</th>
         <th>Supprimer</th>
         @foreach (var s in Model)
         {
             <tr>
-                <td>@s.Employees.FirstName</td>
-                <td>@s.CreationDate.ToShortDateString()</td>
-                <td>@s.StatusCode</td>
-                <td>@s.ManagerValidationDate</td>
-                <td>@s.AccountingValidatationDate</td>
-                <td>@s.Total_HT</td>
-                <td>@s.Total_TVA</td>
-                <td>@s.Total_TTC</td>
+                <td><a href="@Url.Action("Searche", "Customer", new { query = s.Customers.Name }) "> @s.Customers.Name  </a></td>
+                <td><a href="@Url.Action("Searche", "Projet", new { query = s.Projects.Name }) "> @s.Projects.Name  </a></td>
+                <td><a href="@Url.Action("Searche", "ExpanseTypes", new { query = s.ExpanseTypes.Name }) "> @s.ExpanseTypes.Name </a></td>
+                <td>@s.Day</td>
+                <td>@s.Amount_HT</td>
+                <td>@s.Amount_TTC</td>
+                <td>@s.Amount_TVA</td>
                 <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.ExpanseReport_ID}) + "'");" /></td>
                 <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.ExpanseReport_ID})+"'");" /></td>
             </tr>

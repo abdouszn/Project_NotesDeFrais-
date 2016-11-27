@@ -1,5 +1,73 @@
-﻿@{
+﻿@model  Project_NotesDeFrais.Models.ExpanseReportsModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("", "ExpanseReports/createExpanseReports", "" , FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Nouvelle Notes de frais</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.CreationDate)
+            @Html.TextBoxFor(model => @Model.CreationDate, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.CreationDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Year)
+            @Html.TextBoxFor(model => @Model.Year, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Year, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Month)
+            @Html.TextBoxFor(model => @Model.Month, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Month, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.StatusCode)
+            @Html.TextBoxFor(model => @Model.StatusCode, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.StatusCode, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.ManagerValidationDate)
+            @Html.TextBoxFor(model => @Model.ManagerValidationDate, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.ManagerValidationDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.ManagerComment)
+            @Html.TextAreaFor(model => @Model.ManagerComment, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.ManagerComment, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.AccountingValidatationDate)
+            @Html.TextBoxFor(model => @Model.AccountingValidatationDate, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.AccountingValidatationDate, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.AccountingComment)
+            @Html.TextAreaFor(model => @Model.AccountingComment, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.AccountingComment, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Total_HT)
+            @Html.TextBoxFor(model => @Model.Total_HT, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Total_HT, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Total_TTC)
+            @Html.TextBoxFor(model => @Model.Total_TTC, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Total_TTC, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Total_TVA)
+            @Html.TextBoxFor(model => @Model.Total_TVA, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Total_TVA, "", new { @class = "text-danger" })
+        </div>
+
+        <p>
+            <button type="submit" class="btn-success"> Enregistrer </button>
+        </p>
+    </fieldset>
 }
 
 

@@ -199,7 +199,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
-    <Compile Include="Controllers\ExpanseController.cs" />
     <Compile Include="Controllers\ExpanseReportsController.cs" />
     <Compile Include="Controllers\ExpansesController.cs" />
     <Compile Include="Controllers\ExpansesRepositery.cs" />
@@ -380,11 +379,13 @@
     <Content Include="Views\ExpanseTypes\AllExpansesTypes.cshtml" />
     <Content Include="Views\Customer\_Customers.cshtml" />
     <Content Include="Views\Poles\AllPoles.cshtml" />
+    <Content Include="Views\ExpanseReports\ExpanseReportsFormulaire.cshtml" />
+    <Content Include="Views\ExpanseReports\AllExpanseReports.cshtml" />
+    <Content Include="Views\Expanses\ExpansesFormulaire.cshtml" />
+    <Content Include="Views\Expanses\AllExpanses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\ExpanseReports\" />
-    <Folder Include="Views\Expanses\" />
     <Folder Include="Views\Expanse\" />
   </ItemGroup>
   <ItemGroup>

@@ -37,15 +37,21 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Projects> getSerachingProjects(String query)
         {
-            var projects = (from s in e.Projects where s.Name.Contains(query) select s).OrderBy(r => r.Project_ID);
-            return projects;
+            using (new NotesDeFraisEntities())
+            {
+                var projects = (from s in e.Projects where s.Name.Contains(query) select s).OrderBy(r => r.Project_ID);
+                return projects;
+            }
         }
 
 
         public Projects GetById(Guid id)
         {
-            Projects projet = (from p in e.Projects where p.Project_ID == id select p).FirstOrDefault();
-            return projet;
+            using (new NotesDeFraisEntities())
+            {
+                Projects projet = (from p in e.Projects where p.Project_ID == id select p).FirstOrDefault();
+                return projet;
+            }
         }
 
         public Customers GetByIdCutomer(Guid id)

@@ -25,13 +25,14 @@ namespace Project_NotesDeFrais.Controllers
             expansType.Ceiling = Convert.ToDouble(Request.Form["Ceiling"]);
             expansType.Fixed = Convert.ToBoolean(Request.Form["Fixed"]);
             expansType.OnlyManagers= Convert.ToBoolean(Request.Form["OnlyManagers"]);
-            expansType.Tva_ID = Guid.NewGuid();
+            expansType.Tva_ID = expTypeRep.maxIdTva();
             expTypeRep.AddExpanseType(expansType);
         }
 
 
-        public ActionResult AllExpanseTypes()
+        public ActionResult AllExpanseTypes(int? pageIndex)
         {
+            var countElementPage = 10;
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
             var expanseTypes = expTypeRep.allExpanseTypes();
             List<ExpanseTypesModel> expanseTypesModel = new List<ExpanseTypesModel>();
@@ -47,7 +48,31 @@ namespace Project_NotesDeFrais.Controllers
                 expanseTypesModel.Add(expenseTypeModel);
             }
             IQueryable<ExpanseTypesModel> listEpanTypes = expanseTypesModel.AsQueryable();
-            return View("AllExpansesTypes", listEpanTypes);
+            PaginatedList<ExpanseTypesModel> lst = new PaginatedList<ExpanseTypesModel>(listEpanTypes, pageIndex, countElementPage);
+            return View("AllExpansesTypes", lst);
+        }
+
+        public ActionResult Searche(String query, int? pageIndex)
+        {
+
+            var countElementPage = 10;
+            ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
+            var expanseTypes = expTypeRep.getSerachingExpanses(query);
+            List<ExpanseTypesModel> expanseTypesModel = new List<ExpanseTypesModel>();
+            foreach (var expTpe in expanseTypes)
+            {
+                ExpanseTypesModel expenseTypeModel = new ExpanseTypesModel();
+                expenseTypeModel.ExpenseType_ID = expTpe.ExpenseType_ID;
+                expenseTypeModel.Name = expTpe.Name;
+                expenseTypeModel.Ceiling = expTpe.Ceiling;
+                expenseTypeModel.Fixed = expTpe.Fixed;
+                expenseTypeModel.OnlyManagers = expTpe.OnlyManagers;
+                expenseTypeModel.Tva_ID = expTpe.Tva_ID;
+                expanseTypesModel.Add(expenseTypeModel);
+            }
+            IQueryable<ExpanseTypesModel> listEpanTypes = expanseTypesModel.AsQueryable();
+            PaginatedList<ExpanseTypesModel> lst = new PaginatedList<ExpanseTypesModel>(listEpanTypes, pageIndex, countElementPage);
+            return View("AllExpansesTypes", lst);
         }
     }
 }

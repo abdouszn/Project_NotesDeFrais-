@@ -63,6 +63,7 @@ namespace Project_NotesDeFrais.Controllers
             ProjetRepositery projetRep = new ProjetRepositery();
             var projets = projetRep.getSerachingProjects(query);
             List<ProjectsModel> projetsModel = new List<ProjectsModel>();
+            CustomersModel customer = new CustomersModel();
 
             foreach (var prjt in projets)
             {
@@ -72,7 +73,8 @@ namespace Project_NotesDeFrais.Controllers
                 prjtModel.Description = prjt.Description;
                 prjtModel.Budget = prjt.Budget;
                 prjtModel.Name = prjt.Name;
-                prjtModel.Customer_ID = prjt.Customer_ID;
+                customer.Name= projetRep.GetByIdCutomer(prjt.Customer_ID).Name;
+                prjtModel.Customers = customer;
                 projetsModel.Add(prjtModel);
             }
             IQueryable<ProjectsModel> listProjets = projetsModel.AsQueryable();

@@ -31,18 +31,11 @@ namespace Project_NotesDeFrais.Models.Reposirery
             var expanses = e.Expanses.OrderBy(r => r.Expanse_ID);
             return expanses;
         }
-
-        /*public IQueryable<Expanses> getSerachingExpanse(String query)
+        public IQueryable<Expanses> getSerachingExpanses(String query)
         {
-            var simulations = (from s in e.Customers where s.Name.Contains(query) select s).OrderBy(r => r.Customer_ID);
-            return simulations;
-        }*/
-
-        /*public IQueryable<Expanses> getSerachingCustomers(String query)
-        {
-            var expanse = (from s in e.Expanses where s.Amount_HT.Contains(Convert.ToInt32(query)) select s).OrderBy(r => r.Customer_ID);
-            return customer;
-        }*/
+            var expanseReport = (from s in e.Expanses where s.Customers.Name.Contains(query) select s).OrderBy(r => r.Expanse_ID);
+            return expanseReport;
+        }
 
 
         public Expanses GetById(Guid id)
@@ -72,6 +65,24 @@ namespace Project_NotesDeFrais.Models.Reposirery
         public Guid maxIdCustomers()
         {
             var id = (from s in e.Customers select s.Customer_ID).FirstOrDefault();
+            return id;
+
+        }
+        public Guid maxIdProject()
+        {
+            var id = (from s in e.Projects select s.Project_ID).FirstOrDefault();
+            return id;
+
+        }
+        public Guid maxIdExpanseType()
+        {
+            var id = (from s in e.ExpanseTypes select s.ExpenseType_ID).FirstOrDefault();
+            return id;
+
+        }
+        public Guid maxIdExpanseReports()
+        {
+            var id = (from s in e.ExpanseReports select s.ExpanseReport_ID).FirstOrDefault();
             return id;
 
         }

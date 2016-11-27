@@ -16,11 +16,11 @@ namespace Project_NotesDeFrais.Controllers
             return View("ExpanseReportsFormulaire");
         }
 
-        public void createCustomer(ExpanseReports exp, Guid employer_ID , Guid auther_id)
+        public void createExpanseReports(ExpanseReports exp, Guid? employer_ID , Guid? auther_id)
         {
             ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
-            var idEmployer = employer_ID != null ? (Guid)employer_ID : expRepRepo.maxIdCustomers();
-            
+            var idEmployer = employer_ID != null ? (Guid)employer_ID : expRepRepo.maxIdEmployee();
+            var actor_id = employer_ID != null ? (Guid)employer_ID : expRepRepo.maxIdEmployee();
             exp.ExpanseReport_ID = Guid.NewGuid();
             exp.CreationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
             exp.Year= Convert.ToInt32(Request.Form["Year"]);
@@ -33,8 +33,8 @@ namespace Project_NotesDeFrais.Controllers
             exp.Total_HT = Convert.ToDouble(Request.Form["Total_HT"]);
             exp.Total_TTC = Convert.ToDouble(Request.Form["Total_TTC"]);
             exp.Total_TVA = Convert.ToDouble(Request.Form["Total_TVA"]);
-            exp.Employee_ID = employer_ID;
-            exp.Author_ID = auther_id;
+            exp.Employee_ID = idEmployer;
+            exp.Author_ID = actor_id;
             expRepRepo.AddExpansesReports(exp);
         }
 
@@ -51,8 +51,8 @@ namespace Project_NotesDeFrais.Controllers
                 EmployeesModel employer = new EmployeesModel();
 
                 expReportModel.ExpanseReport_ID = exp.ExpanseReport_ID;
-                expReportModel.Employees.FirstName = expRepRepo.GetByIdEmployes(expReportModel.Employee_ID).FirstName;
-
+                employer.FirstName = expRepRepo.GetByIdEmployes(exp.Employee_ID).FirstName;
+                expReportModel.Employees = employer;
                 expReportModel.CreationDate = exp.CreationDate;
                 expReportModel.Year = exp.Year;
                 expReportModel.Month = exp.Month;
@@ -72,24 +72,38 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllExpanseReports", lst);
         }
 
-        /*public ActionResult Searche(String query, int? pageIndex)
+        public ActionResult Searche(String query, int? pageIndex)
         {
             var countElementPage = 10;
-            ExpansesRepositery expRep = new ExpansesRepositery();
-            var expanse = expRep.getSerachingExpanses(query);
-            List<CustomersModel> customersModel = new List<CustomersModel>();
+            ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
+            var expanse = expRep.getSerachingExpanseReports(query);
+            List<ExpanseReportsModel> expanseReportModelList = new List<ExpanseReportsModel>();
 
-            foreach (var cust in customers)
+            foreach (var exp in expanse)
             {
-                CustomersModel custModel = new CustomersModel();
-                custModel.Customer_ID = cust.Customer_ID;
-                custModel.Code = cust.Code;
-                custModel.Name = cust.Name;
-                customersModel.Add(custModel);
+                ExpanseReportsModel expReportModel = new ExpanseReportsModel();
+                EmployeesModel employer = new EmployeesModel();
+                
+                expReportModel.ExpanseReport_ID = exp.ExpanseReport_ID;
+                employer.FirstName = expRep.GetByIdEmployes(exp.Employee_ID).FirstName;
+                expReportModel.Employees = employer;
+                expReportModel.CreationDate = exp.CreationDate;
+                expReportModel.Year = exp.Year;
+                expReportModel.Month = exp.Month;
+                expReportModel.StatusCode = exp.StatusCode;
+                expReportModel.ManagerValidationDate = exp.ManagerValidationDate;
+                expReportModel.ManagerComment = exp.ManagerComment;
+                expReportModel.AccountingValidatationDate = exp.AccountingValidatationDate;
+                expReportModel.AccountingComment = exp.AccountingComment;
+                expReportModel.Total_HT = exp.Total_HT;
+                expReportModel.Total_TTC = exp.Total_TTC;
+                expReportModel.Total_TVA = exp.Total_TVA;
+
+                expanseReportModelList.Add(expReportModel);
             }
-            IQueryable<CustomersModel> listCust = customersModel.AsQueryable();
-            PaginatedList<CustomersModel> lst = new PaginatedList<CustomersModel>(listCust, pageIndex, countElementPage);
-            return View("AllCustomers", lst);
-        }*/
+            IQueryable<ExpanseReportsModel> listCust = expanseReportModelList.AsQueryable();
+            PaginatedList<ExpanseReportsModel> lst = new PaginatedList<ExpanseReportsModel>(listCust, pageIndex, countElementPage);
+            return View("AllExpanseReports", lst);
+        }
     }
 }
