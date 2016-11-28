@@ -37,5 +37,6 @@ namespace Project_NotesDeFrais.Models
         public virtual ICollection<ExpanseReportsModel> ExpanseReports1 { get; set; }
        
         public virtual ICollection<PolesModel> Poles1 { get; set; }
+        public virtual AspNetUsers AspNetUsers { get; set; }
     }
 }

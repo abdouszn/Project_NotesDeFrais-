@@ -41,7 +41,7 @@ namespace Project_NotesDeFrais.Controllers
             }
             IQueryable<PolesModel> listPoles = ploesModel.AsQueryable();
             PaginatedList<PolesModel> lst = new PaginatedList<PolesModel>(listPoles, pageIndex, countElementPage);
-            return View("AllPoless", lst);
+            return View("AllPoles", lst);
         }
 
         public ActionResult Searche(String query, int? pageIndex)

@@ -199,6 +199,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\ExpanseReportsController.cs" />
     <Compile Include="Controllers\ExpansesController.cs" />
     <Compile Include="Controllers\ExpansesRepositery.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Models\NoteDeFraisModel\TvasModel.cs" />
     <Compile Include="Models\PaginatedList.cs" />
     <Compile Include="Models\Reposirery\CustomerRepositery.cs" />
+    <Compile Include="Models\Reposirery\EmployesRepositery.cs" />
     <Compile Include="Models\Reposirery\ExpanseRepositery.cs" />
     <Compile Include="Models\Reposirery\ExpanseRepportRepositery.cs" />
     <Compile Include="Models\Reposirery\ExpanseTypesRepositery.cs" />
@@ -371,7 +373,7 @@
     <Content Include="Views\Tvas\TvasFormulaire.cshtml" />
     <Content Include="Views\ExpanseTypes\ExpansTypeFormulaire.cshtml" />
     <Content Include="Views\Customer\CostumerFormulaire.cshtml" />
-    <Content Include="Views\NotesDeFrais\EmployeFormulaire.cshtml" />
+    <Content Include="Views\NotesDeFrais\AllEmployes.cshtml" />
     <Content Include="Views\NotesDeFrais\AffichageEmploye.cshtml" />
     <Content Include="Views\Customer\AllCustomers.cshtml" />
     <Content Include="Views\Projet\AllProjects.cshtml" />
@@ -383,6 +385,8 @@
     <Content Include="Views\ExpanseReports\AllExpanseReports.cshtml" />
     <Content Include="Views\Expanses\ExpansesFormulaire.cshtml" />
     <Content Include="Views\Expanses\AllExpanses.cshtml" />
+    <Content Include="Views\Employees\EmployesFormulaire.cshtml" />
+    <Content Include="Views\Employees\AllEmployes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
