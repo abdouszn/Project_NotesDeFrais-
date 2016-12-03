@@ -60,6 +60,11 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return customer;
         }
 
+        public IQueryable<Projects>  GetProjectsByIdCutomer(Guid id)
+        {
+            var  projets = (from p in e.Projects where p.Customer_ID == id select p);
+            return projets;
+        }
 
         /* public List<SimulationModel> AllByUser(String user) {
          var simulations = (from s in e.Simulations where s.NomClient == user select s);

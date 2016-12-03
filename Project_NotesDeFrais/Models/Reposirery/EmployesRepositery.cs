@@ -46,11 +46,11 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
 
-        public Employees GetById(Guid id)
+        public Employees GetByIdUser(String id)
         {
             using (new NotesDeFraisEntities())
             {
-                Employees employer = (from e in e.Employees where e.Employee_ID == id select e).FirstOrDefault();
+                Employees employer = (from e in e.Employees where e.User_ID == id select e).FirstOrDefault();
                 return employer;
             }
         }

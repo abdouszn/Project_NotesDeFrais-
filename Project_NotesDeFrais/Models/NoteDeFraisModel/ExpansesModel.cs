@@ -33,5 +33,9 @@ namespace Project_NotesDeFrais.Models
         public virtual ExpanseReportsModel ExpanseReports { get; set; }
         public virtual ExpanseTypesModel ExpanseTypes { get; set; }
         public virtual ProjectsModel Projects { get; set; }
+        public virtual List< CustomersModel> CustomersList { get; set; }
+        public virtual List<ProjectsModel> ProjectsList { get; set; }
+        public virtual List<ExpanseTypesModel> ExpanseTypesList { get; set; }
+
     }
 }

@@ -10,13 +10,15 @@ namespace Project_NotesDeFrais.Controllers
 {
     public class ExpansesController : Controller
     {
+        private IEnumerable<object> costumers;
+
         // GET: Expanses
         public ActionResult Index()
         {
             return View("ExpansesFormulaire");
         }
 
-        public void createExpanses(Expanses exp , Guid? expanseReport_ID, Guid? expanseType_ID , Guid? Customers_ID,
+        public void createExpanses(Expanses exp, Guid? expanseReport_ID, Guid? expanseType_ID, Guid? Customers_ID,
             Guid? project_ID)
         {
             ExpanseRepositery expRepo = new ExpanseRepositery();
@@ -26,13 +28,13 @@ namespace Project_NotesDeFrais.Controllers
             var idprojet = project_ID != null ? (Guid)Customers_ID : expRepo.maxIdProject();
             exp.Expanse_ID = Guid.NewGuid();
             exp.Amount_HT = Convert.ToInt32(Request.Form["Amount_HT"]);
-            exp.Amount_TTC= Convert.ToInt32(Request.Form["Amount_TTC"]);
-            exp.Amount_TVA= Convert.ToInt32(Request.Form["Amount_TVA"]);
-            exp.Day= Convert.ToInt32(Request.Form["Day"]);
+            exp.Amount_TTC = Convert.ToInt32(Request.Form["Amount_TTC"]);
+            exp.Amount_TVA = Convert.ToInt32(Request.Form["Amount_TVA"]);
+            exp.Day = Convert.ToInt32(Request.Form["Day"]);
             exp.ExpanseReport_ID = idexpanseRepor;
-            exp.Customer_ID= idCustomer;
-            exp.ExpanseType_ID= idexpanseType;
-            exp.Project_ID= idprojet;
+            exp.Customer_ID = idCustomer;
+            exp.ExpanseType_ID = idexpanseType;
+            exp.Project_ID = idprojet;
             expRepo.AddExpanses(exp);
         }
 
@@ -57,8 +59,8 @@ namespace Project_NotesDeFrais.Controllers
                 expanse.Amount_TTC = exp.Amount_TTC;
                 expanse.Amount_TVA = exp.Amount_TVA;
                 customer.Name = expRepo.GetByIdCutomer(exp.Customer_ID).Name;
-                projet.Name= expRepo.GetByIdProjects(exp.Project_ID).Name;
-                expType.Name= expRepo.GetByIdExpanseTypes(exp.ExpanseType_ID).Name;
+                projet.Name = expRepo.GetByIdProjects(exp.Project_ID).Name;
+                expType.Name = expRepo.GetByIdExpanseTypes(exp.ExpanseType_ID).Name;
                 expanseRapport.Year = expRepo.GetByIdExpansesRepport(exp.ExpanseReport_ID).Year;
                 expanse.Customers = customer;
                 expanse.Projects = projet;
@@ -103,6 +105,100 @@ namespace Project_NotesDeFrais.Controllers
             IQueryable<ExpansesModel> listCust = expanseModel.AsQueryable();
             PaginatedList<ExpansesModel> lst = new PaginatedList<ExpansesModel>(listCust, pageIndex, countElementPage);
             return View("AllExpanses", lst);
+        }
+
+        [HttpGet]
+        public PartialViewResult Popup()
+        {
+            CustomerRepositery cstRepo = new CustomerRepositery();
+            ProjetRepositery prjtRepo = new ProjetRepositery();
+            ExpanseTypesRepositery expTypRepo = new ExpanseTypesRepositery();
+            List<CustomersModel> customersModel = new List<CustomersModel>();
+            List<ProjectsModel> projectsListModel = new List<ProjectsModel>();
+            List<ExpanseTypesModel> expansesTypeListModel = new List<ExpanseTypesModel>();
+
+            IQueryable<Customers> costumers = cstRepo.allCustomers();
+
+            foreach (var cust in costumers)
+            {
+                CustomersModel custModel = new CustomersModel();
+                custModel.Customer_ID = cust.Customer_ID;
+                custModel.Code = cust.Code;
+                custModel.Name = cust.Name;
+                customersModel.Add(custModel);
+            }
+
+            IQueryable<Projects> projectsList = prjtRepo.allProjects();
+            foreach (var prjt in projectsList)
+            {
+                ProjectsModel prjtModel = new ProjectsModel();
+                CustomersModel Customer = new CustomersModel();
+                prjtModel.Project_ID = prjt.Project_ID;
+                prjtModel.Pole_ID = prjt.Pole_ID;
+                prjtModel.Description = prjt.Description;
+                prjtModel.Budget = prjt.Budget;
+                prjtModel.Name = prjt.Name;
+                Customer.Name = prjtRepo.GetByIdCutomer(prjt.Customer_ID).Name;
+                prjtModel.Customers = Customer;
+                projectsListModel.Add(prjtModel);
+            }
+
+            IQueryable<ExpanseTypes> expanseTypes = expTypRepo.allExpanseTypes();
+
+            foreach (var expTpe in expanseTypes)
+            {
+                ExpanseTypesModel expenseTypeModel = new ExpanseTypesModel();
+                expenseTypeModel.ExpenseType_ID = expTpe.ExpenseType_ID;
+                expenseTypeModel.Name = expTpe.Name;
+                expenseTypeModel.Ceiling = expTpe.Ceiling;
+                expenseTypeModel.Fixed = expTpe.Fixed;
+                expenseTypeModel.OnlyManagers = expTpe.OnlyManagers;
+                expenseTypeModel.Tva_ID = expTpe.Tva_ID;
+                expansesTypeListModel.Add(expenseTypeModel);
+            }
+
+            var expanseViewModel = new ExpansesModel
+            {
+                CustomersList = customersModel,
+                ProjectsList = projectsListModel,
+                ExpanseTypesList = expansesTypeListModel
+            };
+
+            return PartialView("_AddType", expanseViewModel);
+        }
+
+        public PartialViewResult ListProject(Guid customerId)
+        {
+            ProjetRepositery prjtRepo = new ProjetRepositery();
+            IQueryable<Projects> projectsList = prjtRepo.GetProjectsByIdCutomer(customerId);
+            List<ProjectsModel> projectsListModel = new List<ProjectsModel>();
+
+            foreach (var prjt in projectsList)
+            {
+                ProjectsModel prjtModel = new ProjectsModel();
+                CustomersModel Customer = new CustomersModel();
+                prjtModel.Project_ID = prjt.Project_ID;
+                prjtModel.Pole_ID = prjt.Pole_ID;
+                prjtModel.Description = prjt.Description;
+                prjtModel.Budget = prjt.Budget;
+                prjtModel.Name = prjt.Name;
+                Customer.Name = prjtRepo.GetByIdCutomer(prjt.Customer_ID).Name;
+                prjtModel.Customers = Customer;
+                projectsListModel.Add(prjtModel);
+            }
+
+
+           
+
+            var expanseViewModel = new ExpansesModel
+            {
+               
+                ProjectsList = projectsListModel
+               
+            };
+
+           
+            return PartialView("_ProjectItem", expanseViewModel);
         }
     }
 }

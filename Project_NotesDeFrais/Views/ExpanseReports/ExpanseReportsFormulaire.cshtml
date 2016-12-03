@@ -3,15 +3,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("", "ExpanseReports/createExpanseReports", "" , FormMethod.Post))
+@using (Html.BeginForm("", "ExpanseReports/createExpanseReports", new { userName = @ViewData["UserName"] }, FormMethod.Post))
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Nouvelle Notes de frais</legend>
+        @Html.Label("Author :")<h3>@ViewData["UserName"]</h3>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.CreationDate)
             @Html.TextBoxFor(model => @Model.CreationDate, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.CreationDate, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => @Model.CreationDate, "", new { @class = "text-danger", @Value = DateTime.Now })
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Year)
@@ -26,7 +27,7 @@
         <div class="editor-label">
             @Html.LabelFor(model => @Model.StatusCode)
             @Html.TextBoxFor(model => @Model.StatusCode, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.StatusCode, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => @Model.StatusCode, "", new { @class = "text-danger", @Value = "0" })
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.ManagerValidationDate)
@@ -51,17 +52,17 @@
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Total_HT)
             @Html.TextBoxFor(model => @Model.Total_HT, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.Total_HT, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => @Model.Total_HT, "", new { @class = "text-danger" , @Value = "0"})
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Total_TTC)
             @Html.TextBoxFor(model => @Model.Total_TTC, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.Total_TTC, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => @Model.Total_TTC, "", new { @class = "text-danger", @Value = "0" })
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Total_TVA)
             @Html.TextBoxFor(model => @Model.Total_TVA, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.Total_TVA, "", new { @class = "text-danger" })
+            @Html.ValidationMessageFor(model => @Model.Total_TVA, "", new { @class = "text-danger", @Value = "0" })
         </div>
 
         <p>

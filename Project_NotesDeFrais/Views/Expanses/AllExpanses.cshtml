@@ -48,5 +48,34 @@
         }
     </table>
 </div>
+   
+    @Html.ActionLink("nouveau frais", "popup", "expanses", "" ,new { data_modal = "" })
+
+   <div id='myModal' class='modal fade in' style="padding:10px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id='myModalContent'></div>
+        </div>
+    </div>
+</div>
+     
+ @section Scripts {
+    <script>
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+                $("a[data-modal]").on("click", function (e) {
+                    $('#myModalContent').load(this.href, function () {
+                        $('#myModal').modal({
+                            keyboard: true
+                         }, 'show');
+                    });
+                return false;
+            });
+        });
+     </script>
+    
+}
+          
 
 

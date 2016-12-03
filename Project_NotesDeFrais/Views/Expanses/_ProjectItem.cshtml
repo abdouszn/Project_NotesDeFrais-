@@ -1,0 +1,12 @@
+﻿@model Project_NotesDeFrais.Models.ExpansesModel
+
+
+@Html.LabelFor(model => @Model.Projects)
+<select class="selectpicker">
+
+    @foreach (var s in @Model.ProjectsList)
+    {
+        <option> @s.Name </option>
+    }
+</select>
+

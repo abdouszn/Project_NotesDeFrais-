@@ -5,22 +5,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace Project_NotesDeFrais.Controllers
 {
     public class ExpanseReportsController : Controller
     {
         // GET: Expanses
-        public ActionResult Index()
+        public ActionResult Index(String userName)
+        {
+            ViewData["userName"] = userName;
+            return View("ExpanseReportsFormulaire");
+        }
+
+        public ActionResult createExpanseReportsDateDay()
         {
             return View("ExpanseReportsFormulaire");
         }
 
-        public void createExpanseReports(ExpanseReports exp, Guid? employer_ID , Guid? auther_id)
+
+        public void createExpanseReports(ExpanseReports exp, Guid? auther_id)
         {
+            var userId = User.Identity.GetUserId();
             ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
-            var idEmployer = employer_ID != null ? (Guid)employer_ID : expRepRepo.maxIdEmployee();
-            var actor_id = employer_ID != null ? (Guid)employer_ID : expRepRepo.maxIdEmployee();
+            EmployesRepositery empRepository = new EmployesRepositery();
+            var idEmployer = empRepository.GetByIdUser(userId).Employee_ID;
+            var actor_id = idEmployer;
             exp.ExpanseReport_ID = Guid.NewGuid();
             exp.CreationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
             exp.Year= Convert.ToInt32(Request.Form["Year"]);

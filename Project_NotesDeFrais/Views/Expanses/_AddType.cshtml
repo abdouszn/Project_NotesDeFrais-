@@ -1,0 +1,118 @@
+﻿@model Project_NotesDeFrais.Models.ExpansesModel
+
+@using (Html.BeginForm("", "Expanses/createExpanses", "", FormMethod.Post))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Frais d'une note de frais</legend>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Day)
+            <select  class="selectpicker">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+                <option>7</option>
+                <option>8</option>
+                <option>9</option>
+                <option>10</option>
+                <option>11</option>
+                <option>12</option>
+                <option>13</option>
+                <option>14</option>
+                <option>15</option>
+                <option>16</option>
+                <option>17</option>
+                <option>18</option>
+                <option>19</option>
+                <option>20</option>
+                <option>21</option>
+                <option>22</option>
+                <option>23</option>
+                <option>24</option>
+                <option>25</option>
+                <option>26</option>
+                <option>27</option>
+                <option>28</option>
+                <option>29</option>
+                <option>30</option>
+                <option>31</option>
+            </select>
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Customers)
+            <select class="selectpicker" id="selectedCustomer" onchange="selectProjects();">
+
+                @foreach (var s in @Model.CustomersList)
+                { 
+                    <option value="@s.Customer_ID"> @s.Name </option>
+                }
+
+            </select>
+        </div>
+        <div class="editor-label" id="projectUpdated">
+            @Html.LabelFor(model => @Model.Projects)
+            <select class="selectpicker">
+
+                @foreach (var s in @Model.ProjectsList)
+                {
+                    <option> @s.Name </option>
+                }
+            </select>
+
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.ExpanseTypes)
+            <select class="selectpicker">
+
+                @foreach (var s in @Model.ExpanseTypesList)
+                {
+                    <option> @s.Name </option>
+                }
+            </select>
+
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Amount_TTC)
+            @Html.TextBoxFor(model => @Model.Amount_TTC, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Amount_TTC, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Amount_HT)
+            @Html.TextBoxFor(model => @Model.Amount_HT, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Amount_HT, "", new { @class = "text-danger" })
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Amount_TVA)
+            @Html.TextBoxFor(model => @Model.Amount_TVA, new { @required = "required" })
+            @Html.ValidationMessageFor(model => @Model.Amount_TVA, "", new { @class = "text-danger" })
+        </div>
+        <p>
+            <button type="submit" class="btn-success"> Enregistrer </button>
+        </p>
+    </fieldset>
+}
+
+
+    <script>
+        function selectProjects() {
+            var selectedItem = $('#selectedCustomer').find(":selected").val();
+            $.ajax({
+                url: "/Expanses/ListProject",
+                data: { 'customerId': selectedItem },
+                type: "post",
+                cache: false,
+                success: function (result) {
+                    $('#projectUpdated').html(result)
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("error");
+                }
+            });   
+        }
+    </script>
+
+
+
