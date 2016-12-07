@@ -43,7 +43,7 @@
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Customers)
-            <select class="selectpicker" id="selectedCustomer" onchange="selectProjects();">
+            <select class="selectpicker" id="selectedCustomer" name="customerSelect" onchange="selectProjects();">
 
                 @foreach (var s in @Model.CustomersList)
                 { 
@@ -52,24 +52,25 @@
 
             </select>
         </div>
-        <div class="editor-label" id="projectUpdated">
+        <div class="editor-label" id="projectUpdated" >
             @Html.LabelFor(model => @Model.Projects)
-            <select class="selectpicker">
+            <select class="selectpicker" name="projectSelect">
 
                 @foreach (var s in @Model.ProjectsList)
                 {
-                    <option> @s.Name </option>
+                    <option value="@s.Project_ID"> @s.Name </option>
+                    
                 }
             </select>
 
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.ExpanseTypes)
-            <select class="selectpicker">
+            <select class="selectpicker" name="typeSelect">
 
                 @foreach (var s in @Model.ExpanseTypesList)
                 {
-                    <option> @s.Name </option>
+                    <option value="@s.ExpenseType_ID"> @s.Name </option>
                 }
             </select>
 

@@ -8,26 +8,27 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Nouvelle Notes de frais</legend>
-        @Html.Label("Author :")<h3>@ViewData["UserName"]</h3>
+        @Html.Label("Author :")<h3>@ViewData["userName"]</h3>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.CreationDate)
-            @Html.TextBoxFor(model => @Model.CreationDate, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.CreationDate, "", new { @class = "text-danger", @Value = DateTime.Now })
+            
+            @Html.TextBoxFor(model => @Model.CreationDate, new { @required = "required", @Value = DateTime.Now .ToShortDateString()})
+            @Html.ValidationMessageFor(model => @Model.CreationDate, "", new { @class = "text-danger"})
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Year)
-            @Html.TextBoxFor(model => @Model.Year, new { @required = "required" })
+            @Html.TextBoxFor(model => @Model.Year, new { @required = "required" , @Value = @ViewData["year"] })
             @Html.ValidationMessageFor(model => @Model.Year, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Month)
-            @Html.TextBoxFor(model => @Model.Month, new { @required = "required" })
+            @Html.TextBoxFor(model => @Model.Month, new { @required = "required", @Value = @ViewData["month"] })
             @Html.ValidationMessageFor(model => @Model.Month, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.StatusCode)
-            @Html.TextBoxFor(model => @Model.StatusCode, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.StatusCode, "", new { @class = "text-danger", @Value = "0" })
+            @Html.TextBoxFor(model => @Model.StatusCode, new { @required = "required", @Value = "0" })
+            @Html.ValidationMessageFor(model => @Model.StatusCode, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.ManagerValidationDate)
@@ -51,18 +52,18 @@
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Total_HT)
-            @Html.TextBoxFor(model => @Model.Total_HT, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.Total_HT, "", new { @class = "text-danger" , @Value = "0"})
+            @Html.TextBoxFor(model => @Model.Total_HT, new { @required = "required", @Value = "0" })
+            @Html.ValidationMessageFor(model => @Model.Total_HT, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Total_TTC)
-            @Html.TextBoxFor(model => @Model.Total_TTC, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.Total_TTC, "", new { @class = "text-danger", @Value = "0" })
+            @Html.TextBoxFor(model => @Model.Total_TTC, new { @required = "required", @Value = "0" })
+            @Html.ValidationMessageFor(model => @Model.Total_TTC, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Total_TVA)
-            @Html.TextBoxFor(model => @Model.Total_TVA, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.Total_TVA, "", new { @class = "text-danger", @Value = "0" })
+            @Html.TextBoxFor(model => @Model.Total_TVA, new { @required = "required", @Value = "0" })
+            @Html.ValidationMessageFor(model => @Model.Total_TVA, "", new { @class = "text-danger" })
         </div>
 
         <p>

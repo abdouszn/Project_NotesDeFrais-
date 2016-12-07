@@ -36,6 +36,21 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return tvas;
         }
 
+        public Tvas tvasById(Guid Id)
+        {
+            var tvas = (from t in e.Tvas where t.TVA_ID == Id select t).FirstOrDefault(); ;
+
+            return tvas;
+        }
+
+        public IQueryable<Tvas> getSerachingTvas(String query)
+        {
+            using (new NotesDeFraisEntities())
+            {
+                var tvas = (from s in e.Tvas where s.Name.Contains(query) select s).OrderBy(r => r.TVA_ID);
+                return tvas;
+            }
+        }
 
         public void Save()
         {

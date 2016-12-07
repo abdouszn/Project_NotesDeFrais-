@@ -18,23 +18,22 @@ namespace Project_NotesDeFrais.Controllers
             return View("ExpansesFormulaire");
         }
 
-        public void createExpanses(Expanses exp, Guid? expanseReport_ID, Guid? expanseType_ID, Guid? Customers_ID,
-            Guid? project_ID)
+        public void createExpanses(Expanses exp, Guid? expanseReport_ID)
         {
             ExpanseRepositery expRepo = new ExpanseRepositery();
-            var idCustomer = Customers_ID != null ? (Guid)Customers_ID : expRepo.maxIdCustomers();
-            var idexpanseRepor = expanseReport_ID != null ? (Guid)Customers_ID : expRepo.maxIdExpanseReports();
-            var idexpanseType = expanseType_ID != null ? (Guid)Customers_ID : expRepo.maxIdExpanseType();
-            var idprojet = project_ID != null ? (Guid)Customers_ID : expRepo.maxIdProject();
+            var idCustomer = Request.Form["customerSelect"];
+            var idexpanseType = Request.Form["typeSelect"];
+            var idprojet = Request.Form["projectSelect"];
+            var idexpanseRepor = expRepo.maxIdExpanseReports();
             exp.Expanse_ID = Guid.NewGuid();
             exp.Amount_HT = Convert.ToInt32(Request.Form["Amount_HT"]);
             exp.Amount_TTC = Convert.ToInt32(Request.Form["Amount_TTC"]);
             exp.Amount_TVA = Convert.ToInt32(Request.Form["Amount_TVA"]);
             exp.Day = Convert.ToInt32(Request.Form["Day"]);
             exp.ExpanseReport_ID = idexpanseRepor;
-            exp.Customer_ID = idCustomer;
-            exp.ExpanseType_ID = idexpanseType;
-            exp.Project_ID = idprojet;
+            exp.Customer_ID = new Guid(idCustomer);
+            exp.ExpanseType_ID = new Guid(idexpanseType);
+            exp.Project_ID = new Guid(idprojet);
             expRepo.AddExpanses(exp);
         }
 
@@ -196,8 +195,6 @@ namespace Project_NotesDeFrais.Controllers
                 ProjectsList = projectsListModel
                
             };
-
-           
             return PartialView("_ProjectItem", expanseViewModel);
         }
     }

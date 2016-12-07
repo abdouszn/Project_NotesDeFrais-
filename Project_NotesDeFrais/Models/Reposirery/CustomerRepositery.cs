@@ -44,6 +44,12 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return customer;
         }
 
+        public Guid GetIdByName(String name)
+        {
+            Guid customerId = (from c in e.Customers where c.Name == name select c.Customer_ID).FirstOrDefault();
+            return customerId;
+        }
+
         /* public List<SimulationModel> AllByUser(String user) {
          var simulations = (from s in e.Simulations where s.NomClient == user select s);
            return (List < SimulationModel >) simulations;

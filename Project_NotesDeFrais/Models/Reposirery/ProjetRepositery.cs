@@ -66,6 +66,12 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return projets;
         }
 
+        public Guid GetIdByName(String name)
+        {
+            Guid projectId = (from c in e.Projects where c.Name == name select c.Project_ID).FirstOrDefault();
+            return projectId;
+        }
+
         /* public List<SimulationModel> AllByUser(String user) {
          var simulations = (from s in e.Simulations where s.NomClient == user select s);
            return (List < SimulationModel >) simulations;

@@ -12,19 +12,23 @@ namespace Project_NotesDeFrais.Controllers
     public class ExpanseReportsController : Controller
     {
         // GET: Expanses
-        public ActionResult Index(String userName)
+        public PartialViewResult Index(String userName)
         {
             ViewData["userName"] = userName;
-            return View("ExpanseReportsFormulaire");
+            ViewData["month"] = Convert.ToInt32(Request.Form["Month"]); ;
+            ViewData["year"] = Convert.ToInt32(Request.Form["Year"]); ;
+
+            return PartialView("ExpanseReportsFormulaire");
         }
 
-        public ActionResult createExpanseReportsDateDay()
+        public PartialViewResult createExpanseReportsDateDay(String userName)
         {
-            return View("ExpanseReportsFormulaire");
+            ViewData["userName"] = userName;
+            return PartialView("_MonthYear");
         }
 
 
-        public void createExpanseReports(ExpanseReports exp, Guid? auther_id)
+        public ActionResult createExpanseReports(ExpanseReports exp, Guid? auther_id)
         {
             var userId = User.Identity.GetUserId();
             ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
@@ -46,6 +50,7 @@ namespace Project_NotesDeFrais.Controllers
             exp.Employee_ID = idEmployer;
             exp.Author_ID = actor_id;
             expRepRepo.AddExpansesReports(exp);
+            return RedirectToAction("AllExpanses");
         }
 
         public ActionResult AllExpansesReports(int? pageIndex)
@@ -114,6 +119,15 @@ namespace Project_NotesDeFrais.Controllers
             IQueryable<ExpanseReportsModel> listCust = expanseReportModelList.AsQueryable();
             PaginatedList<ExpanseReportsModel> lst = new PaginatedList<ExpanseReportsModel>(listCust, pageIndex, countElementPage);
             return View("AllExpanseReports", lst);
+        }
+
+        public ActionResult Delete(Guid id)
+        {
+            ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
+            ExpanseReports expReport = expRep.GetById(id);
+            expRep.Delete(expReport);
+            expRep.Save();
+            return RedirectToAction("AllExpansesReports");
         }
     }
 }

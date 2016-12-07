@@ -388,9 +388,11 @@
     <Content Include="Views\Expanses\AllExpanses.cshtml" />
     <Content Include="Views\Employees\EmployesFormulaire.cshtml" />
     <Content Include="Views\Employees\AllEmployes.cshtml" />
-    <Content Include="Views\ExpanseReports\NoteDeFraisDateDay.cshtml" />
-    <Content Include="Views\Expanses\_AddType.cshtml" />
     <Content Include="Views\Expanses\_ProjectItem.cshtml" />
+    <Content Include="Views\ExpanseReports\EditeNoteDeFrais.cshtml" />
+    <Content Include="Views\Shared\_MonthYear.cshtml" />
+    <Content Include="Views\Expanses\_AddType.cshtml" />
+    <Content Include="Views\ExpanseReports\_MonthYear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

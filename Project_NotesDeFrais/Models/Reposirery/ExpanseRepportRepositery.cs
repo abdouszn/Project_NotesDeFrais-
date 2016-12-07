@@ -61,10 +61,17 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void Delete(ExpanseReports expRep)
         {
+            var expanse = (from exp in e.Expanses where (exp.ExpanseReport_ID == expRep.ExpanseReport_ID) select exp);
+            foreach (var exp in expanse.ToList())
+            {
+                e.Expanses.Remove(exp);
+                e.SaveChanges();
+            }
 
             e.ExpanseReports.Remove(expRep);
         }
 
+       
         public Guid maxIdEmployee()
         {
             var id = (from s in e.Employees select s.Employee_ID).FirstOrDefault();

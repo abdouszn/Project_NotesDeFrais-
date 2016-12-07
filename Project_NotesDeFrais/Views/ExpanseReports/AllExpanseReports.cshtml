@@ -45,10 +45,13 @@
                 <td>@s.Total_TVA</td>
                 <td>@s.Total_TTC</td>
                 <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.ExpanseReport_ID}) + "'");" /></td>
-                <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.ExpanseReport_ID})+"'");" /></td>
+                <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "ExpanseReports" , new { id = s.ExpanseReport_ID})+"'");" /></td>
             </tr>
         }
     </table>
+    <br />
+    <a href="?pageIndex=@(Model.PageIndex + 1)"><input type="button" value="suivant >>" class="btn btn-default" /></a>
+    <a href="?pageIndex=@(Model.PageIndex - 1)"><input type="button" value="<< precedent " class="btn btn-default" /></a>
 </div>
 
 

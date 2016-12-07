@@ -33,7 +33,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
         public IQueryable<Expanses> getSerachingExpanses(String query)
         {
-            var expanseReport = (from s in e.Expanses where s.Customers.Name.Contains(query) select s).OrderBy(r => r.Expanse_ID);
+            var expanseReport = (from s in e.Expanses where s.Customers.Name.Contains(query) select s).OrderBy(r => r.Day);
             return expanseReport;
         }
 

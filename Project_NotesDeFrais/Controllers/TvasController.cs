@@ -26,8 +26,9 @@ namespace Project_NotesDeFrais.Controllers
         }
 
 
-        public ActionResult AllTvas()
+        public ActionResult AllTvas(int? pageIndex)
         {
+            var countElementPage = 10;
             TvasRepositery tvaRep = new TvasRepositery();
             var tvas = tvaRep.allTvas();
             List<TvasModel> TvasModel = new List<TvasModel>();
@@ -41,7 +42,29 @@ namespace Project_NotesDeFrais.Controllers
                 TvasModel.Add(tvaModel);
             }
             IQueryable<TvasModel> listTvas = TvasModel.AsQueryable();
-            return View("AllTvas", listTvas);
+            PaginatedList<TvasModel> lst = new PaginatedList<TvasModel>(listTvas, pageIndex, countElementPage);
+            return View("AllTvas", lst);
+        }
+        public ActionResult Searche(String query, int? pageIndex)
+        {
+
+            var countElementPage = 10;
+         
+            TvasRepositery tvaRepo = new TvasRepositery();
+            var tvas = tvaRepo.getSerachingTvas(query);
+            List<TvasModel> TvasModel = new List<TvasModel>();
+
+            foreach (var tva in tvas)
+            {
+                TvasModel tvaModel = new TvasModel();
+                tvaModel.TVA_ID = tva.TVA_ID;
+                tvaModel.Name = tva.Name;
+                tvaModel.Value = tva.Value;
+                TvasModel.Add(tvaModel);
+            }
+            IQueryable<TvasModel> listTvas = TvasModel.AsQueryable();
+            PaginatedList<TvasModel> lst = new PaginatedList<TvasModel>(listTvas, pageIndex, countElementPage);
+            return View("AllTvas", lst);
         }
     }
 }

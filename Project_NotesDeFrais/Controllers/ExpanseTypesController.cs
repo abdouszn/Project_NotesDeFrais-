@@ -33,6 +33,9 @@ namespace Project_NotesDeFrais.Controllers
         public ActionResult AllExpanseTypes(int? pageIndex)
         {
             var countElementPage = 10;
+            TvasRepositery tvaRepo = new TvasRepositery();
+            TvasModel tvaModel = new TvasModel();
+
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
             var expanseTypes = expTypeRep.allExpanseTypes();
             List<ExpanseTypesModel> expanseTypesModel = new List<ExpanseTypesModel>();
@@ -44,7 +47,10 @@ namespace Project_NotesDeFrais.Controllers
                 expenseTypeModel.Ceiling = expTpe.Ceiling;
                 expenseTypeModel.Fixed = expTpe.Fixed;
                 expenseTypeModel.OnlyManagers = expTpe.OnlyManagers;
-                expenseTypeModel.Tva_ID = expTpe.Tva_ID;
+                tvaModel.Name = tvaRepo.tvasById(expTpe.Tva_ID).Name;
+                tvaModel.TVA_ID = tvaRepo.tvasById(expTpe.Tva_ID).TVA_ID;
+                tvaModel.Value = tvaRepo.tvasById(expTpe.Tva_ID).Value;
+                expenseTypeModel.Tvas = tvaModel;
                 expanseTypesModel.Add(expenseTypeModel);
             }
             IQueryable<ExpanseTypesModel> listEpanTypes = expanseTypesModel.AsQueryable();
@@ -57,6 +63,8 @@ namespace Project_NotesDeFrais.Controllers
 
             var countElementPage = 10;
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
+            TvasRepositery tvaRepo = new TvasRepositery();
+            TvasModel tvaModel = new TvasModel();
             var expanseTypes = expTypeRep.getSerachingExpanses(query);
             List<ExpanseTypesModel> expanseTypesModel = new List<ExpanseTypesModel>();
             foreach (var expTpe in expanseTypes)
@@ -67,7 +75,10 @@ namespace Project_NotesDeFrais.Controllers
                 expenseTypeModel.Ceiling = expTpe.Ceiling;
                 expenseTypeModel.Fixed = expTpe.Fixed;
                 expenseTypeModel.OnlyManagers = expTpe.OnlyManagers;
-                expenseTypeModel.Tva_ID = expTpe.Tva_ID;
+                tvaModel.Name = tvaRepo.tvasById(expTpe.Tva_ID).Name;
+                tvaModel.TVA_ID = tvaRepo.tvasById(expTpe.Tva_ID).TVA_ID;
+                tvaModel.Value = tvaRepo.tvasById(expTpe.Tva_ID).Value;
+                expenseTypeModel.Tvas = tvaModel;
                 expanseTypesModel.Add(expenseTypeModel);
             }
             IQueryable<ExpanseTypesModel> listEpanTypes = expanseTypesModel.AsQueryable();

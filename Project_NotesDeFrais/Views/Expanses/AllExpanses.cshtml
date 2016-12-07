@@ -4,7 +4,7 @@
 }
 
 
-<h2>Les Notes de Frais</h2>
+<h2>Les Frais</h2>
 
 @using (Ajax.BeginForm("Searche", "Expanses", null, new AjaxOptions
 {
@@ -46,36 +46,21 @@
                 <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.ExpanseReport_ID})+"'");" /></td>
             </tr>
         }
-    </table>
+    </table><br />
+    <a href="?pageIndex=@(Model.PageIndex + 1)"><input type="button" value="suivant >>" class="btn btn-default" /></a>
+    <a href="?pageIndex=@(Model.PageIndex - 1)"><input type="button" value="<< precedent " class="btn btn-default" /></a>
 </div>
-   
-    @Html.ActionLink("nouveau frais", "popup", "expanses", "" ,new { data_modal = "" })
 
+   
+    @Html.ActionLink("nouveau frais", "popup", "expanses", "" ,new {id= "ajoutType" })
+    
    <div id='myModal' class='modal fade in' style="padding:10px;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div id='myModalContent'></div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
         </div>
     </div>
-</div>
-     
- @section Scripts {
-    <script>
 
-        $(function () {
-            $.ajaxSetup({ cache: false });
-                $("a[data-modal]").on("click", function (e) {
-                    $('#myModalContent').load(this.href, function () {
-                        $('#myModal').modal({
-                            keyboard: true
-                         }, 'show');
-                    });
-                return false;
-            });
-        });
-     </script>
-    
-}
-          
 
 

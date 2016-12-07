@@ -45,6 +45,12 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         }
 
+        public Guid GetIdByName(String name)
+        {
+            Guid typeId = (from c in e.ExpanseTypes where c.Name == name select c.ExpenseType_ID).FirstOrDefault();
+            return typeId;
+        }
+
         public void Save()
         {
             try

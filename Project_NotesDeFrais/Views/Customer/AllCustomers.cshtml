@@ -39,7 +39,9 @@
                 <td><input type="button" value="nouveau projet" class="btn btn-default" onclick="@("window.location.href='" + @Url.Action("Index" , "Projet",  new { id_Customer = s.Customer_ID} )+"'");" /></td>
             </tr>
         }
-    </table>
+    </table><br />
+    <a href="?pageIndex=@(Model.PageIndex + 1)"><input type="button" value="suivant >>" class="btn btn-default" /></a>
+    <a href="?pageIndex=@(Model.PageIndex - 1)"><input type="button" value="<< precedent " class="btn btn-default" /></a>
 </div>
 
 

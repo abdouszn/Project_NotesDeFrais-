@@ -26,7 +26,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Utilisateurs et Droit", "Index", "Home")</li>
                     <li>@Html.ActionLink("Gestion des Données", "About", "Home")</li>
-                    <li>@Html.ActionLink("Notes de Frais", "Index", "ExpanseReports" , new { userName = User.Identity.Name} , null)</li>
+                    <li>@Html.ActionLink("Notes de Frais", "createExpanseReportsDateDay", "ExpanseReports", new { userName = User.Identity.Name} ,new { id = "dayMonth" })</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -40,9 +40,16 @@
         </footer>
     </div>
 
-    
+    <div id='myModal' class='modal fade in' style="padding:10px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id='myModalContent'></div>
+            </div>
+        </div>
+    </div>
+    @RenderSection("scripts", required: false)
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @Scripts.Render("~/Scripts/popup.js")
 </body>
 </html>

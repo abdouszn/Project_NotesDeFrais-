@@ -2,11 +2,11 @@
 
 
 @Html.LabelFor(model => @Model.Projects)
-<select class="selectpicker">
+<select class="selectpicker" name="projectSelect">
 
     @foreach (var s in @Model.ProjectsList)
     {
-        <option> @s.Name </option>
+        <option value=" @s.Project_ID"> @s.Name </option>
     }
 </select>
 

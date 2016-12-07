@@ -25,6 +25,7 @@
     <th>Cellin</th>
     <th>Fixed</th>
     <th>OnlyManager</th>
+    <th>Tva</th>
     <th>Edition</th>
     <th>Suppression</th>
     @foreach (var s in Model)
@@ -34,8 +35,11 @@
             <td>@s.Ceiling</td>
             <td>@s.Fixed</td>
             <td>@s.OnlyManagers</td>
+            <td><a href="@Url.Action("Searche", "Tvas", new { query = s.Tvas.Name })">@s.Tvas.Name </a></td>
             <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.ExpenseType_ID}) + "'");" /></td>
             <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.ExpenseType_ID})+"'");" /></td>
         </tr>
     }
 </table>
+<a href="?pageIndex=@(Model.PageIndex + 1)"><input type="button" value="suivant >>" class="btn btn-default" /></a>
+<a href="?pageIndex=@(Model.PageIndex - 1)"><input type="button" value="<< precedent " class="btn btn-default" /></a>
