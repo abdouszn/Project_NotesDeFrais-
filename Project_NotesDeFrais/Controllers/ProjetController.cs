@@ -29,8 +29,20 @@ namespace Project_NotesDeFrais.Controllers
             projet.Pole_ID = prtRep.maxIdPoles();
             prtRep.AddProjet(projet);
         }
-        
 
+        public ActionResult edit(Guid id)
+        {
+            ProjetRepositery prtRep = new ProjetRepositery();
+            Projects projet = prtRep.GetById(id);
+            ProjectsModel prjtModel = new ProjectsModel();
+            prjtModel.Project_ID = projet.Project_ID;
+            prjtModel.Name = projet.Name;
+            prjtModel.Description = projet.Description;
+            prjtModel.Budget = projet.Budget;
+            prjtModel.Customer_ID = projet.Customer_ID;
+            prjtModel.Pole_ID = projet.Pole_ID;
+            return View("EditProject", prjtModel);
+        }
         public ActionResult AllProjets(int? pageIndex)
         {
             ProjetRepositery prtRep = new ProjetRepositery();
@@ -54,6 +66,18 @@ namespace Project_NotesDeFrais.Controllers
             IQueryable<ProjectsModel> listProjets = projetsModel.AsQueryable();
             PaginatedList<ProjectsModel> lst = new PaginatedList<ProjectsModel>(listProjets, pageIndex, countElementPage);
             return View("AllProjects", lst);
+        }
+
+        public ActionResult updateProject(Guid id) {
+            ProjetRepositery prtRep = new ProjetRepositery();
+            ProjectsModel prjtModel = new ProjectsModel();
+            Projects projet = prtRep.GetById(id);
+            String name = Convert.ToString(Request.Form["Name"]);
+            string description = Convert.ToString(Request.Form["Description"]);
+            double budget = Convert.ToDouble(Request.Form["Budget"]);
+            prtRep.updateProject(projet, name, description,budget);
+            return RedirectToAction("AllProjets");
+
         }
 
 

@@ -29,6 +29,29 @@ namespace Project_NotesDeFrais.Controllers
             expTypeRep.AddExpanseType(expansType);
         }
 
+        public ActionResult edit(Guid id) {
+            ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
+            ExpanseTypes expTypes = expTypeRep.getById(id);
+            ExpanseTypesModel expTypeModel = new ExpanseTypesModel();
+            expTypeModel.ExpenseType_ID = expTypes.ExpenseType_ID;
+            expTypeModel.Name = expTypes.Name;
+            expTypeModel.Ceiling = expTypes.Ceiling;
+            expTypeModel.Fixed = expTypes.Fixed;
+            expTypeModel.OnlyManagers = expTypes.OnlyManagers;
+            return View("EditExpansesTypes", expTypeModel);
+        }
+
+        public ActionResult update(Guid id)
+        {
+            ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
+            ExpanseTypes expTypes = expTypeRep.getById(id);
+            String name = Convert.ToString(Request.Form["Name"]);
+            double ceiling = Convert.ToDouble(Request.Form["Ceiling"]);
+            Boolean fixe = Convert.ToBoolean(Request.Form["Fixed"]);
+            Boolean OnlyManagers = Convert.ToBoolean(Request.Form["OnlyManagers"]);
+            expTypeRep.updateExpanseType(expTypes, name, ceiling, fixe, OnlyManagers);
+            return RedirectToAction("AllExpanseTypes");
+        }
 
         public ActionResult AllExpanseTypes(int? pageIndex)
         {

@@ -23,12 +23,14 @@ namespace Project_NotesDeFrais.Models.Reposirery
             {
                 e.Tvas.Add(tva);
                 e.SaveChanges();
-
             }
-
-
         }
 
+        public void updateTvas(Tvas tva, String name, double value) {
+            tva.Name = name;
+            tva.Value = value;
+            e.SaveChanges();
+        }
         public IQueryable<Tvas> allTvas()
         {
             var tvas = e.Tvas.OrderBy(r => r.TVA_ID);

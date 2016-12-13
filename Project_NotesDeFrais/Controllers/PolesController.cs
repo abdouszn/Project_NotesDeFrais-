@@ -25,6 +25,27 @@ namespace Project_NotesDeFrais.Controllers
             polRep.AddPoles(pole);
         }
 
+        public ActionResult Edit(Guid id)
+        {
+            PolesRepository polRep = new PolesRepository();
+            PolesModel poleModel = new PolesModel();
+            Poles pole = polRep.GetById(id);
+            poleModel.Pole_ID = pole.Pole_ID;
+            poleModel.Name = pole.Name;
+            poleModel.Manager_ID = pole.Manager_ID;
+            return View("EditPoles" , poleModel); 
+        }
+
+        public ActionResult updatePole(Guid id)
+        {
+            PolesRepository polRep = new PolesRepository();
+            String name = Convert.ToString(Request.Form["Name"]);
+            Poles pole= polRep.GetById(id);
+            polRep.updatePole(pole , name);
+            return RedirectToAction("AllPoles");
+        }
+
+
         public ActionResult AllPoles(int? pageIndex)
         {
             PolesRepository polRep = new PolesRepository();

@@ -21,6 +21,8 @@
 }
 <br />
 <br />
+@{int code = 1;}
+@{ Guid idExpRep = Model.FirstOrDefault().ExpanseReport_ID;}
 <div id="projectTable">
     <table class="table table-striped">
         <th>nom client</th>
@@ -34,6 +36,10 @@
         <th>Supprimer</th>
         @foreach (var s in Model)
         {
+
+
+            code = @s.ExpanseReports.StatusCode;
+            idExpRep = @s.ExpanseReports.ExpanseReport_ID;
             <tr>
                 <td><a href="@Url.Action("Searche", "Customer", new { query = s.Customers.Name }) "> @s.Customers.Name  </a></td>
                 <td><a href="@Url.Action("Searche", "Projet", new { query = s.Projects.Name }) "> @s.Projects.Name  </a></td>
@@ -42,8 +48,8 @@
                 <td>@s.Amount_HT</td>
                 <td>@s.Amount_TTC</td>
                 <td>@s.Amount_TVA</td>
-                <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.ExpanseReport_ID}) + "'");" /></td>
-                <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.ExpanseReport_ID})+"'");" /></td>
+                <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("edit", "Expanses", new { idExpanse = s.Expanse_ID }) + "'");" /></td>
+                <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete", "Expanses", new { id = s.Expanse_ID }) + "'");" /></td>
             </tr>
         }
     </table><br />
@@ -51,9 +57,16 @@
     <a href="?pageIndex=@(Model.PageIndex - 1)"><input type="button" value="<< precedent " class="btn btn-default" /></a>
 </div>
 
-   
-    @Html.ActionLink("nouveau frais", "popup", "expanses", "" ,new {id= "ajoutType" })
-    
+    @Html.ActionLink("nouveau frais", "popup", "expanses", new { idExpanseReport = @ViewData["idExpanseReport"] }, new { id = "ajoutType" })
+    @Html.ActionLink("notes de frais", "AllExpansesReports", "expanseReports")
+
+    @if (code == 0)
+    {
+        <a  href="@Url.Action("AllExpanses", "Expanses", new { idExpanseReport = @idExpRep })"><input type="button" value="valider" class="btn btn-success" /></a>
+        <a><input type="button" value="enrigstrer" class="btn btn-success" /></a>
+    }
+    <p> @idExpRep </p>
+
    <div id='myModal' class='modal fade in' style="padding:10px;">
         <div class="modal-dialog">
             <div class="modal-content">

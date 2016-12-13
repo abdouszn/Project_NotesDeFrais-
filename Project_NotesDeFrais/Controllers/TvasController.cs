@@ -25,7 +25,24 @@ namespace Project_NotesDeFrais.Controllers
             tvaRep.AddTva(tva);
         }
 
+        public ActionResult edit(Guid id) {
+            TvasRepositery tvaRep = new TvasRepositery();
+            Tvas tva = tvaRep.tvasById(id);
+            TvasModel tvaModel = new TvasModel();
+            tvaModel.TVA_ID = tva.TVA_ID;
+            tvaModel.Name = tva.Name;
+            tvaModel.Value = tva.Value;
+            return View("EditTvas" , tvaModel);
+        }
 
+        public ActionResult updateTvas(Guid id) {
+            TvasRepositery tvaRep = new TvasRepositery();
+            Tvas tva = tvaRep.tvasById(id);
+            String name = Convert.ToString(Request.Form["Name"]);
+            double value = Convert.ToDouble(Request.Form["Value"]);
+            tvaRep.updateTvas(tva, name, value);
+            return RedirectToAction("AllTvas");
+        }
         public ActionResult AllTvas(int? pageIndex)
         {
             var countElementPage = 10;

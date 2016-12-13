@@ -24,10 +24,14 @@ namespace Project_NotesDeFrais.Models.Reposirery
                 e.SaveChanges();
 
             }
-
-
         }
 
+        public void updateProject(Projects projet, String name, String discription, double budget) {
+            projet.Name = name;
+            projet.Description = discription;
+            projet.Budget = budget;
+            e.SaveChanges();
+        }
         public IQueryable<Projects> allProjects()
         {
             var projects = e.Projects.OrderBy(r => r.Project_ID);
@@ -97,6 +101,8 @@ namespace Project_NotesDeFrais.Models.Reposirery
             e.Projects.Remove(p);
             Save();
         }
+
+       
 
         public Guid maxIdPoles()
         {

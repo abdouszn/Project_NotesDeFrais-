@@ -24,6 +24,27 @@ namespace Project_NotesDeFrais.Controllers
             costRep.AddCostumers(customer);
         }
 
+        public ActionResult Edit(Guid id)
+        {
+            CustomerRepositery custRep = new CustomerRepositery();
+            CustomersModel custModel = new CustomersModel();
+            Customers customer = custRep.GetById(id);
+            custModel.Code = customer.Code;
+            custModel.Customer_ID = customer.Customer_ID;
+            custModel.Name = customer.Name;
+            return View("EditCustomer", custModel);
+        }
+
+        public ActionResult updateCustomers(Guid id)
+        {
+            CustomerRepositery custRep = new CustomerRepositery();
+            String name = Convert.ToString(Request.Form["Name"]);
+            String code= Convert.ToString(Request.Form["Code"]);
+            Customers customer = custRep.GetById(id);
+            custRep.updateCustomers(customer, name , code);
+            return RedirectToAction("AllCustomer");
+        }
+
         public ActionResult AllCustomer(int? pageIndex)
         {
             CustomerRepositery costRep = new CustomerRepositery();

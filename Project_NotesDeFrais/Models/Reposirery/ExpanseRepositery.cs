@@ -26,6 +26,16 @@ namespace Project_NotesDeFrais.Models.Reposirery
             }
         }
 
+        public void updateExpanses(Expanses exp , double ttc, double ht, double tva)
+        {
+            using (new NotesDeFraisEntities())
+            {
+                exp.Amount_TTC = ttc;
+                exp.Amount_HT = ht;
+                exp.Amount_TVA = tva;
+                e.SaveChanges();
+            }
+        }
         public IQueryable<Expanses> allExpanses()
         {
             var expanses = e.Expanses.OrderBy(r => r.Expanse_ID);
@@ -44,22 +54,14 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return expanse;
         }
 
-        /* public List<SimulationModel> AllByUser(String user) {
-         var simulations = (from s in e.Simulations where s.NomClient == user select s);
-           return (List < SimulationModel >) simulations;
-    }*/
-
-
-        /* public List<SimulationModel> AllByUserAboveToTreshold(String user , int Capital){
-             var simulations = (from s in e.Simulations where (s.NomClient == user && s.Capital>Capital)  select s);
-             return (List<SimulationModel>)simulations;
-         }*/
-
+       
 
         public void Delete(Expanses exp)
         {
-
-            e.Expanses.Remove(exp);
+            using (new NotesDeFraisEntities())
+            {
+                e.Expanses.Remove(exp);
+            }
         }
 
         public Guid maxIdCustomers()
@@ -103,6 +105,12 @@ namespace Project_NotesDeFrais.Models.Reposirery
         {
             ExpanseReports expanseRepport = (from p in e.ExpanseReports where p.ExpanseReport_ID == id select p).FirstOrDefault();
             return expanseRepport;
+        }
+
+        public IQueryable<Expanses> GetAllByIdExpansesRepport(Guid id)
+        {
+            var expanse = (from p in e.Expanses where p.ExpanseReport_ID == id select p);
+            return expanse;
         }
 
         public ExpanseTypes GetByIdExpanseTypes(Guid id)

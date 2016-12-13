@@ -26,6 +26,15 @@ namespace Project_NotesDeFrais.Models.Reposirery
             }
         }
 
+        public void updateExpanseType(ExpanseTypes expType, String name, double celling, Boolean fix, Boolean only) {
+
+            expType.Name = name;
+            expType.Ceiling = celling;
+            expType.Fixed = fix;
+            expType.OnlyManagers = only;
+            e.SaveChanges();
+        }
+
         public IQueryable<ExpanseTypes> allExpanseTypes()
         {
             var expanseTypes = e.ExpanseTypes.OrderBy(r => r.ExpenseType_ID);
@@ -49,6 +58,12 @@ namespace Project_NotesDeFrais.Models.Reposirery
         {
             Guid typeId = (from c in e.ExpanseTypes where c.Name == name select c.ExpenseType_ID).FirstOrDefault();
             return typeId;
+        }
+
+        public ExpanseTypes getById(Guid id)
+        {
+            ExpanseTypes expType = (from c in e.ExpanseTypes where c.ExpenseType_ID == id select c).FirstOrDefault();
+            return expType;
         }
 
         public void Save()

@@ -202,7 +202,6 @@
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\ExpanseReportsController.cs" />
     <Compile Include="Controllers\ExpansesController.cs" />
-    <Compile Include="Controllers\ExpansesRepositery.cs" />
     <Compile Include="Controllers\ExpanseTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -393,6 +392,12 @@
     <Content Include="Views\Shared\_MonthYear.cshtml" />
     <Content Include="Views\Expanses\_AddType.cshtml" />
     <Content Include="Views\ExpanseReports\_MonthYear.cshtml" />
+    <Content Include="Views\Poles\EditPoles.cshtml" />
+    <Content Include="Views\Customer\EditCustomer.cshtml" />
+    <Content Include="Views\Projet\EditProject.cshtml" />
+    <Content Include="Views\Tvas\EditTvas.cshtml" />
+    <Content Include="Views\ExpanseTypes\EditExpansesTypes.cshtml" />
+    <Content Include="Views\Expanses\EditExpanses.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -25,6 +25,13 @@ namespace Project_NotesDeFrais.Models.Reposirery
             }
         }
 
+        public void updateCustomers(Customers customer, String name, String code)
+        {
+            customer.Name = name;
+            customer.Code = code;
+            e.SaveChanges();
+        }
+
         public IQueryable<Customers> allCustomers()
         {
             var customers = e.Customers.OrderBy(r => r.Customer_ID);
@@ -50,18 +57,6 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return customerId;
         }
 
-        /* public List<SimulationModel> AllByUser(String user) {
-         var simulations = (from s in e.Simulations where s.NomClient == user select s);
-           return (List < SimulationModel >) simulations;
-    }*/
-
-
-        /* public List<SimulationModel> AllByUserAboveToTreshold(String user , int Capital){
-             var simulations = (from s in e.Simulations where (s.NomClient == user && s.Capital>Capital)  select s);
-             return (List<SimulationModel>)simulations;
-         }*/
-
-
         public void Delete(Customers c)
         {
 
@@ -71,11 +66,6 @@ namespace Project_NotesDeFrais.Models.Reposirery
                 e.Projects.Remove(prc);
                 e.SaveChanges();
             }
-
-            /*foreach(var sl in s.SimulationsLignes) {
-                 e.SimulationsLignes.Remove(sl);
-                 Save();
-             }*/
             e.Customers.Remove(c);
         }
 

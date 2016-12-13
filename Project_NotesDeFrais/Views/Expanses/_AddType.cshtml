@@ -1,10 +1,10 @@
 ﻿@model Project_NotesDeFrais.Models.ExpansesModel
 
-@using (Html.BeginForm("", "Expanses/createExpanses", "", FormMethod.Post))
+@using (Html.BeginForm("createExpanses", "Expanses", new { expanseReport_ID = @Model.ExpanseReport_ID} , FormMethod.Post))
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Frais d'une note de frais</legend>
+        <legend>idrapport : @ViewData["idExpanseReport"]</legend>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Day)
             <select  class="selectpicker">

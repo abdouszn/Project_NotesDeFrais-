@@ -36,7 +36,7 @@
             <td>@s.Fixed</td>
             <td>@s.OnlyManagers</td>
             <td><a href="@Url.Action("Searche", "Tvas", new { query = s.Tvas.Name })">@s.Tvas.Name </a></td>
-            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.ExpenseType_ID}) + "'");" /></td>
+            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "ExpanseTypes", new { id = s.ExpenseType_ID}) + "'");" /></td>
             <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.ExpenseType_ID})+"'");" /></td>
         </tr>
     }

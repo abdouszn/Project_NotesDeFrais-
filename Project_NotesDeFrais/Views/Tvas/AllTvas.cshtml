@@ -15,7 +15,7 @@
         <tr>
             <td>@s.Name</td>
             <td>@s.Value</td>
-            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.TVA_ID}) + "'");" /></td>
+            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Tvas", new { id = s.TVA_ID}) + "'");" /></td>
             <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.TVA_ID})+"'");" /></td>
         </tr>
     }

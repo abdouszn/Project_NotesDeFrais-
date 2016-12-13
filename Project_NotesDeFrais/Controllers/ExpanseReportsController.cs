@@ -12,13 +12,37 @@ namespace Project_NotesDeFrais.Controllers
     public class ExpanseReportsController : Controller
     {
         // GET: Expanses
-        public PartialViewResult Index(String userName)
+        public ActionResult Index(String userName)
         {
             ViewData["userName"] = userName;
-            ViewData["month"] = Convert.ToInt32(Request.Form["Month"]); ;
-            ViewData["year"] = Convert.ToInt32(Request.Form["Year"]); ;
-
-            return PartialView("ExpanseReportsFormulaire");
+            if (Convert.ToInt32(Request.Form["Month"]) > DateTime.Now.Month) {
+                ModelState.AddModelError("error.error", "adfdghdghgdhgdhdgda");
+                return PartialView("_MonthYear");
+            }
+            ViewData["month"] = Convert.ToInt32(Request.Form["Month"]);
+            ViewData["year"] = Convert.ToInt32(Request.Form["Year"]);
+            var userId = User.Identity.GetUserId();
+            ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
+            EmployesRepositery empRepository = new EmployesRepositery();
+            ExpanseReports exp = new ExpanseReports();
+            var idEmployer = empRepository.GetByIdUser(userId).Employee_ID;
+            var actor_id = idEmployer;
+            exp.ExpanseReport_ID = Guid.NewGuid();
+            exp.CreationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
+            exp.Year = Convert.ToInt32(Request.Form["Year"]);
+            exp.Month = Convert.ToInt32(Request.Form["Month"]);
+            exp.StatusCode = Convert.ToInt32(0);
+            exp.ManagerValidationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
+            exp.ManagerComment = Convert.ToString(" ");
+            exp.AccountingValidatationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
+            exp.AccountingComment = Convert.ToString(" ");
+            exp.Total_HT = Convert.ToDouble(0);
+            exp.Total_TTC = Convert.ToDouble(0);
+            exp.Total_TVA = Convert.ToDouble(0);
+            exp.Employee_ID = idEmployer;
+            exp.Author_ID = actor_id;
+            expRepRepo.AddExpansesReports(exp);
+            return RedirectToAction("AllExpanses", "Expanses", new { idExpanseReport = exp.ExpanseReport_ID});
         }
 
         public PartialViewResult createExpanseReportsDateDay(String userName)
@@ -30,27 +54,7 @@ namespace Project_NotesDeFrais.Controllers
 
         public ActionResult createExpanseReports(ExpanseReports exp, Guid? auther_id)
         {
-            var userId = User.Identity.GetUserId();
-            ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
-            EmployesRepositery empRepository = new EmployesRepositery();
-            var idEmployer = empRepository.GetByIdUser(userId).Employee_ID;
-            var actor_id = idEmployer;
-            exp.ExpanseReport_ID = Guid.NewGuid();
-            exp.CreationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
-            exp.Year= Convert.ToInt32(Request.Form["Year"]);
-            exp.Month = Convert.ToInt32(Request.Form["Month"]);
-            exp.StatusCode = Convert.ToInt32(Request.Form["StatusCode"]);
-            exp.ManagerValidationDate= Convert.ToDateTime(Request.Form["ManagerValidationDate"]);
-            exp.ManagerComment= Convert.ToString(Request.Form["ManagerComment"]);
-            exp.AccountingValidatationDate= Convert.ToDateTime(Request.Form["AccountingValidatationDate"]);
-            exp.AccountingComment = Convert.ToString(Request.Form["AccountingComment"]);
-            exp.Total_HT = Convert.ToDouble(Request.Form["Total_HT"]);
-            exp.Total_TTC = Convert.ToDouble(Request.Form["Total_TTC"]);
-            exp.Total_TVA = Convert.ToDouble(Request.Form["Total_TVA"]);
-            exp.Employee_ID = idEmployer;
-            exp.Author_ID = actor_id;
-            expRepRepo.AddExpansesReports(exp);
-            return RedirectToAction("AllExpanses");
+            return null;
         }
 
         public ActionResult AllExpansesReports(int? pageIndex)
@@ -64,7 +68,6 @@ namespace Project_NotesDeFrais.Controllers
             {
                 ExpanseReportsModel expReportModel = new ExpanseReportsModel();
                 EmployeesModel employer = new EmployeesModel();
-
                 expReportModel.ExpanseReport_ID = exp.ExpanseReport_ID;
                 employer.FirstName = expRepRepo.GetByIdEmployes(exp.Employee_ID).FirstName;
                 expReportModel.Employees = employer;
@@ -79,7 +82,6 @@ namespace Project_NotesDeFrais.Controllers
                 expReportModel.Total_HT = exp.Total_HT;
                 expReportModel.Total_TTC = exp.Total_TTC;
                 expReportModel.Total_TVA =exp.Total_TVA;
-
                 expanseReportModelList.Add(expReportModel);
             }
             IQueryable<ExpanseReportsModel> listExpanseReports = expanseReportModelList.AsQueryable();
@@ -121,6 +123,13 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllExpanseReports", lst);
         }
 
+        public ActionResult validateExpanseReport(Guid id) {
+            ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
+            ExpanseReports expReport = expRep.GetById(id);
+            int StatusCode = 10;
+            expRep.updateStatus(expReport, StatusCode);
+            return RedirectToAction("AllExpanses", "Expanses", new { idExpanseReport = id });
+        }
         public ActionResult Delete(Guid id)
         {
             ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();

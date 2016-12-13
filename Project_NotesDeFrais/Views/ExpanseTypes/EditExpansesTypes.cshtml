@@ -3,7 +3,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("", "ExpanseTypes/createExpansTypes", "", FormMethod.Post))
+@using (Html.BeginForm("update", "ExpanseTypes", new { id = @Model.ExpenseType_ID}, FormMethod.Post))
 {
     @Html.ValidationSummary(true)
     <fieldset>

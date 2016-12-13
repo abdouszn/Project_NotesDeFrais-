@@ -29,6 +29,12 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         }
 
+        public void updatePole(Poles poles , String name)
+        {
+            poles.Name = name;
+            e.SaveChanges();
+        }
+
         public IQueryable<Poles> allPoles()
         {
             var poles = e.Poles.OrderBy(r => r.Pole_ID);
@@ -61,17 +67,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return id;
             
         }
-        /* public List<SimulationModel> AllByUser(String user) {
-         var simulations = (from s in e.Simulations where s.NomClient == user select s);
-           return (List < SimulationModel >) simulations;
-    }*/
-
-
-        /* public List<SimulationModel> AllByUserAboveToTreshold(String user , int Capital){
-             var simulations = (from s in e.Simulations where (s.NomClient == user && s.Capital>Capital)  select s);
-             return (List<SimulationModel>)simulations;
-         }*/
-
+       
 
         public void Delete(Poles p)
         {

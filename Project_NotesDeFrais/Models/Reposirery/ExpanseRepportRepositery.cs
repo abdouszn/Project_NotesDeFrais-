@@ -26,6 +26,13 @@ namespace Project_NotesDeFrais.Models.Reposirery
             }
         }
 
+        public void updateExpanseReports(ExpanseReports expRep, double ttc, double ht, double tva) {
+            expRep.Total_TTC = ttc;
+            expRep.Total_HT = ht;
+            expRep.Total_TVA = tva;
+            Save();
+        }
+
         public IQueryable<ExpanseReports> allExpanseReports()
         {
             var expansesRepport = e.ExpanseReports.OrderBy(r => r.ExpanseReport_ID);
@@ -47,17 +54,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return expanseRepport;
         }
 
-        /* public List<SimulationModel> AllByUser(String user) {
-         var simulations = (from s in e.Simulations where s.NomClient == user select s);
-           return (List < SimulationModel >) simulations;
-    }*/
-
-
-        /* public List<SimulationModel> AllByUserAboveToTreshold(String user , int Capital){
-             var simulations = (from s in e.Simulations where (s.NomClient == user && s.Capital>Capital)  select s);
-             return (List<SimulationModel>)simulations;
-         }*/
-
+        
 
         public void Delete(ExpanseReports expRep)
         {
@@ -83,6 +80,14 @@ namespace Project_NotesDeFrais.Models.Reposirery
         {
             Employees employer = (from p in e.Employees where p.Employee_ID == id select p).FirstOrDefault();
             return employer;
+        }
+
+        public void updateStatus(ExpanseReports expRep, int statut) {
+            using (new NotesDeFraisEntities())
+            {
+                expRep.StatusCode = statut;
+                e.SaveChanges();
+            }
         }
 
         public void Save()
