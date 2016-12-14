@@ -398,6 +398,7 @@
     <Content Include="Views\Tvas\EditTvas.cshtml" />
     <Content Include="Views\ExpanseTypes\EditExpansesTypes.cshtml" />
     <Content Include="Views\Expanses\EditExpanses.cshtml" />
+    <Content Include="Views\ExpanseReports\_modifExpanseReports.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

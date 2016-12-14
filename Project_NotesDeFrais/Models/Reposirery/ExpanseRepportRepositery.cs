@@ -82,10 +82,11 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return employer;
         }
 
-        public void updateStatus(ExpanseReports expRep, int statut) {
+        public void updateStatus(ExpanseReports expRep, int statut , String managerComment) {
             using (new NotesDeFraisEntities())
             {
                 expRep.StatusCode = statut;
+                expRep.ManagerComment = managerComment;
                 e.SaveChanges();
             }
         }

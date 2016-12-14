@@ -15,10 +15,6 @@ namespace Project_NotesDeFrais.Controllers
         public ActionResult Index(String userName)
         {
             ViewData["userName"] = userName;
-            if (Convert.ToInt32(Request.Form["Month"]) > DateTime.Now.Month) {
-                ModelState.AddModelError("error.error", "adfdghdghgdhgdhdgda");
-                return PartialView("_MonthYear");
-            }
             ViewData["month"] = Convert.ToInt32(Request.Form["Month"]);
             ViewData["year"] = Convert.ToInt32(Request.Form["Year"]);
             var userId = User.Identity.GetUserId();
@@ -127,7 +123,8 @@ namespace Project_NotesDeFrais.Controllers
             ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
             ExpanseReports expReport = expRep.GetById(id);
             int StatusCode = 10;
-            expRep.updateStatus(expReport, StatusCode);
+            String comment = "no comment";
+            expRep.updateStatus(expReport, StatusCode , comment);
             return RedirectToAction("AllExpanses", "Expanses", new { idExpanseReport = id });
         }
         public ActionResult Delete(Guid id)
@@ -137,6 +134,26 @@ namespace Project_NotesDeFrais.Controllers
             expRep.Delete(expReport);
             expRep.Save();
             return RedirectToAction("AllExpansesReports");
+        }
+
+        public ActionResult modifExpanseReports(Guid idExpanseReport) {
+            ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
+            ExpanseReports expRep = expRepRep.GetById(idExpanseReport);
+            ExpanseReportsModel expRepModel = new ExpanseReportsModel();
+            expRepModel.ExpanseReport_ID = expRep.ExpanseReport_ID;
+            expRepModel.Author_ID = expRep.Author_ID;
+            expRepModel.ManagerComment = expRep.ManagerComment;
+            
+            return PartialView("_modifExpanseReports" , expRepModel);
+        }
+
+        public void modifCommentExpanseReports(Guid idExpanseReport) {
+            ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
+            ExpanseReports expRep = expRepRep.GetById(idExpanseReport);
+            String managerComment = Convert.ToString(Request.Form["ManagerComment"]);
+            int StatusCode = 15;
+            expRepRep.updateStatus(expRep, StatusCode , managerComment);
+            
         }
     }
 }
