@@ -123,8 +123,17 @@ namespace Project_NotesDeFrais.Controllers
             ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
             ExpanseReports expReport = expRep.GetById(id);
             int StatusCode = 10;
-            String comment = "no comment";
-            expRep.updateStatus(expReport, StatusCode , comment);
+            String managerComment = "no comment";
+            String comtableComment = "no comment";
+            if (User.IsInRole("Manager"))
+            {
+                StatusCode = 20;
+            }
+            else if (User.IsInRole("comptabilye"))
+            {
+                StatusCode = 30;
+            }
+            expRep.updateStatus(expReport, StatusCode , managerComment, comtableComment);
             return RedirectToAction("AllExpanses", "Expanses", new { idExpanseReport = id });
         }
         public ActionResult Delete(Guid id)
@@ -147,13 +156,36 @@ namespace Project_NotesDeFrais.Controllers
             return PartialView("_modifExpanseReports" , expRepModel);
         }
 
-        public void modifCommentExpanseReports(Guid idExpanseReport) {
+        public ActionResult modifCommentExpanseReports(Guid idExpanseReport) {
+           
             ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
             ExpanseReports expRep = expRepRep.GetById(idExpanseReport);
-            String managerComment = Convert.ToString(Request.Form["ManagerComment"]);
+            String managerComment ="no comment";
+            String comtableComment = "no comment";
             int StatusCode = 15;
-            expRepRep.updateStatus(expRep, StatusCode , managerComment);
+            if (User.IsInRole("Manager"))
+            {
+                 StatusCode = 15;
+                 managerComment = Convert.ToString(Request.Form["ManagerComment"]);
+            }
+            else if (User.IsInRole("comptabilye")) {
+                StatusCode = 25;
+                comtableComment = Convert.ToString(Request.Form["AccountingComment"]);
+            }
             
+            expRepRep.updateStatus(expRep, StatusCode , managerComment, comtableComment);
+            return RedirectToAction("AllExpansesReports");
+
+        }
+
+        public ActionResult annulExpanseReports(Guid idExpanseReport) {
+            ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
+            ExpanseReports expRep = expRepRep.GetById(idExpanseReport);
+            String managerComment = "no comment";
+            String comtableComment = "no comment";
+            int StatusCode = 35;
+            expRepRep.updateStatus(expRep, StatusCode, managerComment, comtableComment);
+            return RedirectToAction("AllExpansesReports");
         }
     }
 }

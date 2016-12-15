@@ -60,10 +60,10 @@
     @Html.ActionLink("nouveau frais", "popup", "expanses", new { idExpanseReport = @ViewData["idExpanseReport"] }, new {@class= "btn btn-primary", id = "ajoutType" })
     @Html.ActionLink("notes de frais", "AllExpansesReports", "ExpanseReports","", new { @class = "btn btn-default" })
 
-    @if (code == 0)
+    @if (code == 0 || code == 15 || code==25 /*&& User.IsInRole("Employer")*/)
     {
         <a  href="@Url.Action("AllExpanses", "Expanses", new { idExpanseReport = @idExpRep })"><input type="button" value="enregistrer" class="btn btn-success" /></a>
-
+        <a href="@Url.Action("annulExpanseReports", "ExpanseReports", new { idExpanseReport = @idExpRep })"><input type="button" value="enregistrer" class="btn btn-success" /></a>
     }
     <a  href="@Url.Action("validateExpanseReport", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" /></a>
    
