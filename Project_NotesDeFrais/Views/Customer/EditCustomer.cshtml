@@ -3,29 +3,29 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("updateCustomers", "Customer", new { id = @Model.Customer_ID } , FormMethod.Post))
+@using (Html.BeginForm("updateCustomers", "Customer", new { id = @Model.Customer_ID } , FormMethod.Post, new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Nouveau produit</legend>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Name)
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.Name, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Name, new { @required = "required" })
             @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Code)
-            @Html.TextBoxFor(model => @Model.Code, new { @required = "required" })
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.Code, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Code, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Code, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Expanses)
-            @Html.TextBoxFor(model => @Model.Expanses, new { @required = "required" })
+        <div class="form-group"">
+            @Html.LabelFor(model => @Model.Expanses, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Expanses, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Expanses, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Projects)
-            @Html.TextBoxFor(model => @Model.Projects, new { @required = "required" })
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.Projects, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Projects, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Projects, "", new { @class = "text-danger" })
         </div>
         <p>

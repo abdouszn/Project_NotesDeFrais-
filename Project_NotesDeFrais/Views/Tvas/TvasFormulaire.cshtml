@@ -3,24 +3,23 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("", "Tvas/createTvas", "", FormMethod.Post))
+@using (Html.BeginForm("", "Tvas/createTvas", "", FormMethod.Post, new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Nouveau produit</legend>
-
         <div class="editor-label">
-            @Html.LabelFor(model => @Model)
-            @Html.TextBoxFor(model => @Model.Name, new { @required = "required" })
+            @Html.LabelFor(model => @Model, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Name, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => @Model.Value)
-            @Html.TextBoxFor(model => @Model.Value, new { @required = "required" })
+            @Html.LabelFor(model => @Model.Value, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Value, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Value, "", new { @class = "text-danger" })
         </div>
-        <p>
+        <div class="form-group">
             <button type="submit" class="btn-success"> Enregistrer </button>
-        </p>
+        </div>
     </fieldset>
 }

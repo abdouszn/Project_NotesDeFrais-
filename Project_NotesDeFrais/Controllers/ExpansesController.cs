@@ -18,9 +18,14 @@ namespace Project_NotesDeFrais.Controllers
             return View("ExpansesFormulaire");
         }
 
-        public ActionResult createExpanses(Expanses exp, Guid expanseReport_ID)
+        public ActionResult createExpanses(ExpansesModel expModel, Guid expanseReport_ID)
         {
+            if (!ModelState.IsValid) {
+                return View("ExpansesFormulaire" , expModel);
+            }
+
             ExpanseRepositery expRepo = new ExpanseRepositery();
+            Expanses exp = new Expanses();
             var idCustomer = Request.Form["customerSelect"];
             var idexpanseType = Request.Form["typeSelect"];
             var idprojet = Request.Form["projectSelect"];

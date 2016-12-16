@@ -18,9 +18,13 @@ namespace Project_NotesDeFrais.Controllers
         }
 
 
-        public void createProject(Projects projet , Guid id_Customer)
+        public ActionResult createProject(Projects projetModel , Guid id_Customer)
         {
+            if (!ModelState.IsValid) {
+                return View("ProjectFormulaire", projetModel);
+            }
             ProjetRepositery prtRep = new ProjetRepositery();
+            Projects projet = new Projects();
             projet.Project_ID = Guid.NewGuid();
             projet.Name = Convert.ToString(Request.Form["Name"]);
             projet.Description = Convert.ToString(Request.Form["Description"]);
@@ -28,6 +32,7 @@ namespace Project_NotesDeFrais.Controllers
             projet.Customer_ID = id_Customer;
             projet.Pole_ID = prtRep.maxIdPoles();
             prtRep.AddProjet(projet);
+            return RedirectToAction("AllProjets");
         }
 
         public ActionResult edit(Guid id)

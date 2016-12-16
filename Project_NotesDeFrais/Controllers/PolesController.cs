@@ -16,13 +16,18 @@ namespace Project_NotesDeFrais.Controllers
             return View("PoleFormulaire");
         }
 
-        public void createPole(Poles pole)
+        public ActionResult createPole(PolesModel poleModel)
         {
+            if (!ModelState.IsValid) {
+                return View("PoleFormulaire", poleModel);
+            }
+            Poles pole = new Poles();
             PolesRepository polRep = new PolesRepository();
             pole.Pole_ID = Guid.NewGuid();
             pole.Name = Convert.ToString(Request.Form["Name"]);
             pole.Manager_ID = polRep.maxIdEmployer();
             polRep.AddPoles(pole);
+            return RedirectToAction("AllPoles");
         }
 
         public ActionResult Edit(Guid id)

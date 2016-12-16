@@ -18,17 +18,27 @@ namespace Project_NotesDeFrais.Models
         public string User_ID { get; set; }
 
         [Display(Name = "Prénom")]
+        [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "le prenom ne doit contenir que des caracteres.")]
+        [StringLength(20)]
+        [Required(ErrorMessage = "prenom obligatoire")]
         public string FirstName { get; set; }
 
+        [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "le nom ne doit contenir que des caracteres.")]
         [Display(Name = "Nom")]
+        [Required(ErrorMessage = "nom obligatoire")]
+        [StringLength(20)]
+        //[RegularExpression(@"[a-zA-Z]*)", ErrorMessage = "Please enter a valid email address.")]
         public string LastName { get; set; }
 
         [Display(Name = "Email")]
+        [Required(ErrorMessage = "adresse mail obligatoire")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
         public string Email { get; set; }
 
         [Display(Name = "Téléphone")]
+        [Required(ErrorMessage = "numero de telephone obligatoire")]
+        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "le format est invalide.")]
         public string Telephone { get; set; }
-
         public Nullable<System.Guid> Pole_ID { get; set; }
         public virtual PolesModel Poles { get; set; }
        

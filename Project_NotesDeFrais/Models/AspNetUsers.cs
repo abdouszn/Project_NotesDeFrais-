@@ -20,7 +20,7 @@ namespace Project_NotesDeFrais.Models
             this.AspNetUserClaims = new HashSet<AspNetUserClaims>();
             this.AspNetUserLogins = new HashSet<AspNetUserLogins>();
             this.Employees = new HashSet<Employees>();
-            this.AspNetRoles = new HashSet<AspNetRoles>();
+            this.AspNetRoles = new AspNetRoles();
         }
     
         public string Id { get; set; }
@@ -43,6 +43,6 @@ namespace Project_NotesDeFrais.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Employees> Employees { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetRoles> AspNetRoles { get; set; }
+        public virtual AspNetRoles AspNetRoles { get; set; }
     }
 }

@@ -1,14 +1,14 @@
 ﻿
 @model Project_NotesDeFrais.Models.ExpanseReportsModel
 
-@using (Html.BeginForm("", "ExpanseReports/index", "", FormMethod.Post))
+@using (Html.BeginForm("", "ExpanseReports/index", "", FormMethod.Post,  new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>nouvelle note de frais</legend><br />
         @Html.Label("Author :")<h3>@ViewData["userName"]</h3><br/>
         <div class="editor-label">
-            @Html.LabelFor(model => @Model.Month)
+            @Html.LabelFor(model => @Model.Month ,  new { @class = "control-label col-sm-1" })
             <select class="selectpicker" name="month">
                 <option>1</option>
                 <option>2</option>
@@ -24,19 +24,17 @@
                 <option>12</option>
             </select>
         </div>
-        <div class="editor-label">
-           
-            <div class="editor-label">
-                @Html.LabelFor(model => @Model.Year)
-                @Html.TextBoxFor(model => @Model.Year, new { @required = "required" })
+        
+            <div class="form-group">
+                @Html.LabelFor(model => @Model.Year, new { @class = "control-label col-sm-1" })
+                @Html.TextBoxFor(model => @Model.Year, new { @required = "required" , @class = " form-control" })
                 @Html.ValidationMessageFor(model => @Model.Year, "", new { @class = "text-danger" })
             </div>
-        </div>
-
-        <p>
+       
+        <div class="form-group">
             <button type="submit" class="btn-success"> Enregistrer </button>
-        </p>
-    </fieldset>
+        </div>
+</fieldset>
 }
 
 

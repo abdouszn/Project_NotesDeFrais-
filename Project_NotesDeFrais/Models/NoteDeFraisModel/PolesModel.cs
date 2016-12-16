@@ -19,6 +19,8 @@ namespace Project_NotesDeFrais.Models
         public System.Guid Pole_ID { get; set; }
 
         [Display(Name = "Nom du pôle")]
+        [Required(ErrorMessage = "champs obligatoire")]
+        [StringLength(20)]
         public string Name { get; set; }
 
         public System.Guid Manager_ID { get; set; }

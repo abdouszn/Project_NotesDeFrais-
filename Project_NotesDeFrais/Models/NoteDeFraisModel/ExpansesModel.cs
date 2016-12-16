@@ -21,12 +21,18 @@ namespace Project_NotesDeFrais.Models
         public System.Guid Project_ID { get; set; }
 
         [Display(Name = "Montant HT")]
+        [Required(ErrorMessage = "champs obligatoire")]
+        [Range(0, double.MaxValue, ErrorMessage = "veuillez inserer une double")]
         public double Amount_HT { get; set; }
 
         [Display(Name = "Montant TVA")]
+        [Required(ErrorMessage = "champs obligatoire")]
+        [Range(0, double.MaxValue, ErrorMessage = "veuillez inserer une double")]
         public double Amount_TVA { get; set; }
 
         [Display(Name = "Montant TTC")]
+        [Required(ErrorMessage = "champs obligatoire")]
+        [Range(0, double.MaxValue, ErrorMessage = "veuillez inserer une double")]
         public double Amount_TTC { get; set; }
 
         public virtual CustomersModel Customers { get; set; }

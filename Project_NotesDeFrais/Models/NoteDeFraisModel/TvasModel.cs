@@ -18,9 +18,13 @@ namespace Project_NotesDeFrais.Models
         public System.Guid TVA_ID { get; set; }
 
         [Display(Name = "Nom du produit")]
+        [Required(ErrorMessage = "champs obligatoire")]
+        [StringLength(20)]
         public string Name { get; set; }
 
+        [Required(ErrorMessage = "champs obligatoire")]
         [Display(Name = "Valeur TVA du produit")]
+        [Range(0, double.MaxValue, ErrorMessage = "veuillez inserer une double")]
         public double Value { get; set; }
         public virtual ICollection<ExpanseTypesModel> ExpanseTypes { get; set; }
     }

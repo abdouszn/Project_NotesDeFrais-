@@ -18,6 +18,9 @@ namespace Project_NotesDeFrais.Models
         public System.Guid ExpenseType_ID { get; set; }
 
         [Display(Name = "Nom")]
+        [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "le nom ne doit contenir que des caracteres.")]
+        [StringLength(20)]
+        [Required(ErrorMessage = "nom obligatoire")]
         public string Name { get; set; }
 
         public Nullable<double> Ceiling { get; set; }

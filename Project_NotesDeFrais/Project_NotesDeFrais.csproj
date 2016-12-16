@@ -208,6 +208,7 @@
     <Compile Include="Controllers\NotesDeFraisController.cs" />
     <Compile Include="Controllers\PolesController.cs" />
     <Compile Include="Controllers\ProjetController.cs" />
+    <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\TvasController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -252,6 +253,7 @@
     <Compile Include="Models\NoteDeFraisModel\ExpanseTypesModel.cs" />
     <Compile Include="Models\NoteDeFraisModel\PolesModel.cs" />
     <Compile Include="Models\NoteDeFraisModel\ProjectsModel.cs" />
+    <Compile Include="Models\NoteDeFraisModel\RolesModel.cs" />
     <Compile Include="Models\NoteDeFraisModel\TvasModel.cs" />
     <Compile Include="Models\PaginatedList.cs" />
     <Compile Include="Models\Reposirery\CustomerRepositery.cs" />
@@ -283,6 +285,7 @@
     </Compile>
     <Compile Include="Models\Reposirery\PolesRepository.cs" />
     <Compile Include="Models\Reposirery\ProjetRepositery.cs" />
+    <Compile Include="Models\Reposirery\RolesRepositery.cs" />
     <Compile Include="Models\Reposirery\TvasRepositery.cs" />
     <Compile Include="Models\Tvas.cs">
       <DependentUpon>ProjectModel.tt</DependentUpon>
@@ -399,6 +402,7 @@
     <Content Include="Views\ExpanseTypes\EditExpansesTypes.cshtml" />
     <Content Include="Views\Expanses\EditExpanses.cshtml" />
     <Content Include="Views\ExpanseReports\_modifExpanseReports.cshtml" />
+    <Content Include="Views\Roles\CreateRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

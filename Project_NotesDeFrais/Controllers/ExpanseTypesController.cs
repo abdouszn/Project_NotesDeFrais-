@@ -17,8 +17,12 @@ namespace Project_NotesDeFrais.Controllers
         }
 
 
-        public void createExpansTypes(ExpanseTypes expansType)
+        public ActionResult createExpansTypes(ExpanseTypesModel expansTypeModel)
         {
+            if (!ModelState.IsValid) {
+                return View("ExpansTypeFormulaire");
+            }
+            ExpanseTypes expansType = new ExpanseTypes();
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
             expansType.ExpenseType_ID = Guid.NewGuid();
             expansType.Name = Convert.ToString(Request.Form["Name"]);
@@ -27,6 +31,7 @@ namespace Project_NotesDeFrais.Controllers
             expansType.OnlyManagers= Convert.ToBoolean(Request.Form["OnlyManagers"]);
             expansType.Tva_ID = expTypeRep.maxIdTva();
             expTypeRep.AddExpanseType(expansType);
+            return RedirectToAction("AllExpanseTypes");
         }
 
         public ActionResult edit(Guid id) {

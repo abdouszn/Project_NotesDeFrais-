@@ -4,21 +4,20 @@
 }
 
 <h2></h2>
-@using (Html.BeginForm("", "Poles/createPole", "", FormMethod.Post))
+@using (Html.BeginForm("", "Poles/createPole", "", FormMethod.Post, new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Nouveau produit</legend>
 
     <div class="editor-label">
-        @Html.LabelFor(model => @Model.Name)
-        @Html.TextBoxFor(model => @Model.Name, new { @required = "required" })
+        @Html.LabelFor(model => @Model.Name, new { @class = "control-label col-sm-1" })
+        @Html.TextBoxFor(model => @Model.Name, new { @required = "required", @class = " form-control" })
         @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
     </div>
-        <p>
-            <button type="submit" class="btn-success"> Enregistrer </button>
-        </p>
-
+    <div class="form-group">
+        <button type="submit" class="btn-success"> Enregistrer </button>
+    </div>
     </fieldset>
 }
 

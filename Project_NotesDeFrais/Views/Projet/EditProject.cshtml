@@ -2,30 +2,30 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@using (Html.BeginForm("updateProject", "Projet", new { id = @Model.Project_ID}, FormMethod.Post))
+@using (Html.BeginForm("updateProject", "Projet", new { id = @Model.Project_ID}, FormMethod.Post , new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
       
 
         <div class="editor-label">
-            @Html.LabelFor(model => @Model.Name)
-            @Html.TextBoxFor(model => @Model.Name, new { @required = "required" })
+            @Html.LabelFor(model => @Model.Name, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Name, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => @Model.Description)
-            @Html.TextBoxFor(model => @Model.Description, new { @required = "required" })
+            @Html.LabelFor(model => @Model.Description, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Description, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Description, "", new { @class = "text-danger" })
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => @Model.Budget)
-            @Html.TextBoxFor(model => @Model.Budget, new { @required = "required" })
+            @Html.LabelFor(model => @Model.Budget, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Budget, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Budget, "", new { @class = "text-danger" })
         </div>
-        <p>
+        <div class="form-group">
             <button type="submit" class="btn-success"> Enregistrer </button>
-        </p>
+        </div>
     </fieldset>
 }
 

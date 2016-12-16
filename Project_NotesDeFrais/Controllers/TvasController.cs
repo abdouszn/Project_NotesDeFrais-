@@ -16,13 +16,18 @@ namespace Project_NotesDeFrais.Controllers
             return View("TvasFormulaire");
         }
 
-        public void createTvas(Tvas tva)
+        public ActionResult createTvas(TvasModel tvaModel)
         {
+            if (!ModelState.IsValid) {
+                return View("TvasFormulaire", tvaModel);
+            }
             TvasRepositery tvaRep = new TvasRepositery();
+            Tvas tva = new Models.Tvas();
             tva.TVA_ID = Guid.NewGuid();
             tva.Name= Convert.ToString(Request.Form["Name"]);
             tva.Value = Convert.ToDouble(Request.Form["Value"]);
             tvaRep.AddTva(tva);
+            return RedirectToAction("AllTvas");
         }
 
         public ActionResult edit(Guid id) {

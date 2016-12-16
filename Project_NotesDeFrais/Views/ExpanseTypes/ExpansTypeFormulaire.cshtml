@@ -3,33 +3,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm("", "ExpanseTypes/createExpansTypes", "", FormMethod.Post))
+@using (Html.BeginForm("", "ExpanseTypes/createExpansTypes", "", FormMethod.Post , new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Nouveau produit</legend>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Name)
-            @Html.TextBoxFor(model => @Model.Name, new { @required = "required" })
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.Name ,new { @class = "control-label col-sm-1" } )
+            @Html.TextBoxFor(model => @Model.Name, new { @required = "required" , @class= "form-control" })
             @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Ceiling)
-            @Html.TextBoxFor(model => @Model.Ceiling, new { @required = "required" })
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.Ceiling, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Ceiling, new { @required = "required", @class = "form-control" })
             @Html.ValidationMessageFor(model => @Model.Ceiling, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Fixed)
-            <input type="checkbox" name="Fixed" value="true" />
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.Fixed, new { @class = "control-label col-sm-1" })
+            <input type="checkbox" name="Fixed" value="true"  />
             @Html.ValidationMessageFor(model => @Model.Fixed, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.OnlyManagers)
-            <input type="checkbox" name="OnlyManagers" value="true" />
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.OnlyManagers, new { @class = "control-label col-sm-1" })
+            <input type="checkbox" name="OnlyManagers" value="true"  />
             @Html.ValidationMessageFor(model => @Model.OnlyManagers, "", new { @class = "text-danger" })
         </div>
-        <p>
+        <div class="form-group">
             <button type="submit" class="btn-success"> Enregistrer </button>
-        </p>
-    </fieldset>
+        </div>
+</fieldset>
 }

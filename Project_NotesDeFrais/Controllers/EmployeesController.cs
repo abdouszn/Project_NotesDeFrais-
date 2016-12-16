@@ -15,10 +15,14 @@ namespace Project_NotesDeFrais.Controllers
             return View("EmployesFormulaire");
         }
 
-        public void CreateEmploye(Employees emp)
+        public ActionResult CreateEmploye(EmployeesModel empModel)
         {
             EmployesRepositery empRp = new EmployesRepositery();
-
+            Employees emp = new Employees();
+            if (!ModelState.IsValid)
+            {
+                return View("EmployesFormulaire",empModel);
+            }
             emp.Employee_ID = Guid.NewGuid();
             emp.User_ID = empRp.maxIdUser();
             emp.Pole_ID = empRp.maxIdPoles();
@@ -27,6 +31,7 @@ namespace Project_NotesDeFrais.Controllers
             emp.Email= Convert.ToString(Request.Form["Email"]);
             emp.Telephone = Convert.ToString(Request.Form["Telephone"]);
             empRp.AddEmployes(emp);
+            return RedirectToAction("AllEmployees");
 
         }
 

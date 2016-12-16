@@ -1,0 +1,28 @@
+﻿@model  Project_NotesDeFrais.Models.NoteDeFraisModel.RolesModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2></h2>
+@using (Html.BeginForm("createRole", "Roles", "", FormMethod.Post  , new { @class = "form-vertical", role = "form" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Nouveau produit</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Name, new { @class = "control-label col-sm-1" })
+            <select class="selectpicker" name="roleSelected">
+                <option>Admin</option>
+                <option>Comptable</option>
+            </select>
+                @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn-success"> Enregistrer </button>
+        </div>
+
+    </fieldset>
+}
+
+

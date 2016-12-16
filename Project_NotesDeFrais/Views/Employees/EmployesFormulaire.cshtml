@@ -9,34 +9,34 @@
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Nouveau Employer</legend>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.FirstName)
-            @Html.TextBoxFor(model => @Model.FirstName, new { @required = "required" , @class = " form-control" })
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.FirstName,  new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.FirstName, new {  @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.FirstName, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
             
-            @Html.LabelFor(model => @Model.LastName)
-            @Html.TextBoxFor(model => @Model.LastName, new { @required = "required" , @class = " form-control" })
+            @Html.LabelFor(model => @Model.LastName, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.LastName, new {  @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.LastName, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
           
 
-            @Html.LabelFor(model => @Model.Email)
-            @Html.TextBoxFor(model => @Model.Email, new { type = "email" , @required = "required", @class= " form-control" })
+            @Html.LabelFor(model => @Model.Email, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Email, new {@class= " form-control" })
             @Html.ValidationMessageFor(model => @Model.Email, "", new { @class = "text-danger" })
         </div>
 
-        <div class="editor-label">
-           
-            @Html.LabelFor(model => @Model.Telephone)
-            @Html.TextBoxFor(model => @Model.Telephone, new { @required = "required" , @class = " form-control" })
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.Telephone, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Telephone, new {@class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Telephone, "", new { @class = "text-danger" })
         </div>
-        <p>
+
+        <div class="form-group">
             <button type="submit" class="btn-success"> Enregistrer </button>
-        </p>
+        </div>
     </fieldset>
 }
 

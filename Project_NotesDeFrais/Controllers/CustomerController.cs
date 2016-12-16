@@ -16,12 +16,17 @@ namespace Project_NotesDeFrais.Controllers
             return View("CostumerFormulaire");
         }
 
-        public void createCustomer(Customers customer) {
+        public ActionResult createCustomer(CustomersModel customerModel) {
+            if (!ModelState.IsValid) {
+                return View("CostumerFormulaire", customerModel);
+            }
+            Customers customer = new Customers();
             CustomerRepositery costRep = new CustomerRepositery();
             customer.Customer_ID = Guid.NewGuid();
             customer.Name= Convert.ToString(Request.Form["Name"]);
             customer.Code= Convert.ToString(Request.Form["Code"]);
             costRep.AddCostumers(customer);
+            return RedirectToAction("AllCustomer");
         }
 
         public ActionResult Edit(Guid id)

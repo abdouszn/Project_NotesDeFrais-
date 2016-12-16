@@ -1,13 +1,13 @@
 ﻿@model  Project_NotesDeFrais.Models.ExpanseReportsModel
 
-@using (Html.BeginForm("modifCommentExpanseReports", "ExpanseReports", new { idExpanseReport = @Model.ExpanseReport_ID}, FormMethod.Post))
+@using (Html.BeginForm("modifCommentExpanseReports", "ExpanseReports", new { idExpanseReport = @Model.ExpanseReport_ID}, FormMethod.Post, new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
         <legend>Commentaire de modification</legend>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.ManagerComment)
-            @Html.TextAreaFor(model => @Model.ManagerComment, new { @required = "required" })
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.ManagerComment, new { @class = "control-label col-sm-1" })
+            @Html.TextAreaFor(model => @Model.ManagerComment, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.ManagerComment, "", new { @class = "text-danger" })
         </div>
         <p>

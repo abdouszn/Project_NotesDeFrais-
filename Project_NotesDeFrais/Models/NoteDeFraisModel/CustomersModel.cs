@@ -19,8 +19,13 @@ namespace Project_NotesDeFrais.Models
         public System.Guid Customer_ID { get; set; }
 
         [Display(Name = "Nom")]
+        [StringLength(20)]
+        [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "le nom ne doit contenir que des caracteres.")]
+        [Required(ErrorMessage = "nom obligatoire")]
         public string Name { get; set; }
 
+        [StringLength(20)]
+        [Required(ErrorMessage = "prenom obligatoire")]
         [Display(Name = "Code")]
         public string Code { get; set; }
 
