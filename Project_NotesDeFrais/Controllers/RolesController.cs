@@ -30,9 +30,9 @@ namespace Project_NotesDeFrais.Controllers
                 roleManager.Create(role);
                 //Here we create a Admin super user who will maintain the website                  
                 var user = new ApplicationUser();
-                user.UserName = "admin";
+                user.UserName = "admin@admin.com";
                 user.Email = "admin@admin.com";
-                string userPWD = "@zerty2016";
+                string userPWD = "@AZERTY12";
 
                 var chkUser = UserManager.Create(user, userPWD);
 

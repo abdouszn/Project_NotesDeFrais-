@@ -55,6 +55,28 @@ namespace Project_NotesDeFrais.Models.Reposirery
             }
         }
 
+        public IQueryable<AspNetUsers> getAllUsers() {
+            var Users = e.AspNetUsers.OrderBy(r => r.Id);
+            return Users;
+        }
+
+        public AspNetUsers getUserByMail(String email) {
+            AspNetUsers user = (from e in e.AspNetUsers where e.Email == email select e).FirstOrDefault();
+            return user;
+        }
+
+
+        public IQueryable<Poles> getAllPoles()
+        {
+            var poles = e.Poles.OrderBy(r => r.Pole_ID);
+            return poles;
+        }
+
+        public Poles getPoleByName(String name)
+        {
+            Poles pole = (from e in e.Poles where e.Name == name select e).FirstOrDefault();
+            return pole;
+        }
 
         public void Delete(ExpanseReports expRep)
         {

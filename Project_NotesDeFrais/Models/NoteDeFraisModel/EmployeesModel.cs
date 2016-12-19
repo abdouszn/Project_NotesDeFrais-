@@ -48,5 +48,8 @@ namespace Project_NotesDeFrais.Models
        
         public virtual ICollection<PolesModel> Poles1 { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }
+
+       public virtual List<AspNetUsers> AspNetUsersList { get; set; }
+       public virtual List<Poles> polesList { get; set; }
     }
 }

@@ -60,15 +60,19 @@
     @Html.ActionLink("nouveau frais", "popup", "expanses", new { idExpanseReport = @ViewData["idExpanseReport"] }, new {@class= "btn btn-primary", id = "ajoutType" })
     @Html.ActionLink("notes de frais", "AllExpansesReports", "ExpanseReports","", new { @class = "btn btn-default" })
 
-    @if (code == 0 || code == 15 || code==25 /*&& User.IsInRole("Employer")*/)
+    @if (code==00 || code==15 || code==25)
     {
+        
         <a  href="@Url.Action("AllExpanses", "Expanses", new { idExpanseReport = @idExpRep })"><input type="button" value="enregistrer" class="btn btn-success" /></a>
-        <a href="@Url.Action("annulExpanseReports", "ExpanseReports", new { idExpanseReport = @idExpRep })"><input type="button" value="enregistrer" class="btn btn-success" /></a>
+        <a href="@Url.Action("annulExpanseReports", "ExpanseReports", new { idExpanseReport = @idExpRep })"><input type="button" value="annuler" class="btn btn-success" /></a>
     }
     <a  href="@Url.Action("validateExpanseReport", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" /></a>
    
-    @Html.ActionLink("demander des modification", "modifExpanseReports", "ExpanseReports", new { idExpanseReport = @ViewData["idExpanseReport"] }, new {@class= "btn btn-primary" , id = "modif" })
+    @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Comptable"))
+    {
 
+        @Html.ActionLink("demander des modification", "modifExpanseReports", "ExpanseReports", new { c = @ViewData["idExpanseReport"] }, new { @class = "btn btn-primary", id = "modif" })
+    }
    <div id='myModal' class='modal fade in' style="padding:10px;">
         <div class="modal-dialog">
             <div class="modal-content">

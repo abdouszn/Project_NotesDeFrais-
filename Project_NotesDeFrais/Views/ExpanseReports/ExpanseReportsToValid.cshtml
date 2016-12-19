@@ -1,0 +1,51 @@
+﻿@model   Project_NotesDeFrais.Models.PaginatedList<Project_NotesDeFrais.Models.ExpanseReportsModel>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Les Notes de Frais</h2>
+
+@using (Ajax.BeginForm("Searche", "ExpanseReports", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "SuccessMessage",
+    OnFailure = "FailMessage",
+    UpdateTargetId = "projectTable"
+}))
+{
+    @Html.AntiForgeryToken()
+    <input type="text" name="query" />
+    <input type="submit" value="Search" class="btn-success" />
+
+}
+<br />
+<br />
+<div id="projectTable">
+    <table class="table table-striped">
+        <th>Employee name</th>
+        <th>Date de Creation</th>
+        <th> Status</th>
+        <th>Total HT</th>
+        <th>Total TVA</th>
+        <th>Total TTC</th>
+        <th>Editer</th>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Employees.FirstName</td>
+                <td>@s.CreationDate.ToShortDateString()</td>
+                <td>@s.StatusCode</td>
+                <td>@s.Total_HT</td>
+                <td>@s.Total_TVA</td>
+                <td>@s.Total_TTC</td>
+                <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("AllExpanses", "Expanses", new { idExpanseReport = s.ExpanseReport_ID }) + "'");" /></td>             
+            </tr>
+        }
+    </table>
+    <br />
+    <a href="?pageIndex=@(Model.PageIndex + 1)"><input type="button" value="suivant >>" class="btn btn-default" /></a>
+    <a href="?pageIndex=@(Model.PageIndex - 1)"><input type="button" value="<< precedent " class="btn btn-default" /></a>
+</div>
+
+

@@ -57,7 +57,7 @@ namespace Project_NotesDeFrais.Controllers
         {
             ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
             var countElementPage = 10;
-            var expansesReports = expRepRepo.allExpanseReports(new Guid());
+            var expansesReports = expRepRepo.allExpanseReports();
             List<ExpanseReportsModel> expanseReportModelList = new List<ExpanseReportsModel>();
 
             foreach (var exp in expansesReports)

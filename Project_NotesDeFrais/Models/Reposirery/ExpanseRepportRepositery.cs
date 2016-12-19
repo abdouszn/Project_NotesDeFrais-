@@ -34,9 +34,9 @@ namespace Project_NotesDeFrais.Models.Reposirery
             Save();
         }
 
-        public IQueryable<ExpanseReports> allExpanseReports(Guid employerId)
+        public IQueryable<ExpanseReports> allExpanseReports()
         {
-            var expansesRepport = (from s in e.ExpanseReports where s.Employee_ID==employerId select s).OrderBy(r => r.Year);
+            var expansesRepport = (from s in e.ExpanseReports  select s).OrderBy(r => r.Year);
             return expansesRepport;
         }
 

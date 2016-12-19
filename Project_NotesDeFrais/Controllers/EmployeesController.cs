@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Project_NotesDeFrais.Controllers
 {
@@ -12,20 +13,27 @@ namespace Project_NotesDeFrais.Controllers
     {
         public ActionResult Index()
         {
-            return View("EmployesFormulaire");
+            EmployeesModel empModel = new EmployeesModel();
+            EmployesRepositery empRp = new EmployesRepositery();
+
+            empModel.AspNetUsersList = empRp.getAllUsers().ToList();
+            empModel.polesList = empRp.getAllPoles().ToList();
+            return View("EmployesFormulaire" , empModel);
         }
 
         public ActionResult CreateEmploye(EmployeesModel empModel)
         {
             EmployesRepositery empRp = new EmployesRepositery();
             Employees emp = new Employees();
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
+                empModel.AspNetUsersList = empRp.getAllUsers().ToList();
+                empModel.polesList = empRp.getAllPoles().ToList();
                 return View("EmployesFormulaire",empModel);
-            }
+            }*/
             emp.Employee_ID = Guid.NewGuid();
-            emp.User_ID = empRp.maxIdUser();
-            emp.Pole_ID = empRp.maxIdPoles();
+            emp.User_ID = empRp.getUserByMail(Convert.ToString(Request.Form["userList"])).Id;
+            emp.Pole_ID = empRp.getPoleByName(Convert.ToString(Request.Form["polesList"])).Pole_ID;
             emp.FirstName = Convert.ToString(Request.Form["FirstName"]);
             emp.LastName = Convert.ToString(Request.Form["LastName"]);
             emp.Email= Convert.ToString(Request.Form["Email"]);

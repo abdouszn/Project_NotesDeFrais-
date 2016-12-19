@@ -403,6 +403,7 @@
     <Content Include="Views\Expanses\EditExpanses.cshtml" />
     <Content Include="Views\ExpanseReports\_modifExpanseReports.cshtml" />
     <Content Include="Views\Roles\CreateRoles.cshtml" />
+    <Content Include="Views\ExpanseReports\ExpanseReportsToValid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

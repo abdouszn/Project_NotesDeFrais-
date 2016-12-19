@@ -3,40 +3,60 @@
  @{ 
      Layout = "~/Views/Shared/_Layout.cshtml";
          }
-<h2>Creation Employer</h2>
-@using (Html.BeginForm("", "Employees/CreateEmploye", "", FormMethod.Post, new { @class="form-vertical", role="form" }))
-{
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>Nouveau Employer</legend>
-        <div class="form-group">
-            @Html.LabelFor(model => @Model.FirstName,  new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.FirstName, new {  @class = " form-control" })
-            @Html.ValidationMessageFor(model => @Model.FirstName, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            
-            @Html.LabelFor(model => @Model.LastName, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.LastName, new {  @class = " form-control" })
-            @Html.ValidationMessageFor(model => @Model.LastName, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-          
 
-            @Html.LabelFor(model => @Model.Email, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.Email, new {@class= " form-control" })
-            @Html.ValidationMessageFor(model => @Model.Email, "", new { @class = "text-danger" })
-        </div>
+    <h2>Creation Employer</h2>
+    @using (Html.BeginForm("", "Employees/CreateEmploye", "", FormMethod.Post, new { @class = "form-vertical", role = "form" }))
+    {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>Nouveau Employer</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => @Model.FirstName, new { @class = "control-label col-sm-1" })
+                @Html.TextBoxFor(model => @Model.FirstName, new { @class = " form-control" })
+                @Html.ValidationMessageFor(model => @Model.FirstName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => @Model.LastName, new { @class = "control-label col-sm-1" })
+                @Html.TextBoxFor(model => @Model.LastName, new { @class = " form-control" })
+                @Html.ValidationMessageFor(model => @Model.LastName, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
 
-        <div class="form-group">
-            @Html.LabelFor(model => @Model.Telephone, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.Telephone, new {@class = " form-control" })
-            @Html.ValidationMessageFor(model => @Model.Telephone, "", new { @class = "text-danger" })
-        </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn-success"> Enregistrer </button>
-        </div>
-    </fieldset>
-}
+                @Html.LabelFor(model => @Model.Email, new { @class = "control-label col-sm-1" })
+                @Html.TextBoxFor(model => @Model.Email, new { @class = " form-control" })
+                @Html.ValidationMessageFor(model => @Model.Email, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => @Model.Telephone, new { @class = "control-label col-sm-1" })
+                @Html.TextBoxFor(model => @Model.Telephone, new { @class = " form-control" })
+                @Html.ValidationMessageFor(model => @Model.Telephone, "", new { @class = "text-danger" })
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => @Model.AspNetUsers)
+                <select class="selectpicker" name="userList">
+                    @foreach (var u in Model.AspNetUsersList)
+                {
+                        <option>@u.Email</option>
+                    }
+
+                </select>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => @Model.Poles)
+                <select class="selectpicker" name="polesList">
+                    @foreach (var u in Model.polesList)
+                {
+                        <option>@u.Name</option>
+                    }
+
+                </select>
+            </div>
+                <div class="form-group">
+                    <button type="submit" class="btn-success"> Enregistrer </button>
+                </div>
+</fieldset>
+    }
 
