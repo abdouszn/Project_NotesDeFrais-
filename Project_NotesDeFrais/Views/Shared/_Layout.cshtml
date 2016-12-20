@@ -23,8 +23,23 @@
                 @Html.ActionLink("Accueil", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Utilisateurs et Droit", "Index", "Home")</li>
+                <ul class="nav navbar-nav" role="navigation">
+                    <li class="dropdown"><a data-toggle = "dropdown"  class = "dropdown-toggle" href="#" >Utilisateur et droit <b class="caret"></b></a>
+                        <ul class="dropdown-menu" role="navigation">
+                            <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">Employés <b class="caret"></b></a>
+                                <ul class="dropdown-submenu" role="navigation">
+                                    <li>@Html.ActionLink("Creer un employer", "Index", "Employees")</li>
+                                    <li>@Html.ActionLink("Les employés", "AllEmployees", "Employees")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Roles<b class="caret"></b></a>
+                                <ul class="dropdown-submenu" role="navigation">
+                                    <li>@Html.ActionLink("Creer un Role", "Index", "Roles")</li>
+                                    <li>@Html.ActionLink("Les roles", "allRoles", "Roles")</li>
+                                </ul>
+                            </li> 
+                        </ul>
+                    </li>
                     <li>@Html.ActionLink("Gestion des Données", "About", "Home")</li>
                     <li>@Html.ActionLink("Notes de Frais", "createExpanseReportsDateDay", "ExpanseReports", new { userName = User.Identity.Name} ,new { id = "dayMonth" })</li>
                 </ul>
@@ -50,6 +65,7 @@
     @RenderSection("scripts", required: false)
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/bootstrap.min")
     @Scripts.Render("~/Scripts/popup.js")
 </body>
 </html>
