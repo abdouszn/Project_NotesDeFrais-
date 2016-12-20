@@ -76,16 +76,22 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return projectId;
         }
 
-        /* public List<SimulationModel> AllByUser(String user) {
-         var simulations = (from s in e.Simulations where s.NomClient == user select s);
-           return (List < SimulationModel >) simulations;
-    }*/
+        public IQueryable<Customers> getAllCustomers() {
+            using (new NotesDeFraisEntities())
+            {
+                var Customers = (from p in e.Customers  select p);
+                return Customers;
+            }
+        }
 
-
-        /* public List<SimulationModel> AllByUserAboveToTreshold(String user , int Capital){
-             var simulations = (from s in e.Simulations where (s.NomClient == user && s.Capital>Capital)  select s);
-             return (List<SimulationModel>)simulations;
-         }*/
+        public IQueryable<Poles> getAllPoles()
+        {
+            using (new NotesDeFraisEntities())
+            {
+                var poles = (from p in e.Poles select p);
+                return poles;
+            }
+        }
 
 
         public void Delete(Projects p)

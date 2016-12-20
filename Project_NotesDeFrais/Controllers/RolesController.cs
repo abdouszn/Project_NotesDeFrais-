@@ -43,7 +43,24 @@ namespace Project_NotesDeFrais.Controllers
 
                 }
             }
-
+            if (!roleManager.RoleExists("Comptable"))
+            {
+                // first we create Admin rool   
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = "Comptable";
+                roleManager.Create(role);
+                //Here we create a Admin super user who will maintain the website                  
+                var user = new ApplicationUser();
+                user.UserName = "comptable@comptable.com";
+                user.Email = "comptable@comptable.com";
+                string userPWD = "@COMPTABLE12";
+                var chkUser = UserManager.Create(user, userPWD);
+                //Add default User to Role Admin   
+                if (chkUser.Succeeded)
+                {
+                    var result1 = UserManager.AddToRole(user.Id, "Comptable");
+                }
+            }
             return View("CreateRoles");
         }
 

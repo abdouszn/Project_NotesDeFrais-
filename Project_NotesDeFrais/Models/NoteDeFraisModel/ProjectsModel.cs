@@ -31,5 +31,7 @@ namespace Project_NotesDeFrais.Models
         public virtual CustomersModel Customers { get; set; }
         public virtual ICollection<ExpansesModel> Expanses { get; set; }
         public virtual PolesModel Poles { get; set; }
+        public virtual List<Customers> CustomersList { get; set; }
+        public virtual List<Poles> PolesList { get; set; }
     }
 }

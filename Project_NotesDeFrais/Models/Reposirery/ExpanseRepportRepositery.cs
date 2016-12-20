@@ -34,22 +34,16 @@ namespace Project_NotesDeFrais.Models.Reposirery
             Save();
         }
 
-        public IQueryable<ExpanseReports> allExpanseReports()
+        public IQueryable<ExpanseReports> allExpanseReports(Guid idEmployer)
         {
-            var expansesRepport = (from s in e.ExpanseReports  select s).OrderBy(r => r.Year);
+            var expansesRepport = (from s in e.ExpanseReports where s.Employee_ID== idEmployer select s).OrderBy(r => r.Employee_ID);
             return expansesRepport;
         }
 
-        public IQueryable<ExpanseReports> allExpanseReportsTovalide(Guid employerId)
+        public IQueryable<ExpanseReports> allExpanseReportsToValid()
         {
-            
-            string sqlString = "SELECT * FROM NotesDeFraisEntities.ExpanseReports " +
-                    " AS exp WHERE exp.Employee_ID"+ employerId + "AND exp.StatusCode == 00 OR exp.StatusCode == 10 OR exp.StatusCode == 15" +
-                    "OR exp.StatusCode == 20 OR exp.StatusCode == 25";
-            var objctx = (e as IObjectContextAdapter).ObjectContext;
-            ObjectQuery<ExpanseReports> expRepList = objctx.CreateQuery<ExpanseReports>(sqlString);
-            var expansesRepports = expRepList.AsQueryable();
-            return expansesRepports;
+            var expansesRepport = (from s in e.ExpanseReports where s.StatusCode == 10 select s).OrderBy(r => r.Employee_ID);
+            return expansesRepport;
         }
 
         public IQueryable<ExpanseReports> getSerachingExpanseReports(String query)
@@ -102,6 +96,8 @@ namespace Project_NotesDeFrais.Models.Reposirery
                 e.SaveChanges();
             }
         }
+
+       
 
         public void Save()
         {

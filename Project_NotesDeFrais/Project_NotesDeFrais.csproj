@@ -385,7 +385,7 @@
     <Content Include="Views\Customer\_Customers.cshtml" />
     <Content Include="Views\Poles\AllPoles.cshtml" />
     <Content Include="Views\ExpanseReports\ExpanseReportsFormulaire.cshtml" />
-    <Content Include="Views\ExpanseReports\AllExpanseReports.cshtml" />
+    <Content Include="Views\ExpanseReports\MyExpanseReports.cshtml" />
     <Content Include="Views\Expanses\ExpansesFormulaire.cshtml" />
     <Content Include="Views\Expanses\AllExpanses.cshtml" />
     <Content Include="Views\Employees\EmployesFormulaire.cshtml" />
@@ -404,6 +404,7 @@
     <Content Include="Views\ExpanseReports\_modifExpanseReports.cshtml" />
     <Content Include="Views\Roles\CreateRoles.cshtml" />
     <Content Include="Views\ExpanseReports\ExpanseReportsToValid.cshtml" />
+    <Content Include="Views\ExpanseReports\ToValid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

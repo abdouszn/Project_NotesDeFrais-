@@ -24,6 +24,26 @@
             @Html.ValidationMessageFor(model => @Model.Budget, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
+            @Html.LabelFor(model => @Model.Customers)
+            <select class="selectpicker" name="customersList">
+                @foreach (var u in Model.CustomersList)
+                {
+                    <option value="@u.Customer_ID">@u.Name</option>
+                }
+
+            </select>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => @Model.Poles)
+            <select class="selectpicker" name="polesList">
+                @foreach (var u in Model.PolesList)
+                {
+                    <option value="@u.Pole_ID">@u.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
             <button type="submit" class="btn-success"> Enregistrer </button>
         </div>
     </fieldset>

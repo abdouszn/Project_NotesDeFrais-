@@ -17,7 +17,7 @@ namespace Project_NotesDeFrais.Controllers
         }
 
         public ActionResult createCustomer(CustomersModel customerModel) {
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValidField("Name") || !ModelState.IsValidField("Code")) {
                 return View("CostumerFormulaire", customerModel);
             }
             Customers customer = new Customers();

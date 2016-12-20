@@ -60,9 +60,9 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return Users;
         }
 
-        public AspNetUsers getUserByMail(String email) {
-            AspNetUsers user = (from e in e.AspNetUsers where e.Email == email select e).FirstOrDefault();
-            return user;
+        public String getUserByMail(String email) {
+            String userId = (from e in e.AspNetUsers where e.Email == email select e.Id).FirstOrDefault();
+            return userId;
         }
 
 
@@ -72,10 +72,10 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return poles;
         }
 
-        public Poles getPoleByName(String name)
+        public Guid getPoleByName(String name)
         {
-            Poles pole = (from e in e.Poles where e.Name == name select e).FirstOrDefault();
-            return pole;
+            Guid poleId = (from e in e.Poles where e.Name == name select e.Pole_ID).FirstOrDefault();
+            return poleId;
         }
 
         public void Delete(ExpanseReports expRep)
@@ -100,8 +100,8 @@ namespace Project_NotesDeFrais.Models.Reposirery
         {
             using (new NotesDeFraisEntities())
             {
-                AspNetUsers user = (from u in e.AspNetUsers where u.Id==id select u).FirstOrDefault();
-                return user;
+                AspNetUsers userId = (from u in e.AspNetUsers where u.Id==id select u).FirstOrDefault();
+                return userId;
             }
 
         }

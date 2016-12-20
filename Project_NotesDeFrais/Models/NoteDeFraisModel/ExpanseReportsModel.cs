@@ -15,6 +15,8 @@ namespace Project_NotesDeFrais.Models
             this.Expanses = new HashSet<ExpansesModel>();
         }
 
+       
+
         public System.Guid ExpanseReport_ID { get; set; }
         public System.Guid Employee_ID { get; set; }
         public System.Guid Author_ID { get; set; }
@@ -23,8 +25,10 @@ namespace Project_NotesDeFrais.Models
         public System.DateTime CreationDate { get; set; }
 
         [Display(Name = "Année")]
+        [Range(2016, 2017, ErrorMessage = "l'année ne doit pas etre superieure à l'année actuelle")]
         public int Year { get; set; }
 
+        [Range(1, 12, ErrorMessage = "le mois ne doit pas etre superieur au mois actuel")]
         [Display(Name = "Mois")]
         public int Month { get; set; }
 

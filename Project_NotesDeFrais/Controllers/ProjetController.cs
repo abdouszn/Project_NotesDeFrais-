@@ -13,12 +13,17 @@ namespace Project_NotesDeFrais.Controllers
         // GET: Projet
         public ActionResult Index(Guid? id_Customer) 
         {
+            ProjetRepositery prtRep = new ProjetRepositery();
+            ProjectsModel prjtModel = new ProjectsModel();
+            prjtModel.CustomersList = prtRep.getAllCustomers().ToList();
+            prjtModel.PolesList = prtRep.getAllPoles().ToList();
             ViewData["id_Customer"] = id_Customer;
-            return View("ProjectFormulaire");
+
+            return View("ProjectFormulaire" , prjtModel);
         }
 
 
-        public ActionResult createProject(Projects projetModel , Guid id_Customer)
+        public ActionResult createProject(Projects projetModel , Guid? id_Customer)
         {
             if (!ModelState.IsValid) {
                 return View("ProjectFormulaire", projetModel);
@@ -29,8 +34,11 @@ namespace Project_NotesDeFrais.Controllers
             projet.Name = Convert.ToString(Request.Form["Name"]);
             projet.Description = Convert.ToString(Request.Form["Description"]);
             projet.Budget = Convert.ToDouble(Request.Form["Budget"]);
-            projet.Customer_ID = id_Customer;
-            projet.Pole_ID = prtRep.maxIdPoles();
+            if (id_Customer == null) {
+              
+            }
+            projet.Customer_ID = id_Customer != null ? (Guid)id_Customer : new Guid(Convert.ToString(Request.Form["customersList"]));
+            projet.Pole_ID = new Guid(Convert.ToString(Request.Form["polesList"]));
             prtRep.AddProjet(projet);
             return RedirectToAction("AllProjets");
         }
