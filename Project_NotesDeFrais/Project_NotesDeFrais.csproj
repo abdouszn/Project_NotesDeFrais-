@@ -405,6 +405,8 @@
     <Content Include="Views\Roles\CreateRoles.cshtml" />
     <Content Include="Views\ExpanseReports\ExpanseReportsToValid.cshtml" />
     <Content Include="Views\ExpanseReports\ToValid.cshtml" />
+    <Content Include="Views\Roles\AllRoles.cshtml" />
+    <Content Include="Views\Roles\AddUserRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

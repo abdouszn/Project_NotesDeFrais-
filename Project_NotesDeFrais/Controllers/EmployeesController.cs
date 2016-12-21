@@ -103,5 +103,40 @@ namespace Project_NotesDeFrais.Controllers
             PaginatedList<EmployeesModel> lst = new PaginatedList<EmployeesModel>(listEmp, pageIndex, countElementPage);
             return View("Allmployes", lst);
         }
+
+        public ActionResult createUserRole()
+        {
+            EmployeesModel empModel = new EmployeesModel();
+            EmployesRepositery empRp = new EmployesRepositery();
+
+            empModel.AspNetUsersList = empRp.getAllUsers().ToList();
+            empModel.polesList = empRp.getAllPoles().ToList();
+            return View("EmployesFormulaire", empModel);
+        }
+
+        public ActionResult CreateUserRoles(EmployeesModel empModel)
+        {
+            EmployesRepositery empRp = new EmployesRepositery();
+            Employees emp = new Employees();
+            if (!ModelState.IsValidField("FirstName") || !ModelState.IsValidField("LastName") ||
+               !ModelState.IsValidField("Email") || !ModelState.IsValidField("Telephone"))
+            {
+                empModel.AspNetUsersList = empRp.getAllUsers().ToList();
+                empModel.polesList = empRp.getAllPoles().ToList();
+                return View("EmployesFormulaire", empModel);
+            }
+            emp.Employee_ID = Guid.NewGuid();
+            String userUmail = Convert.ToString(Request.Form["userList"]);
+            String userName = Convert.ToString(Request.Form["polesList"]);
+            emp.User_ID = empRp.getUserByMail(userUmail);
+            emp.Pole_ID = empRp.getPoleByName(userName);
+            emp.FirstName = Convert.ToString(Request.Form["FirstName"]);
+            emp.LastName = Convert.ToString(Request.Form["LastName"]);
+            emp.Email = Convert.ToString(Request.Form["Email"]);
+            emp.Telephone = Convert.ToString(Request.Form["Telephone"]);
+            empRp.AddEmployes(emp);
+            return RedirectToAction("AllEmployees");
+
+        }
     }
 }

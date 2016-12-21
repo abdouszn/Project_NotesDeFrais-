@@ -22,6 +22,16 @@ namespace Project_NotesDeFrais.Models.Reposirery
                 e.SaveChanges();
             }
         }
+
+        public IQueryable<AspNetRoles> allRoles()
+        {
+            using (new NotesDeFraisEntities())
+            {
+                var rolesList = e.AspNetRoles.OrderBy(r=>r.Name);
+                return rolesList;
+            }
+        }
+
         public AspNetRoles getRole(String  name)
         {
             using (new NotesDeFraisEntities())
@@ -29,6 +39,10 @@ namespace Project_NotesDeFrais.Models.Reposirery
                 var role = (from s in e.AspNetRoles where s.Name == name select s).FirstOrDefault();
                 return role;
             }
+        }
+
+        public void RoleToUser(String idRole, String idUser) {
+         
         }
     }
 }

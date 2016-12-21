@@ -25,5 +25,6 @@ namespace Project_NotesDeFrais.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
+        public virtual List<AspNetUsers> AspNetUsersList { get; set; }
     }
 }

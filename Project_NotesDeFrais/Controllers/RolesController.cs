@@ -64,14 +64,18 @@ namespace Project_NotesDeFrais.Controllers
             return View("CreateRoles");
         }
 
-        public ActionResult createRole( AspNetRoles role)
-
-        { 
-            RolesRepositery rolesRep = new RolesRepositery();
-            role.Id = Convert.ToString(Request.Form["roleSelected"]);
-            role.Name = Convert.ToString(Request.Form["roleSelected"]);
-            rolesRep.addRoles(role);
-            return RedirectToAction("Index");
+        public ActionResult createRole( )
+        {
+            ApplicationDbContext context = new ApplicationDbContext();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            String nameRole= Convert.ToString(Request.Form["roleSelected"]);
+            if (!roleManager.RoleExists(nameRole))
+            {
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole();
+                role.Name = nameRole;
+                roleManager.Create(role);
+            }
+            return RedirectToAction("allRoles");
         }
 
         public AspNetRoles getRole(String name)
@@ -79,6 +83,37 @@ namespace Project_NotesDeFrais.Controllers
             RolesRepositery rolesRep = new RolesRepositery();
             return rolesRep.getRole(name);
 
+        }
+
+        public ActionResult allRoles(int? pageIndex) {
+            RolesRepositery rolRep = new RolesRepositery();
+            var listRole = rolRep.allRoles();
+            var countElementPage = 10;
+            PaginatedList<AspNetRoles> lst = new PaginatedList<AspNetRoles>(listRole, pageIndex, countElementPage);
+            return View("AllRoles", lst);
+        }
+
+        public ActionResult RolesUsers() {
+            var countElementPage = 10;
+            RolesRepositery rolRep = new RolesRepositery();
+            EmployesRepositery empRp = new EmployesRepositery(); 
+            var listRole = rolRep.allRoles();
+            foreach (var rl in listRole) {
+                rl.AspNetUsersList= empRp.getAllUsers().ToList();
+            }
+            return View("AddUserRole", listRole.ToList());
+
+        }
+
+        public ActionResult addRoleToUser() {
+            ApplicationDbContext context = new ApplicationDbContext();
+            RolesRepositery rolRep = new RolesRepositery();
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            String nameRole = Convert.ToString(Request.Form["roleSelected"]);
+            String idUser = Convert.ToString(Request.Form["userSelected"]);
+            var result1 = UserManager.AddToRole(idUser, nameRole);
+            ViewBag.ResultMessage = "Role created successfully !";
+            return RedirectToAction("RolesUsers");
         }
     }
 }
