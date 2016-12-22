@@ -173,6 +173,10 @@ namespace Project_NotesDeFrais.Controllers
             }
 
             IQueryable<ExpanseTypes> expanseTypes = expTypRepo.allExpanseTypes();
+            if (User.IsInRole("manager"))
+            {
+                expanseTypes = expTypRepo.allExpanseTypesManager();
+            }
 
             foreach (var expTpe in expanseTypes)
             {

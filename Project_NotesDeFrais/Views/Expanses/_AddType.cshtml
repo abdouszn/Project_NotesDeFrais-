@@ -66,7 +66,7 @@
         </div>
         <div class="editor-label">
             @Html.LabelFor(model => @Model.ExpanseTypes)
-            <select class="selectpicker" name="typeSelect">
+            <select class="selectpicker" name="typeSelect" id="expanseTypeSelect" onchange="selectCellingExpance();">
 
                 @foreach (var s in @Model.ExpanseTypesList)
                 {
@@ -76,15 +76,17 @@
 
         </div>
         <div class="editor-label">
-            @Html.LabelFor(model => @Model.Amount_TTC, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.Amount_TTC, new { @required = "required" })
-            @Html.ValidationMessageFor(model => @Model.Amount_TTC, "", new { @class = "text-danger" })
-        </div>
-        <div class="editor-label">
             @Html.LabelFor(model => @Model.Amount_HT, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.Amount_HT, new { @required = "required", @class = " form-control" })
+            @Html.TextBoxFor(model => @Model.Amount_HT, new { @required = "required", @class = " form-control", @id = "updatHt" })
             @Html.ValidationMessageFor(model => @Model.Amount_HT, "", new { @class = "text-danger" })
         </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => @Model.Amount_TTC, new { @class = "control-label col-sm-1" })
+            @Html.TextBoxFor(model => @Model.Amount_TTC, new { @required = "required"})
+            @Html.ValidationMessageFor(model => @Model.Amount_TTC, "", new { @class = "text-danger" })
+        </div>
+        
         <div class="editor-label">
             @Html.LabelFor(model => @Model.Amount_TVA, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Amount_TVA, new { @required = "required", @class = " form-control"})
@@ -95,25 +97,6 @@
         </div>
     </fieldset>
 }
-
-
-    <script>
-        function selectProjects() {
-            var selectedItem = $('#selectedCustomer').find(":selected").val();
-            $.ajax({
-                url: "/Expanses/ListProject",
-                data: { 'customerId': selectedItem },
-                type: "post",
-                cache: false,
-                success: function (result) {
-                    $('#projectUpdated').html(result)
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    alert("error");
-                }
-            });   
-        }
-    </script>
 
 
 

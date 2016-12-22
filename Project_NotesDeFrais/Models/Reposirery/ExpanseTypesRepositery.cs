@@ -27,43 +27,68 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public void updateExpanseType(ExpanseTypes expType, String name, double celling, Boolean fix, Boolean only) {
-
-            expType.Name = name;
-            expType.Ceiling = celling;
-            expType.Fixed = fix;
-            expType.OnlyManagers = only;
-            e.SaveChanges();
+            using (new NotesDeFraisEntities())
+            {
+                expType.Name = name;
+                expType.Ceiling = celling;
+                expType.Fixed = fix;
+                expType.OnlyManagers = only;
+                e.SaveChanges();
+            }
         }
 
         public IQueryable<ExpanseTypes> allExpanseTypes()
         {
-            var expanseTypes = e.ExpanseTypes.OrderBy(r => r.ExpenseType_ID);
-            return expanseTypes;
+            using (new NotesDeFraisEntities())
+            {
+                var expanseTypes = e.ExpanseTypes.OrderBy(r => r.ExpenseType_ID);
+                return expanseTypes;
+            }
         }
 
+        public IQueryable<ExpanseTypes> allExpanseTypesManager()
+        {
+            using (new NotesDeFraisEntities())
+            {
+                var  expanseTypes = (from s in e.ExpanseTypes where s.OnlyManagers==true select s).OrderBy(r => r.ExpenseType_ID);
+                return expanseTypes;
+            }
+        }
         public IQueryable<ExpanseTypes> getSerachingExpanses(String query)
         {
-            var expanseType = (from s in e.ExpanseTypes where s.Name.Contains(query) select s).OrderBy(r => r.ExpenseType_ID);
-            return expanseType;
+            using (new NotesDeFraisEntities())
+            {
+                var expanseType = (from s in e.ExpanseTypes where s.Name.Contains(query) select s).OrderBy(r => r.ExpenseType_ID);
+                return expanseType;
+            }
         }
 
         public Guid maxIdTva()
         {
-            var id = (from s in e.Tvas select s.TVA_ID).FirstOrDefault();
-            return id;
+            using (new NotesDeFraisEntities())
+            {
+                var id = (from s in e.Tvas select s.TVA_ID).FirstOrDefault();
+                return id;
+            }
 
         }
 
         public Guid GetIdByName(String name)
         {
-            Guid typeId = (from c in e.ExpanseTypes where c.Name == name select c.ExpenseType_ID).FirstOrDefault();
-            return typeId;
+            using (new NotesDeFraisEntities())
+            {
+                Guid typeId = (from c in e.ExpanseTypes where c.Name == name select c.ExpenseType_ID).FirstOrDefault();
+                return typeId;
+            }
         }
 
         public ExpanseTypes getById(Guid id)
         {
-            ExpanseTypes expType = (from c in e.ExpanseTypes where c.ExpenseType_ID == id select c).FirstOrDefault();
-            return expType;
+            using (new NotesDeFraisEntities())
+            {
+                ExpanseTypes expType = (from c in e.ExpanseTypes where c.ExpenseType_ID == id select c).FirstOrDefault();
+                return expType;
+            }
         }
 
         public void Save()

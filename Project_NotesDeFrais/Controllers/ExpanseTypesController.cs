@@ -19,6 +19,9 @@ namespace Project_NotesDeFrais.Controllers
 
         public ActionResult createExpansTypes(ExpanseTypesModel expansTypeModel)
         {
+            if (Convert.ToBoolean(Request.Form["Fixed"]) == true) {
+
+            }
             if (!ModelState.IsValid) {
                 return View("ExpansTypeFormulaire");
             }
@@ -63,9 +66,12 @@ namespace Project_NotesDeFrais.Controllers
             var countElementPage = 10;
             TvasRepositery tvaRepo = new TvasRepositery();
             TvasModel tvaModel = new TvasModel();
-
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
-            var expanseTypes = expTypeRep.allExpanseTypes();
+            var expanseTypes= expTypeRep.allExpanseTypes();
+            if (User.IsInRole("manager")) {
+                expanseTypes = expTypeRep.allExpanseTypesManager();
+            }
+            
             List<ExpanseTypesModel> expanseTypesModel = new List<ExpanseTypesModel>();
             foreach (var expTpe in expanseTypes)
             {
@@ -84,6 +90,16 @@ namespace Project_NotesDeFrais.Controllers
             IQueryable<ExpanseTypesModel> listEpanTypes = expanseTypesModel.AsQueryable();
             PaginatedList<ExpanseTypesModel> lst = new PaginatedList<ExpanseTypesModel>(listEpanTypes, pageIndex, countElementPage);
             return View("AllExpansesTypes", lst);
+        }
+
+        public double cellingById(Guid expanseTypeID) {
+            double celling = 0;
+            ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
+            var expAnseType = expTypeRep.getById(expanseTypeID);
+            if (expAnseType.Fixed == true) {
+                celling = (double) expAnseType.Ceiling;
+            }
+            return celling;
         }
 
         public ActionResult Searche(String query, int? pageIndex)
