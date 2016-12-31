@@ -54,6 +54,13 @@ namespace Project_NotesDeFrais.Models.Reposirery
             }
         }
 
+        public void delete(Tvas tva) {
+            using (new NotesDeFraisEntities())
+            {
+                e.Tvas.Remove(tva);
+            }
+        }
+
         public void Save()
         {
             try

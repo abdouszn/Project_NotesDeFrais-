@@ -58,6 +58,24 @@ namespace Project_NotesDeFrais.Models.Reposirery
             }
         }
 
+        public IQueryable<Projects> GetByIdPole(Guid id)
+        {
+            using (new NotesDeFraisEntities())
+            {
+                IQueryable<Projects> projet = (from p in e.Projects where p.Pole_ID == id select p);
+                return projet;
+            }
+        }
+
+        public IQueryable<Projects> GetByCustomerId(Guid id)
+        {
+            using (new NotesDeFraisEntities())
+            {
+                IQueryable<Projects> projet = (from p in e.Projects where p.Customer_ID == id select p);
+                return projet;
+            }
+        }
+
         public Customers GetByIdCutomer(Guid id)
         {
             Customers customer = (from p in e.Customers where p.Customer_ID == id select p).FirstOrDefault();
@@ -97,15 +115,8 @@ namespace Project_NotesDeFrais.Models.Reposirery
         public void Delete(Projects p)
         {
 
-            /*var ProjectCostumer = (from pr in e.Projects where (p. == c.Customer_ID) select p);
-            foreach (var prc in ProjectCostumer.ToList())
-            {
-                e.Projects.Remove(prc);
-                e.SaveChanges();
-            }*/
-
             e.Projects.Remove(p);
-            Save();
+           
         }
 
        

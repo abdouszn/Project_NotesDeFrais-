@@ -30,8 +30,8 @@
         <th>type de frais</th>
         <th>jour</th>
         <th>Amount HT</th>
-        <th>Amount TTC</th>
         <th>Amount TVA</th>
+        <th>Amount TTC</th>
         <th>Editer</th>
         <th>Supprimer</th>
         @foreach (var s in Model)
@@ -46,8 +46,8 @@
                 <td><a href="@Url.Action("Searche", "ExpanseTypes", new { query = s.ExpanseTypes.Name }) "> @s.ExpanseTypes.Name </a></td>
                 <td>@s.Day</td>
                 <td>@s.Amount_HT</td>
-                <td>@s.Amount_TTC</td>
                 <td>@s.Amount_TVA</td>
+                <td>@s.Amount_TTC</td>
                 <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("edit", "Expanses", new { idExpanse = s.Expanse_ID}) + "'");" /></td>
                 <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete", "Expanses", new { id = s.Expanse_ID }) + "'");" /></td>
             </tr>
@@ -59,7 +59,7 @@
 
     
 
-    @if (!User.IsInRole("Admin"))
+    @if (Request.IsAuthenticated && !User.IsInRole("Admin") && !User.IsInRole("Comptable"))
     {
         if (code == 00 || code == 15 || code == 25)
         {
@@ -70,13 +70,14 @@
         @Html.ActionLink("nouveau frais", "popup", "expanses", new { idExpanseReport = @ViewData["idExpanseReport"] }, new { @class = "btn btn-primary", id = "ajoutType" })
         @Html.ActionLink("notes de frais", "AllExpansesReports", "ExpanseReports", "", new { @class = "btn btn-default" })
     }
-   
-    <a  href="@Url.Action("validateExpanseReport", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" /></a>
-   
+   @if (Request.IsAuthenticated && !User.IsInRole("Admin") || !User.IsInRole("Comptable"))
+   {
+    <a  href="@Url.Action("validateExpanseReport", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" onclick="saveSuccess();" /></a>
+   }
     @if (Request.IsAuthenticated && User.IsInRole("Admin") || User.IsInRole("Comptable"))
     {
-
         @Html.ActionLink("demander des modification", "modifExpanseReports", "ExpanseReports", new { idExpanseReport = @ViewData["idExpanseReport"] }, new { @class = "btn btn-primary", id = "modif" })
+        <a href="@Url.Action("validateExpanseReportByAdminOrManager", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" onclick="saveSuccess();" /></a>
     }
    <div id='myModal' class='modal fade in' style="padding:10px;">
         <div class="modal-dialog">

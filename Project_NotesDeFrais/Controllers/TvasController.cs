@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
+    [Authorize]
     public class TvasController : Controller
     {
         // GET: Tvas
@@ -87,6 +88,20 @@ namespace Project_NotesDeFrais.Controllers
             IQueryable<TvasModel> listTvas = TvasModel.AsQueryable();
             PaginatedList<TvasModel> lst = new PaginatedList<TvasModel>(listTvas, pageIndex, countElementPage);
             return View("AllTvas", lst);
+        }
+
+        public ActionResult Delete(Guid id) {
+            ExpanseTypesRepositery expTypeRepo = new ExpanseTypesRepositery();
+            List<ExpanseTypes> expTypes = expTypeRepo.getByTvaId(id).ToList();
+            foreach (var expType in expTypes) {
+                expTypeRepo.delete(expType);
+            }
+            expTypeRepo.Save();
+            TvasRepositery tvaRepo = new TvasRepositery();
+            Tvas tva = tvaRepo.tvasById(id);
+            tvaRepo.delete(tva);
+            tvaRepo.Save();
+            return RedirectToAction("AllTvas");
         }
     }
 }

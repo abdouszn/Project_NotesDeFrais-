@@ -1,9 +1,13 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Web;
+using System.Web.Security;
 
 namespace Project_NotesDeFrais.Models.Reposirery
 {
@@ -78,11 +82,12 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return poleId;
         }
 
-        public void Delete(ExpanseReports expRep)
+        public void Delete(Employees employer)
         {
             using (new NotesDeFraisEntities())
             {
-                e.ExpanseReports.Remove(expRep);
+                e.Employees.Remove(employer);
+               
             }
         }
 
@@ -126,6 +131,28 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         }
 
+        public IQueryable<Employees> getByIdPole(Guid id) {
+            IQueryable<Employees> emp = (from e in e.Employees where e.Pole_ID == id select e);
+           
+            return emp;
+        }
+
+        public IQueryable<Employees> getEmployersManager()
+        {
+            using (new NotesDeFraisEntities())
+            {
+                ApplicationDbContext context = new ApplicationDbContext();
+                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+               
+                var userIds = roleManager.FindByName("Admin").Users.Select(e => e.UserId).ToList();
+                List<Employees> managerList = new List<Employees>();
+                foreach (var usr in userIds) {
+                   Employees employer = (from e in e.Employees where e.User_ID == usr select e).FirstOrDefault();
+                    managerList.Add(employer);
+                }
+                return managerList.AsQueryable();
+            }
+        }
 
         public void Save()
         {

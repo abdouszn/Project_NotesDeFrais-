@@ -16,14 +16,13 @@ namespace Project_NotesDeFrais.Models
         }
 
         public System.Guid Project_ID { get; set; }
-        [Display(Name = "Name")]
-        [StringLength(20)]
-        [Required(ErrorMessage = "nom obligatoire")]
+       
         public string Name { get; set; }
+       
+       
         public string Description { get; set; }
 
-        [Range(0, double.MaxValue, ErrorMessage = "veuillez inserer une double")]
-        [Required(ErrorMessage = "champ obligatoire")]
+   
         public double Budget { get; set; }
         public System.Guid Customer_ID { get; set; }
         public System.Guid Pole_ID { get; set; }

@@ -42,6 +42,8 @@ namespace Project_NotesDeFrais.Models
         public virtual List< CustomersModel> CustomersList { get; set; }
         public virtual List<ProjectsModel> ProjectsList { get; set; }
         public virtual List<ExpanseTypesModel> ExpanseTypesList { get; set; }
+     
+      
 
     }
 }

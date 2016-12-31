@@ -254,6 +254,7 @@
     <Compile Include="Models\NoteDeFraisModel\PolesModel.cs" />
     <Compile Include="Models\NoteDeFraisModel\ProjectsModel.cs" />
     <Compile Include="Models\NoteDeFraisModel\RolesModel.cs" />
+    <Compile Include="Models\NoteDeFraisModel\StatuCodeEnum.cs" />
     <Compile Include="Models\NoteDeFraisModel\TvasModel.cs" />
     <Compile Include="Models\PaginatedList.cs" />
     <Compile Include="Models\Reposirery\CustomerRepositery.cs" />
@@ -407,6 +408,7 @@
     <Content Include="Views\ExpanseReports\ToValid.cshtml" />
     <Content Include="Views\Roles\AllRoles.cshtml" />
     <Content Include="Views\Roles\AddUserRole.cshtml" />
+    <Content Include="Views\Shared\ErrorEmptyElement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

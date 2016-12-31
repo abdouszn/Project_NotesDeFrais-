@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
+    [Authorize]
     public class ProjetController : Controller
     {
         // GET: Projet
@@ -15,7 +16,13 @@ namespace Project_NotesDeFrais.Controllers
         {
             ProjetRepositery prtRep = new ProjetRepositery();
             ProjectsModel prjtModel = new ProjectsModel();
+            if (prtRep.getAllCustomers().ToList().Count()==0 || prtRep.getAllPoles().ToList().Count()==0)
+            {
+                ViewData["erreur"]  = "Customers et des Poles ";
+                return View("ErrorEmptyElement");
+            }
             prjtModel.CustomersList = prtRep.getAllCustomers().ToList();
+           
             prjtModel.PolesList = prtRep.getAllPoles().ToList();
             ViewData["id_Customer"] = id_Customer;
 
@@ -23,20 +30,19 @@ namespace Project_NotesDeFrais.Controllers
         }
 
 
-        public ActionResult createProject(Projects projetModel , Guid? id_Customer)
+        public ActionResult createProject(ProjectsModel projetModel , Guid? id_Customer)
         {
-            if (!ModelState.IsValid) {
-                return View("ProjectFormulaire", projetModel);
-            }
             ProjetRepositery prtRep = new ProjetRepositery();
+           
+            ViewData["id_Customer"] = id_Customer;
+            
             Projects projet = new Projects();
             projet.Project_ID = Guid.NewGuid();
             projet.Name = Convert.ToString(Request.Form["Name"]);
             projet.Description = Convert.ToString(Request.Form["Description"]);
             projet.Budget = Convert.ToDouble(Request.Form["Budget"]);
-            if (id_Customer == null) {
-              
-            }
+            
+
             projet.Customer_ID = id_Customer != null ? (Guid)id_Customer : new Guid(Convert.ToString(Request.Form["customersList"]));
             projet.Pole_ID = new Guid(Convert.ToString(Request.Form["polesList"]));
             prtRep.AddProjet(projet);
@@ -81,7 +87,11 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllProjects", lst);
         }
 
-        public ActionResult updateProject(Guid id) {
+        public ActionResult updateProject(Guid id , ProjectsModel projetModel) {
+            if (!ModelState.IsValid)
+            {
+                return View("EditProject", projetModel);
+            }
             ProjetRepositery prtRep = new ProjetRepositery();
             ProjectsModel prjtModel = new ProjectsModel();
             Projects projet = prtRep.GetById(id);
@@ -117,6 +127,22 @@ namespace Project_NotesDeFrais.Controllers
             IQueryable<ProjectsModel> listProjets = projetsModel.AsQueryable();
             PaginatedList<ProjectsModel> lst = new PaginatedList<ProjectsModel>(listProjets, pageIndex, countElementPage);
             return View("AllProjects", lst);
+        }
+
+        public ActionResult Delete(Guid id) {
+            ProjetRepositery prjtRepo = new ProjetRepositery();
+            Projects project = prjtRepo.GetById(id);
+            ExpanseRepositery expRep = new ExpanseRepositery();
+            ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
+            List<Expanses> expList = expRep.GetByProject(id).ToList();
+            foreach (var expanse in expList)
+            {
+                expRep.Delete(expanse);
+            }
+            expRep.Save();
+            prjtRepo.Delete(project);
+            prjtRepo.Save();
+            return RedirectToAction("AllProjets");
         }
     }
 }

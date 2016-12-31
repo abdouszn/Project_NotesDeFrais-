@@ -63,14 +63,17 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void Delete(ExpanseReports expRep)
         {
-            var expanse = (from exp in e.Expanses where (exp.ExpanseReport_ID == expRep.ExpanseReport_ID) select exp);
-            foreach (var exp in expanse.ToList())
+            using (new NotesDeFraisEntities())
             {
-                e.Expanses.Remove(exp);
-                e.SaveChanges();
-            }
+                var expanse = (from exp in e.Expanses where (exp.ExpanseReport_ID == expRep.ExpanseReport_ID) select exp);
+                foreach (var exp in expanse.ToList())
+                {
+                    e.Expanses.Remove(exp);
 
-            e.ExpanseReports.Remove(expRep);
+                }
+
+                e.ExpanseReports.Remove(expRep);
+            }
         }
 
        
@@ -87,6 +90,10 @@ namespace Project_NotesDeFrais.Models.Reposirery
             return employer;
         }
 
+        public IQueryable<ExpanseReports> GetByEmployesId(Guid idEmployer) {
+            IQueryable<ExpanseReports>  expanseRepport = (from ex in e.ExpanseReports where ex.Employee_ID == idEmployer select ex);
+            return expanseRepport;
+        }
         public void updateStatus(ExpanseReports expRep, int statut , String managerComment, String comptableComment) {
             using (new NotesDeFraisEntities())
             {

@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
+    [Authorize]
     public class ExpansesController : Controller
     {
         private IEnumerable<object> costumers;
@@ -116,7 +117,6 @@ namespace Project_NotesDeFrais.Controllers
                 ExpanseTypesModel expType = new ExpanseTypesModel();
                 ExpanseReportsModel expanseRapport = new ExpanseReportsModel();
                 ProjectsModel projet = new ProjectsModel();
-
                 expanse.Expanse_ID = exp.Expanse_ID;
                 expanse.Amount_HT = exp.Amount_HT;
                 expanse.Amount_TTC = exp.Amount_TTC;
@@ -137,7 +137,7 @@ namespace Project_NotesDeFrais.Controllers
         }
 
         [HttpGet]
-        public PartialViewResult Popup(Guid idExpanseReport)
+        public ActionResult Popup(Guid idExpanseReport)
         {
             CustomerRepositery cstRepo = new CustomerRepositery();
             ProjetRepositery prjtRepo = new ProjetRepositery();
@@ -145,6 +145,7 @@ namespace Project_NotesDeFrais.Controllers
             List<CustomersModel> customersModel = new List<CustomersModel>();
             List<ProjectsModel> projectsListModel = new List<ProjectsModel>();
             List<ExpanseTypesModel> expansesTypeListModel = new List<ExpanseTypesModel>();
+            ViewData["empty"] = "false";
 
             IQueryable<Customers> costumers = cstRepo.allCustomers();
 
@@ -190,6 +191,11 @@ namespace Project_NotesDeFrais.Controllers
                 expansesTypeListModel.Add(expenseTypeModel);
             }
 
+            if (customersModel.Count() == 0 || projectsListModel.Count()==0 || expansesTypeListModel.Count()==0)
+            {
+                ViewData["erreur"] = "Customers , Projets et des ExpanseType";
+                ViewData["empty"] = "true";
+            }
             var expanseViewModel = new ExpansesModel
             {
                 CustomersList = customersModel,

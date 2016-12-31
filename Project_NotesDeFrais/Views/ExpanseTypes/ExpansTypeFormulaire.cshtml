@@ -29,7 +29,18 @@
             @Html.ValidationMessageFor(model => @Model.OnlyManagers, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            <button type="submit" class="btn-success"> Enregistrer </button>
+            @Html.LabelFor(model => @Model.Tvas)
+            <select class="selectpicker" name="tvaSelect">
+
+                @foreach (var s in @Model.tvaList)
+                {
+                    <option value=" @s.TVA_ID"> @s.Name </option>
+                }
+            </select>
         </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn-success" onclick="saveSuccess();"> Enregistrer </button>
+            </div>
 </fieldset>
 }

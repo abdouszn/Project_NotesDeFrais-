@@ -8,6 +8,7 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
+    [Authorize]
     public class CustomerController : Controller
     {
         // GET: Customer
@@ -91,5 +92,19 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllCustomers", lst);
         }
 
+        public ActionResult Delete(Guid id) {
+            ProjetController prjtControleur = new ProjetController();
+            CustomerRepositery cutoRepo = new CustomerRepositery();
+            Customers cutomer = cutoRepo.GetById(id);
+            ProjetRepositery prjtRepo = new ProjetRepositery();
+            List<Projects> projets = prjtRepo.GetByCustomerId(id).ToList();
+            foreach (var pro in projets) {
+                prjtControleur.Delete(pro.Project_ID);
+            }
+            prjtRepo.Save();
+            cutoRepo.Delete(cutomer);
+            cutoRepo.Save();
+            return RedirectToAction("AllCustomer");
+        }
     }
 }

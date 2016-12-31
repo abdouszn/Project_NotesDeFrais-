@@ -11,6 +11,7 @@ namespace Project_NotesDeFrais.Controllers
 {
     public class EmployeesController : Controller
     {
+        [Authorize]
         public ActionResult Index()
         {
             EmployeesModel empModel = new EmployeesModel();
@@ -18,6 +19,11 @@ namespace Project_NotesDeFrais.Controllers
 
             empModel.AspNetUsersList = empRp.getAllUsers().ToList();
             empModel.polesList = empRp.getAllPoles().ToList();
+            if (empRp.getAllUsers().ToList().Count() == 0 || empRp.getAllPoles().ToList().Count() == 0)
+            {
+                ViewData["erreur"] = "Utilisateurs et des Poles ";
+                return View("ErrorEmptyElement");
+            }
             return View("EmployesFormulaire" , empModel);
         }
 

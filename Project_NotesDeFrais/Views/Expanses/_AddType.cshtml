@@ -1,141 +1,166 @@
 ﻿@model Project_NotesDeFrais.Models.ExpansesModel
 
-@using (Html.BeginForm("createExpanses", "Expanses", new { expanseReport_ID = @Model.ExpanseReport_ID} , FormMethod.Post , new { @class = "form-vertical", role = "form" }))
-{
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>idrapport : @ViewData["idExpanseReport"]</legend>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Day)
-            <select  class="selectpicker">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-                <option>13</option>
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-                <option>21</option>
-                <option>22</option>
-                <option>23</option>
-                <option>24</option>
-                <option>25</option>
-                <option>26</option>
-                <option>27</option>
-                <option>28</option>
-                <option>29</option>
-                <option>30</option>
-                <option>31</option>
-            </select>
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Customers)
-            <select class="selectpicker" id="selectedCustomer" name="customerSelect" onchange="selectProjects();">
+ @if (ViewData["empty"]==(String)"true")
+ {
+    <br />
+    <br />
+    <div class="alert alert-danger">
+        Vous devez d'abord créer des <strong>@ViewData["erreur"]</strong>
 
-                @foreach (var s in @Model.CustomersList)
-                { 
-                    <option value="@s.Customer_ID"> @s.Name </option>
+    </div>
+ }else{
+
+    using (Html.BeginForm("createExpanses", "Expanses", new { expanseReport_ID = @Model.ExpanseReport_ID} , FormMethod.Post , new { @class = "form-vertical", role = "form" }))
+    {
+
+            @Html.ValidationSummary(true)
+            <fieldset>
+                <legend>idrapport : @ViewData["idExpanseReport"]</legend>
+                <div class="editor-label">
+                    @Html.LabelFor(model => @Model.Day)
+                    <select class="selectpicker">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>10</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                        <option>25</option>
+                        <option>26</option>
+                        <option>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        @if (DateTime.Now.Month == 2)
+                        {
+                            <option disabled>30</option>
+                            <option disabled>31</option>
+                        }
+                        else
+                        {
+                            <option>30</option>
+                            <option>31</option>
+                        }
+
+                    </select>
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => @Model.Customers)
+                    <select class="selectpicker" id="selectedCustomer" name="customerSelect" onchange="selectProjects();">
+
+                        @foreach (var s in @Model.CustomersList)
+                        {
+                            <option value="@s.Customer_ID"> @s.Name </option>
+                        }
+
+                    </select>
+                </div>
+                <div class="editor-label" id="projectUpdated">
+                    @Html.LabelFor(model => @Model.Projects)
+                    <select class="selectpicker" name="projectSelect">
+
+                        @foreach (var s in @Model.ProjectsList)
+                        {
+                            <option value="@s.Project_ID"> @s.Name </option>
+
+                        }
+                    </select>
+
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => @Model.ExpanseTypes)
+                    <select class="selectpicker" name="typeSelect" id="expanseTypeSelect" onchange="selectCellingExpance();">
+
+                        @foreach (var s in @Model.ExpanseTypesList)
+                        {
+                            <option value="@s.ExpenseType_ID"> @s.Name </option>
+                        }
+                    </select>
+
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => @Model.Amount_HT, new { @class = "control-label col-sm-1" })
+                    @Html.TextBoxFor(model => @Model.Amount_HT, new { @required = "required", @class = " form-control", @id = "updatHt" })
+                    @Html.ValidationMessageFor(model => @Model.Amount_HT, "", new { @class = "text-danger" })
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => @Model.Amount_TVA, new { @class = "control-label col-sm-1" })
+                    @Html.TextBoxFor(model => @Model.Amount_TVA, new { @required = "required", @class = " form-control", @id = "updatTva" })
+                    @Html.ValidationMessageFor(model => @Model.Amount_TVA, "", new { @class = "text-danger" })
+                </div>
+                <div class="editor-label">
+                    @Html.LabelFor(model => @Model.Amount_TTC, new { @class = "control-label col-sm-1" })
+                    @Html.TextBoxFor(model => @Model.Amount_TTC, new { @required = "required" })
+                    @Html.ValidationMessageFor(model => @Model.Amount_TTC, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn-success"> Enregistrer </button>
+                </div>
+            </fieldset>
+        }
+        <script>
+
+        function selectProjects() {
+            var selectedItem = $('#selectedCustomer').find(":selected").val();
+            $.ajax({
+                url: "/Expanses/ListProject",
+                data: { 'customerId': selectedItem },
+                type: "post",
+                cache: false,
+                success: function (result) {
+                    $('#projectUpdated').html(result)
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("error");
                 }
+            });
+        }
 
-            </select>
-        </div>
-        <div class="editor-label" id="projectUpdated" >
-            @Html.LabelFor(model => @Model.Projects)
-            <select class="selectpicker" name="projectSelect">
-
-                @foreach (var s in @Model.ProjectsList)
-                {
-                    <option value="@s.Project_ID"> @s.Name </option>
-                    
+        /*change montant HT expanseType*/
+        function selectCellingExpance() {
+            var selectedItem = $('#expanseTypeSelect').find(":selected").val();
+            $.ajax({
+                url: "/ExpanseTypes/cellingTvaById",
+                data: { 'expanseTypeID': selectedItem },
+                type: "post",
+                cache: false,
+                success: function (result) {
+                    montant = result.split("-");
+                    alert(montant[0]);
+                    if (result != 0) {
+                        $('#updatHt').val(montant[0]);
+                        $('#updatHt').prop('readonly', "readonly");
+                    } else {
+                        $('#updatHt').prop('readonly', false);
+                        $('#updatHt').val(montant[0]);
+                    }
+                    $('#updatTva').val(montant[1]);
+                    $('#updatTva').prop('readonly', "readonly");
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    alert("error");
                 }
-            </select>
-
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.ExpanseTypes)
-            <select class="selectpicker" name="typeSelect" id="expanseTypeSelect" onchange="selectCellingExpance();">
-
-                @foreach (var s in @Model.ExpanseTypesList)
-                {
-                    <option value="@s.ExpenseType_ID"> @s.Name </option>
-                }
-            </select>
-
-        </div>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Amount_HT, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.Amount_HT, new { @required = "required", @class = " form-control", @id = "updatHt" })
-            @Html.ValidationMessageFor(model => @Model.Amount_HT, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Amount_TTC, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.Amount_TTC, new { @required = "required"})
-            @Html.ValidationMessageFor(model => @Model.Amount_TTC, "", new { @class = "text-danger" })
-        </div>
-        
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Amount_TVA, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.Amount_TVA, new { @required = "required", @class = " form-control"})
-            @Html.ValidationMessageFor(model => @Model.Amount_TVA, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn-success"> Enregistrer </button>
-        </div>
-    </fieldset>
+            });
+        }
+        </script>
 }
-<script>
-    function selectProjects() {
-        var selectedItem = $('#selectedCustomer').find(":selected").val();
-        $.ajax({
-            url: "/Expanses/ListProject",
-            data: { 'customerId': selectedItem },
-            type: "post",
-            cache: false,
-            success: function (result) {
-                $('#projectUpdated').html(result)
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert("error");
-            }
-        });
-    }
 
-    /*change montant HT expanseType*/
-    function selectCellingExpance() {
-        var selectedItem = $('#expanseTypeSelect').find(":selected").val();
-        $.ajax({
-            url: "/ExpanseTypes/cellingById",
-            data: { 'expanseTypeID': selectedItem },
-            type: "post",
-            cache: false,
-            success: function (result) {
-                if (result != 0) {
-                    $('#updatHt').val(result);
-                    $('#updatHt').prop('readonly', "readonly");
-                } else {
-                    $('#updatHt').prop('readonly', false);
-                    $('#updatHt').val(result);
-                }
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert("error");
-            }
-        });
-    }
-</script>
-
+   
 

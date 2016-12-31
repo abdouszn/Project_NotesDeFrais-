@@ -8,12 +8,28 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
+    [Authorize]
     public class PolesController : Controller
     {
         // GET: Poles
         public ActionResult Index()
         {
-            return View("PoleFormulaire");
+            PolesModel pole = new PolesModel();
+            EmployesRepositery empRep = new EmployesRepositery();
+            EmployeesModel empModel = new EmployeesModel();
+            var lisEmp = empRep.allEmployees();
+            if (lisEmp.ToList().Count() == 0)
+            {
+                ViewData["erreur"] = "Employers";
+                return View("ErrorEmptyElement");
+            }
+            foreach (var emp in lisEmp) {
+                empModel.Employee_ID = emp.Employee_ID;
+                empModel.FirstName = emp.FirstName;
+                pole.Employees.Add(empModel);
+            }
+            
+            return View("PoleFormulaire" , pole);
         }
 
         public ActionResult createPole(PolesModel poleModel)
@@ -25,7 +41,7 @@ namespace Project_NotesDeFrais.Controllers
             PolesRepository polRep = new PolesRepository();
             pole.Pole_ID = Guid.NewGuid();
             pole.Name = Convert.ToString(Request.Form["Name"]);
-            pole.Manager_ID = polRep.maxIdEmployer();
+            pole.Manager_ID = new Guid(Convert.ToString(Request.Form["managerSelect"]));
             polRep.AddPoles(pole);
             return RedirectToAction("AllPoles");
         }
@@ -88,6 +104,39 @@ namespace Project_NotesDeFrais.Controllers
             IQueryable<PolesModel> listPoles = polesModel.AsQueryable();
             PaginatedList<PolesModel> lst = new PaginatedList<PolesModel>(listPoles, pageIndex, countElementPage);
             return View("AllPoles", lst);
+        }
+
+        public ActionResult Delete(Guid id) {
+            PolesRepository poleRep = new PolesRepository();
+            ProjetRepositery prjtRepo = new ProjetRepositery();
+            ExpanseRepositery expRep = new ExpanseRepositery();
+            EmployesRepositery empRepo = new EmployesRepositery();
+            ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
+            List<Projects> projets = prjtRepo.GetByIdPole(id).ToList();
+            foreach (var pro in projets)
+            {
+                List<Expanses> expList = expRep.GetByProject(pro.Project_ID).ToList();
+                foreach (var expanse in expList)
+                {
+                    expRep.Delete(expanse);
+                }
+                expRep.Save();
+                prjtRepo.Delete(pro);
+            }
+            prjtRepo.Save();
+            foreach (var empl in empRepo.getByIdPole(id)) {
+                List<ExpanseReports> expanseReports = expRepRep.GetByEmployesId(empl.Employee_ID).ToList();
+                foreach (var expRepo in expanseReports) {
+                    expRepRep.Delete(expRepo);
+                }
+                expRepRep.Save();
+                empRepo.Delete(empl);
+            }
+            empRepo.Save();
+            Poles pole = poleRep.GetById(id);
+            poleRep.Delete(pole);
+            poleRep.Save();
+            return RedirectToAction("AllPoles");
         }
     }
 }

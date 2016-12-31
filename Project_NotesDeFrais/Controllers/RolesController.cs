@@ -11,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
+    [Authorize(Roles = "Comptable , Admin")]
     public class RolesController : Controller
     {
         // GET: Roles
@@ -94,10 +95,15 @@ namespace Project_NotesDeFrais.Controllers
         }
 
         public ActionResult RolesUsers() {
-            var countElementPage = 10;
+           
             RolesRepositery rolRep = new RolesRepositery();
             EmployesRepositery empRp = new EmployesRepositery(); 
             var listRole = rolRep.allRoles();
+            if (listRole.Count() == 0)
+            {
+                ViewData["erreur"] = "Roles";
+                return View("ErrorEmptyElement");
+            }
             foreach (var rl in listRole) {
                 rl.AspNetUsersList= empRp.getAllUsers().ToList();
             }
@@ -105,6 +111,7 @@ namespace Project_NotesDeFrais.Controllers
 
         }
 
+        [Authorize]
         public ActionResult addRoleToUser() {
             ApplicationDbContext context = new ApplicationDbContext();
             RolesRepositery rolRep = new RolesRepositery();

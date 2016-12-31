@@ -21,6 +21,7 @@ namespace Project_NotesDeFrais.Models
         [Display(Name = "Nom du pôle")]
         [Required(ErrorMessage = "champs obligatoire")]
         [StringLength(20)]
+        [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "le nom ne doit contenir que des caracteres.")]
         public string Name { get; set; }
 
         public System.Guid Manager_ID { get; set; }

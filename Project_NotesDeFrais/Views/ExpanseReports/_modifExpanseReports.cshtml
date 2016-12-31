@@ -11,7 +11,7 @@
             @Html.ValidationMessageFor(model => @Model.ManagerComment, "", new { @class = "text-danger" })
         </div>
         <p>
-            <button type="submit" class="btn-success"> Enregistrer </button>
+            <button type="submit" class="btn-success" onclick="saveSuccess();"> Enregistrer </button>
         </p>
     </fieldset>
 }

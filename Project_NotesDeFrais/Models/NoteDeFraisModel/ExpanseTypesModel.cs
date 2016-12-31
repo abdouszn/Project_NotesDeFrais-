@@ -35,5 +35,7 @@ namespace Project_NotesDeFrais.Models
 
         public virtual ICollection<ExpansesModel> Expanses { get; set; }
         public virtual TvasModel Tvas { get; set; }
+
+       public virtual List<Tvas> tvaList { get; set; }
     }
 }

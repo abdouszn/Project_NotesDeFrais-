@@ -4,13 +4,15 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>@ViewBag.Title - My ASP.NET Application</title>
+        <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
         @Styles.Render("~/Content/css")
         @Scripts.Render("~/bundles/modernizr")
         <script src = "~/Scripts/jquery-1.10.2.min.js" ></script > 
         <script src="~/Scripts/jquery-1.10.2.js"></script>
     </head>
     <body>
-        <div class="navbar navbar-inverse navbar-fixed-top">
+       
+        <div id="modifyeds" class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -20,32 +22,101 @@
                     </button>
                     @Html.ActionLink("Accueil", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
                 </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav" role="navigation">
-                        <li class="dropdown"><a data-toggle = "dropdown"  class = "dropdown-toggle" href="#" >Utilisateur et droit <b class="caret"></b></a>
-                            <ul class="dropdown-menu" role="navigation">
-                                <li class="dropdown"><a data-toggle="dropdown" class="dropdown-toggle" href="#">Employés <b class="caret"></b></a>
-                                    <ul class="dropdown-submenu" role="navigation">
-                                        <li>@Html.ActionLink("Creer un employer", "Index", "Employees")</li>
-                                        <li>@Html.ActionLink("Les employés", "AllEmployees", "Employees")</li>
+                    <div class="navbar-collapse collapse">
+                        
+                        <ul class="nav navbar-nav" role="navigation">
+                           
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Utilisateur et droit <b class="caret"></b></a>
+                                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                        <li class="dropdown-submenu">
+                                            <a href="#">Employés</a>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("Les employés", "AllEmployees", "Employees")</li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown-submenu">
+                                            <a href="#">Roles</a>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("Creer un Role", "Index", "Roles")</li>
+                                                <li>@Html.ActionLink("Les roles", "allRoles", "Roles")</li>
+                                                <li>@Html.ActionLink("Ajouter role user", "RolesUsers", "Roles")</li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li class="dropdown"> <a data-toggle="dropdown" class="dropdown-toggle" href="#">Roles<b class="caret"></b></a>
-                                    <ul class="dropdown-submenu" role="navigation">
-                                        <li>@Html.ActionLink("Creer un Role", "Index", "Roles")</li>
-                                        <li>@Html.ActionLink("Les roles", "allRoles", "Roles")</li>
+                            }
+                            @if (!User.IsInRole("Admin") && !User.IsInRole("Comptable") && Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Gestion des données <b class="caret"></b></a>
+                                    <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+                                        <li class="dropdown-submenu">
+                                            <a href="#">Projet</a>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("Creer un projet", "Index", "Projet")</li>
+                                                <li>@Html.ActionLink("list des projets", "AllProjets", "Projet")</li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown-submenu">
+                                            <a href="#">TVA</a>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("Creer une tva", "Index", "Tvas")</li>
+                                                <li>@Html.ActionLink("list des Tva", "AllTvas", "Tvas")</li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown-submenu">
+                                            <a href="#">Client</a>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("Creer un client", "Index", "Customer")</li>
+                                                <li>@Html.ActionLink("list des clients", "AllCustomer", "Customer")</li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown-submenu">
+                                            <a href="#">Type de frais</a>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("Creer un type", "Index", "ExpanseTypes")</li>
+                                                <li>@Html.ActionLink("list des type", "AllExpanseTypes", "ExpanseTypes")</li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown-submenu">
+                                            <a href="#">Les Poles</a>
+                                            <ul class="dropdown-menu">
+                                                <li>@Html.ActionLink("Creer pole", "Index", "Poles")</li>
+                                                <li>@Html.ActionLink("list des poles", "AllPoles", "Poles")</li>
+                                            </ul>
+                                        </li>
                                     </ul>
-                                </li> 
-                            </ul>
-                        </li>
-                        <li>@Html.ActionLink("Gestion des Données", "About", "Home")</li>
-                        <li>@Html.ActionLink("Notes de Frais", "createExpanseReportsDateDay", "ExpanseReports", new { userName = User.Identity.Name} ,new { id = "dayMonth" })</li>
-                    </ul>
-                    @Html.Partial("_LoginPartial")
+                                </li>
+                            }
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">Notes de frais<b class="caret"></b></a>
+                                    <ul class="dropdown-menu" role="navigation">
+                                        @if (!User.IsInRole("Admin") && !User.IsInRole("Comptable") && Request.IsAuthenticated)
+                                        {
+                                            <li class="dropdown">@Html.ActionLink("Mes notes e frais", "AllExpansesReports", "ExpanseReports")</li>
+                                            <li class="dropdown">@Html.ActionLink("creer", "createExpanseReportsDateDay", "ExpanseReports", new { userName = User.Identity.Name }, new { id = "dayMonth" })</li>
+                                        }
+                                        @if (User.IsInRole("Admin") || User.IsInRole("Comptable") && Request.IsAuthenticated)
+                                        {
+                                            <li class="dropdown">@Html.ActionLink("Notes de frais à valider", "AllExpansesReportsToValid", "ExpanseReports")</li>
+                                        }
+                                    </ul>
+                                </li>
+                            }
+                        </ul>
+                        @Html.Partial("_LoginPartial")
+                    </div>
                 </div>
             </div>
-        </div>
         <div class="container body-content">
+            <div class="alert alert-success" id="success" style="display:none; margin-top:15px;" role="dialog">
+                <strong>Enregistrer avec succés !</strong>
+            </div>
             @RenderBody()
             <hr />
             <footer>
@@ -53,13 +124,23 @@
             </footer>
         </div>
 
-        <div id='myModal' class='modal fade in' style="padding:10px;">
+        <div id='myModal' class='modal fade in'>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div id='myModalContent'></div>
                 </div>
             </div>
         </div>
+       
+        <script>
+            function saveSuccess() {
+                $('#success').show();
+                $("#success").fadeTo(2000, 500).slideUp(500, function () {
+                  $("#success").slideUp(500);
+                });
+
+            }
+        </script>
         @RenderSection("scripts", required: false)
         @Scripts.Render("~/bundles/jquery")
         @Scripts.Render("~/bundles/bootstrap")

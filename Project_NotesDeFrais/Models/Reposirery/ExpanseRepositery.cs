@@ -61,6 +61,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
             using (new NotesDeFraisEntities())
             {
                 e.Expanses.Remove(exp);
+               
             }
         }
 
@@ -105,6 +106,12 @@ namespace Project_NotesDeFrais.Models.Reposirery
         {
             ExpanseReports expanseRepport = (from p in e.ExpanseReports where p.ExpanseReport_ID == id select p).FirstOrDefault();
             return expanseRepport;
+        }
+
+        public IQueryable<Expanses> GetByProject(Guid id)
+        {
+            IQueryable<Expanses> expanse = (from p in e.Expanses where p.Project_ID == id select p);
+            return expanse;
         }
 
         public IQueryable<Expanses> GetAllByIdExpansesRepport(Guid id)

@@ -9,11 +9,13 @@ using Microsoft.AspNet.Identity;
 
 namespace Project_NotesDeFrais.Controllers
 {
+    [Authorize]
     public class ExpanseReportsController : Controller
     {
         // GET: Expanses
         public ActionResult Index(String userName)
         {
+  
             ViewData["userName"] = userName;
             ViewData["month"] = Convert.ToInt32(Request.Form["Month"]);
             ViewData["year"] = Convert.ToInt32(Request.Form["Year"]);
@@ -28,12 +30,9 @@ namespace Project_NotesDeFrais.Controllers
             exp.ExpanseReport_ID = Guid.NewGuid();
             exp.CreationDate =DateTime.Now;
             exp.Year = Convert.ToInt32(Request.Form["Year"]);
-            if (!ModelState.IsValidField("Year")||mois > DateTime.Now.Month) {
-                ModelState.AddModelError("Month", "le mois ne doit pas être superieur au mois actuel");
-                return PartialView("_MonthYear");
-            }
+            
             exp.Month =mois;
-            exp.StatusCode = Convert.ToInt32(0);
+            exp.StatusCode = Convert.ToInt32(00);
             exp.ManagerValidationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
             exp.ManagerComment = Convert.ToString(" ");
             exp.AccountingValidatationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
@@ -47,19 +46,21 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllExpanses", "Expanses", new { idExpanseReport = exp.ExpanseReport_ID});
         }
 
+   
         public PartialViewResult createExpanseReportsDateDay(String userName)
         {
             ViewData["userName"] = userName;
-            return PartialView("_MonthYear");
+            ExpanseReportsModel model = new ExpanseReportsModel();
+            model.Year = DateTime.Now.Year;
+            return PartialView("_MonthYear" , model);
         }
-
 
         public ActionResult createExpanseReports(ExpanseReports exp, Guid? auther_id)
         {
             return null;
         }
 
-        [Authorize]
+
         public ActionResult AllExpansesReports(int? pageIndex)
         {
             var userId = User.Identity.GetUserId();
@@ -129,27 +130,41 @@ namespace Project_NotesDeFrais.Controllers
             return View("MyExpanseReports", lst);
         }
 
+       
         public ActionResult validateExpanseReport(Guid id) {
             ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
             ExpanseReports expReport = expRep.GetById(id);
             int StatusCode = 10;
             String managerComment = "no comment";
             String comtableComment = "no comment";
+            expRep.updateStatus(expReport, StatusCode , managerComment, comtableComment);
+            return RedirectToAction("AllExpansesReports");
+        }
+
+        [Authorize(Roles = "Comptable , Admin")]
+        public ActionResult validateExpanseReportByAdminOrManager(Guid id) {
+            ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
+            String managerComment = "no comment";
+            String comtableComment = "no comment";
+            int StatusCode = 10;
+            ExpanseReports expReport = expRep.GetById(id);
             if (User.IsInRole("Admin"))
             {
                 StatusCode = 20;
                 expRep.updateStatus(expReport, StatusCode, managerComment, comtableComment);
                 return RedirectToAction("AllExpansesReportsToValid");
             }
-            else if (User.IsInRole("comptabile"))
+            else if (User.IsInRole("Comptable"))
             {
                 StatusCode = 30;
                 expRep.updateStatus(expReport, StatusCode, managerComment, comtableComment);
                 return RedirectToAction("AllExpansesReportsToValid");
             }
-            expRep.updateStatus(expReport, StatusCode , managerComment, comtableComment);
-            return RedirectToAction("AllExpansesReports");
+            expRep.updateStatus(expReport, StatusCode, managerComment, comtableComment);
+            return RedirectToAction("AllExpansesReportsToValid");
         }
+
+        
         public ActionResult Delete(Guid id)
         {
             ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
@@ -159,7 +174,8 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllExpansesReports");
         }
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Comptable , Admin")]
         public ActionResult modifExpanseReports(Guid idExpanseReport) {
             ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
             ExpanseReports expRep = expRepRep.GetById(idExpanseReport);
@@ -171,7 +187,8 @@ namespace Project_NotesDeFrais.Controllers
             return PartialView("_modifExpanseReports" , expRepModel);
         }
 
-        [Authorize(Roles = "Admin")]
+
+        [Authorize(Roles = "Comptable , Admin")]
         public ActionResult modifCommentExpanseReports(Guid idExpanseReport) {
            
             ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
@@ -180,7 +197,7 @@ namespace Project_NotesDeFrais.Controllers
             String comtableComment = "no comment";
             int StatusCode = 15;
             comtableComment = Convert.ToString(Request.Form["ManagerComment"]);
-            if (User.IsInRole("comptable")) {
+            if (User.IsInRole("Comptable")) {
                 StatusCode = 25;
                 comtableComment = Convert.ToString(Request.Form["AccountingComment"]);
             }
@@ -199,11 +216,10 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllExpansesReports");
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Comptable , Admin")]
         public ActionResult AllExpansesReportsToValid(int? pageIndex)
         {
             var userId = User.Identity.GetUserId();
-           
             ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
             var countElementPage = 10;
             var expansesReports = expRepRepo.allExpanseReportsToValid();

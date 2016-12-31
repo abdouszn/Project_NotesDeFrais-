@@ -71,16 +71,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void Delete(Poles p)
         {
-
-            /*var ProjectCostumer = (from pr in e.Projects where (p. == c.Customer_ID) select p);
-            foreach (var prc in ProjectCostumer.ToList())
-            {
-                e.Projects.Remove(prc);
-                e.SaveChanges();
-            }*/
-
             e.Poles.Remove(p);
-            Save();
         }
 
 

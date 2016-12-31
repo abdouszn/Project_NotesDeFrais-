@@ -91,6 +91,20 @@ namespace Project_NotesDeFrais.Models.Reposirery
             }
         }
 
+        public  IQueryable<ExpanseTypes> getByTvaId(Guid tvaId) {
+            using (new NotesDeFraisEntities())
+            {
+                IQueryable<ExpanseTypes> expType = (from c in e.ExpanseTypes where c.Tva_ID == tvaId select c);
+                return expType;
+            }
+        }
+        public void delete(ExpanseTypes expType) {
+            using (new NotesDeFraisEntities())
+            {
+                e.ExpanseTypes.Remove(expType);
+            }
+        }
+
         public void Save()
         {
             try

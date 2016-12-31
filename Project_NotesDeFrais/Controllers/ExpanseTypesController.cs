@@ -8,12 +8,22 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
+    [Authorize]
     public class ExpanseTypesController : Controller
     {
         // GET: ExpanseTypes
         public ActionResult Index()
         {
-            return View("ExpansTypeFormulaire");
+            ExpanseTypesModel expTypeModel = new ExpanseTypesModel();
+            TvasRepositery tvaRepo = new TvasRepositery();
+            var tvaLis = tvaRepo.allTvas().ToList();
+            if (tvaLis.Count() == 0)
+            {
+                ViewData["erreur"] = "Tva";
+                return View("ErrorEmptyElement");
+            }
+            expTypeModel.tvaList = tvaLis;
+            return View("ExpansTypeFormulaire" , expTypeModel);
         }
 
 
@@ -23,7 +33,10 @@ namespace Project_NotesDeFrais.Controllers
 
             }
             if (!ModelState.IsValid) {
-                return View("ExpansTypeFormulaire");
+                TvasRepositery tvaRepo = new TvasRepositery();
+                var tvaLis = tvaRepo.allTvas().ToList();
+                expansTypeModel.tvaList = tvaLis;
+                return View("ExpansTypeFormulaire" , tvaLis);
             }
             ExpanseTypes expansType = new ExpanseTypes();
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
@@ -32,7 +45,7 @@ namespace Project_NotesDeFrais.Controllers
             expansType.Ceiling = Convert.ToDouble(Request.Form["Ceiling"]);
             expansType.Fixed = Convert.ToBoolean(Request.Form["Fixed"]);
             expansType.OnlyManagers= Convert.ToBoolean(Request.Form["OnlyManagers"]);
-            expansType.Tva_ID = expTypeRep.maxIdTva();
+            expansType.Tva_ID = new Guid(Convert.ToString(Request.Form["tvaSelect"]));
             expTypeRep.AddExpanseType(expansType);
             return RedirectToAction("AllExpanseTypes");
         }
@@ -92,14 +105,19 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllExpansesTypes", lst);
         }
 
-        public double cellingById(Guid expanseTypeID) {
+        public String cellingTvaById(Guid expanseTypeID) {
             double celling = 0;
+            String cellingTva = null;
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
             var expAnseType = expTypeRep.getById(expanseTypeID);
+            double tva = (double)expAnseType.Tvas.Value;
+
             if (expAnseType.Fixed == true) {
-                celling = (double) expAnseType.Ceiling;
+                celling = (double)expAnseType.Ceiling;
             }
-            return celling;
+            cellingTva = Convert.ToString(celling) +"-"+Convert.ToString(tva);
+
+            return cellingTva;
         }
 
         public ActionResult Searche(String query, int? pageIndex)
@@ -128,6 +146,14 @@ namespace Project_NotesDeFrais.Controllers
             IQueryable<ExpanseTypesModel> listEpanTypes = expanseTypesModel.AsQueryable();
             PaginatedList<ExpanseTypesModel> lst = new PaginatedList<ExpanseTypesModel>(listEpanTypes, pageIndex, countElementPage);
             return View("AllExpansesTypes", lst);
+        }
+
+        public ActionResult Delete(Guid id) {
+            ExpanseTypesRepositery expTypeRepo = new ExpanseTypesRepositery();
+            ExpanseTypes expanseType = expTypeRepo.getById(id);
+            expTypeRepo.delete(expanseType);
+            expTypeRepo.Save();
+            return RedirectToAction("AllExpanseTypes");
         }
     }
 }

@@ -22,7 +22,7 @@
             <td>@s.Telephone</td>
             <td>@s.AspNetUsers.UserName</td>
             <td><a href="@Url.Action("Searche", "Poles", new { query = s.Poles.Name }) ">@s.Poles.Name</a></td>
-            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Simulation", new { id = s.Employee_ID}) + "'");" /></td>
+            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Employees", new { id = s.Employee_ID}) + "'");" /></td>
             <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.Employee_ID})+"'");" /></td>
         </tr>
     }
