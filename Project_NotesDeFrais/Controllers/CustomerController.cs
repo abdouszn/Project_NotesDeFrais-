@@ -44,9 +44,18 @@ namespace Project_NotesDeFrais.Controllers
         public ActionResult updateCustomers(Guid id)
         {
             CustomerRepositery custRep = new CustomerRepositery();
+            Customers customer = custRep.GetById(id);
+            if (!ModelState.IsValidField("Name") || !ModelState.IsValidField("Code"))
+            {
+                CustomersModel custModel = new CustomersModel();
+                custModel.Code = customer.Code;
+                custModel.Customer_ID = customer.Customer_ID;
+                custModel.Name = customer.Name;
+                return View("EditCustomer", custModel);
+            }
             String name = Convert.ToString(Request.Form["Name"]);
             String code= Convert.ToString(Request.Form["Code"]);
-            Customers customer = custRep.GetById(id);
+            
             custRep.updateCustomers(customer, name , code);
             return RedirectToAction("AllCustomer");
         }
@@ -57,6 +66,14 @@ namespace Project_NotesDeFrais.Controllers
 
             var countElementPage = 10;
             var costumers = costRep.allCustomers();
+
+            if (costumers.Count() == 0)
+            {
+                ViewData["erreurMessage"] = "aucun customer !";
+                ViewData["element"] = "Customer";
+                ViewData["create"] = "true";
+                return View("ErrorEmptyList");
+            }
             List<CustomersModel> customersModel = new List<CustomersModel>();
             
             foreach (var cust in costumers)

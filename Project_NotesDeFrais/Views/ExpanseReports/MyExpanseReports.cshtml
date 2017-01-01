@@ -25,10 +25,9 @@
 <div id="projectTable">
     <table class="table table-striped">
         <th>Employee name</th>
-        <th>Date de Creation</th>
+        <th>mois</th>
+        <th>anneé</th>
         <th> Status</th>
-        <th>Date de validation </th>
-        <th>Date de validation Accounting</th>
         <th>Total HT</th>
         <th>Total TVA</th>
         <th>Total TTC</th>
@@ -41,10 +40,9 @@
         {
             <tr>
                 <td>@s.Employees.FirstName</td>
-                <td>@s.CreationDate.ToShortDateString()</td>
+                <td>@s.CreationDate.Month</td>
+                <td>@s.CreationDate.Year</td>
                 <td>@Enum.GetName(typeof(StatuCodeEnum), (StatuCodeEnum)s.StatusCode)</td>
-                <td>@s.ManagerValidationDate</td>
-                <td>@s.AccountingValidatationDate</td>
                 <td>@s.Total_HT</td>
                 <td>@s.Total_TVA</td>
                 <td>@s.Total_TTC</td>

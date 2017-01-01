@@ -16,13 +16,17 @@ namespace Project_NotesDeFrais.Models
         }
 
         public System.Guid Project_ID { get; set; }
-       
+
+        [Display(Name = "Nom")]
+        [StringLength(20)]
+        [RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "le nom ne doit contenir que des caracteres.")]
         public string Name { get; set; }
-       
-       
+
+        [Display(Name = "Description")]
+        
         public string Description { get; set; }
 
-   
+        [Range(0, double.MaxValue, ErrorMessage = "veuillez inserer une double")]
         public double Budget { get; set; }
         public System.Guid Customer_ID { get; set; }
         public System.Guid Pole_ID { get; set; }

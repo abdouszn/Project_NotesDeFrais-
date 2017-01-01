@@ -54,6 +54,13 @@ namespace Project_NotesDeFrais.Controllers
             var countElementPage = 10;
             TvasRepositery tvaRep = new TvasRepositery();
             var tvas = tvaRep.allTvas();
+            if (tvas.Count() == 0)
+            {
+                ViewData["erreurMessage"] = "Aucune Tva !";
+                ViewData["element"] = "Tvas";
+                ViewData["create"] = "true";
+                return View("ErrorEmptyList");
+            }
             List<TvasModel> TvasModel = new List<TvasModel>();
 
             foreach (var tva in tvas)

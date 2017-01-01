@@ -36,13 +36,19 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<ExpanseReports> allExpanseReports(Guid idEmployer)
         {
-            var expansesRepport = (from s in e.ExpanseReports where s.Employee_ID== idEmployer select s).OrderBy(r => r.Employee_ID);
+            var expansesRepport = (from s in e.ExpanseReports where s.Employee_ID== idEmployer select s).OrderBy(r => r.CreationDate.Month);
             return expansesRepport;
         }
 
         public IQueryable<ExpanseReports> allExpanseReportsToValid()
         {
-            var expansesRepport = (from s in e.ExpanseReports where s.StatusCode == 10 select s).OrderBy(r => r.Employee_ID);
+            var expansesRepport = (from s in e.ExpanseReports where s.StatusCode == 10 select s).OrderBy(r => r.CreationDate.Month);
+            return expansesRepport;
+        }
+
+        public IQueryable<ExpanseReports> allExpanseReportsToValidComptable()
+        {
+            var expansesRepport = (from s in e.ExpanseReports where (s.StatusCode == 10 || s.StatusCode == 20) select s).OrderBy(r => r.CreationDate.Month);
             return expansesRepport;
         }
 

@@ -32,9 +32,9 @@ namespace Project_NotesDeFrais.Controllers
             var idprojet = Request.Form["projectSelect"];
             exp.Expanse_ID = Guid.NewGuid();
             exp.Amount_HT = Convert.ToInt32(Request.Form["Amount_HT"]);
-            exp.Amount_TTC = Convert.ToInt32(Request.Form["Amount_TTC"]);
             exp.Amount_TVA = Convert.ToInt32(Request.Form["Amount_TVA"]);
-            exp.Day = Convert.ToInt32(Request.Form["Day"]);
+            exp.Amount_TTC = exp.Amount_HT * exp.Amount_TVA / 100 + exp.Amount_HT;
+            exp.Day = Convert.ToInt32(Request.Form["monthSelect"]);
             exp.ExpanseReport_ID = expanseReport_ID;
             exp.Customer_ID = new Guid(idCustomer);
             exp.ExpanseType_ID = new Guid(idexpanseType);
@@ -66,13 +66,14 @@ namespace Project_NotesDeFrais.Controllers
             double ht = 0;
 
             var countElementPage = 10;
-            var expanses = expRepo.GetAllByIdExpansesRepport(idExpanseReport);  
+            var expanses = expRepo.GetAllByIdExpansesRepport(idExpanseReport);
+           
             List<ExpansesModel> expanseModel = new List<ExpansesModel>();
             foreach (var exp in expanses)
             {
-                ttc = ttc + exp.Amount_TTC;
                 tva = tva + exp.Amount_TVA;
                 ht = ht + exp.Amount_HT;
+                ttc = ttc + exp.Amount_TTC;
                 ExpansesModel expanse = new ExpansesModel();
                 CustomersModel customer = new CustomersModel();
                 ExpanseTypesModel expType = new ExpanseTypesModel();

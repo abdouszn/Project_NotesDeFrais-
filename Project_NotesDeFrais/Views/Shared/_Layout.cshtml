@@ -99,7 +99,7 @@
                                         @if (!User.IsInRole("Admin") && !User.IsInRole("Comptable") && Request.IsAuthenticated)
                                         {
                                             <li class="dropdown">@Html.ActionLink("Mes notes e frais", "AllExpansesReports", "ExpanseReports")</li>
-                                            <li class="dropdown">@Html.ActionLink("creer", "createExpanseReportsDateDay", "ExpanseReports", new { userName = User.Identity.Name }, new { id = "dayMonth" })</li>
+                                            <li class="dropdown">@Html.ActionLink("creer", "Index", "ExpanseReports", new { userName = User.Identity.Name }, new { id = "dayMonth" })</li>
                                         }
                                         @if (User.IsInRole("Admin") || User.IsInRole("Comptable") && Request.IsAuthenticated)
                                         {

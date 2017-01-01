@@ -13,25 +13,41 @@ namespace Project_NotesDeFrais.Controllers
     public class ExpanseReportsController : Controller
     {
         // GET: Expanses
-        public ActionResult Index(String userName)
+        public PartialViewResult Index(String userName)
+        { 
+            var userId = User.Identity.GetUserId();
+            EmployesRepositery empRepository = new EmployesRepositery();
+            ViewData["employer"] = "false";
+            if (empRepository.GetByIdUser(userId) == null)
+            {
+                ViewData["employer"] = "true";
+            }
+
+            ViewData["userName"] = userName;
+            ExpanseReportsModel model = new ExpanseReportsModel();
+            model.Year = DateTime.Now.Year;
+            return PartialView("_MonthYear", model);
+        }
+
+   
+        public ActionResult createExpanseReportsDateDay(String userName)
         {
-  
             ViewData["userName"] = userName;
             ViewData["month"] = Convert.ToInt32(Request.Form["Month"]);
             ViewData["year"] = Convert.ToInt32(Request.Form["Year"]);
             int mois = Convert.ToInt32(Request.Form["Month"]);
             var userId = User.Identity.GetUserId();
-            
+
             ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
             EmployesRepositery empRepository = new EmployesRepositery();
             ExpanseReports exp = new ExpanseReports();
             var idEmployer = empRepository.GetByIdUser(userId).Employee_ID;
             var actor_id = idEmployer;
             exp.ExpanseReport_ID = Guid.NewGuid();
-            exp.CreationDate =DateTime.Now;
+            exp.CreationDate = DateTime.Now;
             exp.Year = Convert.ToInt32(Request.Form["Year"]);
-            
-            exp.Month =mois;
+
+            exp.Month = mois;
             exp.StatusCode = Convert.ToInt32(00);
             exp.ManagerValidationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
             exp.ManagerComment = Convert.ToString(" ");
@@ -43,16 +59,8 @@ namespace Project_NotesDeFrais.Controllers
             exp.Employee_ID = idEmployer;
             exp.Author_ID = actor_id;
             expRepRepo.AddExpansesReports(exp);
-            return RedirectToAction("AllExpanses", "Expanses", new { idExpanseReport = exp.ExpanseReport_ID});
-        }
+            return RedirectToAction("AllExpanses", "Expanses", new { idExpanseReport = exp.ExpanseReport_ID });
 
-   
-        public PartialViewResult createExpanseReportsDateDay(String userName)
-        {
-            ViewData["userName"] = userName;
-            ExpanseReportsModel model = new ExpanseReportsModel();
-            model.Year = DateTime.Now.Year;
-            return PartialView("_MonthYear" , model);
         }
 
         public ActionResult createExpanseReports(ExpanseReports exp, Guid? auther_id)
@@ -65,11 +73,24 @@ namespace Project_NotesDeFrais.Controllers
         {
             var userId = User.Identity.GetUserId();
             EmployesRepositery empRepository = new EmployesRepositery();
+            if (empRepository.GetByIdUser(userId) == null)
+            {
+                ViewData["erreurMessage"] = "Vouns êtes pas encore Employer";
+                return View("ErrorEmptyList");
+            }
             var idEmployer = empRepository.GetByIdUser(userId).Employee_ID;
             ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
             var countElementPage = 10;
             var expansesReports = expRepRepo.allExpanseReports(idEmployer);
             List<ExpanseReportsModel> expanseReportModelList = new List<ExpanseReportsModel>();
+
+            if (expansesReports.Count()==0)
+            {
+                ViewData["erreurMessage"] = "Vouns n'avez aucune note de frais";
+                ViewData["element"] = "ExpanseReports";
+                ViewData["create"] = "false";
+                return View("ErrorEmptyList");
+            }
 
             foreach (var exp in expansesReports)
             {
@@ -223,7 +244,20 @@ namespace Project_NotesDeFrais.Controllers
             ExpanseRepportRepositery expRepRepo = new ExpanseRepportRepositery();
             var countElementPage = 10;
             var expansesReports = expRepRepo.allExpanseReportsToValid();
+            if (User.IsInRole("Comptable"))
+            {
+                expansesReports = expRepRepo.allExpanseReportsToValidComptable();
+            } 
             List<ExpanseReportsModel> expanseReportModelList = new List<ExpanseReportsModel>();
+
+
+            if (expansesReports.Count() == 0)
+            {
+                ViewData["erreurMessage"] = "Vouns n'avez aucune note de frais à valider";
+                ViewData["create"] = "false";
+                return View("ErrorEmptyList");
+            }
+
 
             foreach (var exp in expansesReports)
             {

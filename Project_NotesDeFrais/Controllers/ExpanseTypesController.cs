@@ -36,7 +36,7 @@ namespace Project_NotesDeFrais.Controllers
                 TvasRepositery tvaRepo = new TvasRepositery();
                 var tvaLis = tvaRepo.allTvas().ToList();
                 expansTypeModel.tvaList = tvaLis;
-                return View("ExpansTypeFormulaire" , tvaLis);
+                return View("ExpansTypeFormulaire" , expansTypeModel);
             }
             ExpanseTypes expansType = new ExpanseTypes();
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
@@ -51,6 +51,7 @@ namespace Project_NotesDeFrais.Controllers
         }
 
         public ActionResult edit(Guid id) {
+            
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
             ExpanseTypes expTypes = expTypeRep.getById(id);
             ExpanseTypesModel expTypeModel = new ExpanseTypesModel();
@@ -66,6 +67,19 @@ namespace Project_NotesDeFrais.Controllers
         {
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
             ExpanseTypes expTypes = expTypeRep.getById(id);
+            ExpanseTypesModel expTypeModel = new ExpanseTypesModel();
+            if (!ModelState.IsValid)
+            {
+                TvasRepositery tvaRepo = new TvasRepositery();
+                var tvaLis = tvaRepo.allTvas().ToList();
+                expTypeModel.tvaList = tvaLis;
+                expTypeModel.ExpenseType_ID = expTypes.ExpenseType_ID;
+                expTypeModel.Name = expTypes.Name;
+                expTypeModel.Ceiling = expTypes.Ceiling;
+                expTypeModel.Fixed = expTypes.Fixed;
+                expTypeModel.OnlyManagers = expTypes.OnlyManagers;
+                return View("EditExpansesTypes", expTypeModel);
+            }
             String name = Convert.ToString(Request.Form["Name"]);
             double ceiling = Convert.ToDouble(Request.Form["Ceiling"]);
             Boolean fixe = Convert.ToBoolean(Request.Form["Fixed"]);
@@ -81,6 +95,13 @@ namespace Project_NotesDeFrais.Controllers
             TvasModel tvaModel = new TvasModel();
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
             var expanseTypes= expTypeRep.allExpanseTypes();
+            if (expanseTypes.Count() == 0)
+            {
+                ViewData["erreurMessage"] = "Aucun type de frais !";
+                ViewData["create"] = "true";
+                ViewData["element"] = "ExpanseTypes";
+                return View("ErrorEmptyList");
+            }
             if (User.IsInRole("manager")) {
                 expanseTypes = expTypeRep.allExpanseTypesManager();
             }

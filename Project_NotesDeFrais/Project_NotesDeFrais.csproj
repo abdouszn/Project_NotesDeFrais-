@@ -409,6 +409,7 @@
     <Content Include="Views\Roles\AllRoles.cshtml" />
     <Content Include="Views\Roles\AddUserRole.cshtml" />
     <Content Include="Views\Shared\ErrorEmptyElement.cshtml" />
+    <Content Include="Views\Shared\ErrorEmptyList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

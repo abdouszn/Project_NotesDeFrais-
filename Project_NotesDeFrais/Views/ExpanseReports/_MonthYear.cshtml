@@ -1,40 +1,53 @@
 ﻿
 @model Project_NotesDeFrais.Models.ExpanseReportsModel
 
-@using (Html.BeginForm("", "ExpanseReports/index", "", FormMethod.Post,  new { @class = "form-vertical", role = "form" }))
+@if (@ViewData["employer"] == "true")
 {
-    @Html.ValidationSummary(true)
-    <fieldset>
-        <legend>nouvelle note de frais</legend><br />
-        @Html.Label("Author :")<h3>@ViewData["userName"]</h3><br/>
-        <div class="editor-label">
-            @Html.LabelFor(model => @Model.Month ,  new { @class = "control-label col-sm-1" })
-            <select class="selectpicker" name="month">
-                @for (int i = 1; i <= 12; i++)
-                {
-                    if (@i > DateTime.Now.Month)
-                    {
-                        <option disabled>@i</option>
-                    }else
-                    {
-                        <option>@i</option>
-                    }
-                }
-                } 
-            </select>
-            @Html.ValidationMessageFor(model => @Model.Month, "", new { @class = "text-danger" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => @Model.Year, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.Year, new { @required = "required" , @class = " form-control", @readOnly="true" })
-            @Html.ValidationMessageFor(model => @Model.Year, "", new { @class = "text-danger"})
-        </div>
-        
-        <div class="form-group">
-            <button type="submit" class="btn-success" onclick="saveSuccess();"> Enregistrer </button>
-        </div>
-</fieldset>
-}
 
+    <br />
+    <br />
+    <div class="alert alert-danger">
+        <strong> Vous n'est pas encore employer !</strong>
+    </div>
+
+}
+else
+{
+    using (Html.BeginForm("", "ExpanseReports/createExpanseReportsDateDay", "", FormMethod.Post, new { @class = "form-vertical", role = "form" }))
+    {
+        @Html.ValidationSummary(true)
+        <fieldset>
+            <legend>nouvelle note de frais</legend><br />
+            @Html.Label("Author :")<h3>@ViewData["userName"]</h3><br/>
+            <div class="editor-label">
+                @Html.LabelFor(model => @Model.Month, new { @class = "control-label col-sm-1" })
+                <select class="selectpicker" name="month">
+                    @for (int i = 1; i <= 12; i++)
+                    {
+                        if (@i > DateTime.Now.Month)
+                        {
+                            <option disabled>@i</option>
+                        }
+                        else
+                        {
+                            <option>@i</option>
+                        }
+                    }
+                    } 
+                </select>
+                @Html.ValidationMessageFor(model => @Model.Month, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => @Model.Year, new { @class = "control-label col-sm-1" })
+                @Html.TextBoxFor(model => @Model.Year, new { @required = "required", @class = " form-control", @readOnly = "true" })
+                @Html.ValidationMessageFor(model => @Model.Year, "", new { @class = "text-danger" })
+            </div>
+        
+            <div class="form-group">
+                <button type="submit" class="btn-success" onclick="saveSuccess();"> Enregistrer </button>
+            </div>
+    </fieldset>
+    }
+}
 
 

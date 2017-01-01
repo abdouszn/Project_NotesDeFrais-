@@ -59,6 +59,12 @@ namespace Project_NotesDeFrais.Controllers
             AspNetUsers user = new AspNetUsers();
             PolesModel pole = new PolesModel();
             var employers = empRp.allEmployees();
+            if (employers.Count() == 0)
+            {
+                ViewData["erreurMessage"] = "Aucun employer !";
+                ViewData["create"] = "false";
+                return View("ErrorEmptyList");
+            }
             List<EmployeesModel> employersModel = new List<EmployeesModel>();
             foreach (var emp in employers)
             {

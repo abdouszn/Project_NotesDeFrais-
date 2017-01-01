@@ -60,8 +60,17 @@ namespace Project_NotesDeFrais.Controllers
         public ActionResult updatePole(Guid id)
         {
             PolesRepository polRep = new PolesRepository();
-            String name = Convert.ToString(Request.Form["Name"]);
-            Poles pole= polRep.GetById(id);
+            Poles pole = polRep.GetById(id);
+            if (!ModelState.IsValid)
+            {
+                PolesModel poleModel = new PolesModel();
+                poleModel.Pole_ID = pole.Pole_ID;
+                poleModel.Name = pole.Name;
+                poleModel.Manager_ID = pole.Manager_ID;
+                return View("EditPoles", poleModel);
+            }
+                String name = Convert.ToString(Request.Form["Name"]);
+           
             polRep.updatePole(pole , name);
             return RedirectToAction("AllPoles");
         }
@@ -72,6 +81,13 @@ namespace Project_NotesDeFrais.Controllers
             PolesRepository polRep = new PolesRepository();
             var countElementPage = 10;
             var poles = polRep.allPoles();
+            if (poles.Count() == 0)
+            {
+                ViewData["erreurMessage"] = "Aucun pole!";
+                ViewData["element"] = "Poles";
+                ViewData["create"] = "true";
+                return View("ErrorEmptyList");
+            }
             List<PolesModel> ploesModel = new List<PolesModel>();
 
             foreach (var pol in poles)

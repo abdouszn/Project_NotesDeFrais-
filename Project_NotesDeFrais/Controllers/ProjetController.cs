@@ -33,9 +33,13 @@ namespace Project_NotesDeFrais.Controllers
         public ActionResult createProject(ProjectsModel projetModel , Guid? id_Customer)
         {
             ProjetRepositery prtRep = new ProjetRepositery();
-           
+            if (!ModelState.IsValidField("Name") || !ModelState.IsValidField("Budget"))
+            {
+                projetModel.CustomersList = prtRep.getAllCustomers().ToList();
+                projetModel.PolesList = prtRep.getAllPoles().ToList();
+                return View("ProjectFormulaire", projetModel);
+            }
             ViewData["id_Customer"] = id_Customer;
-            
             Projects projet = new Projects();
             projet.Project_ID = Guid.NewGuid();
             projet.Name = Convert.ToString(Request.Form["Name"]);
@@ -67,6 +71,14 @@ namespace Project_NotesDeFrais.Controllers
             ProjetRepositery prtRep = new ProjetRepositery();
             int countElementPage = 10;
             var projets = prtRep.allProjects();
+
+            if (projets.Count() == 0)
+            {
+                ViewData["erreurMessage"] = "Aucun Projet!";
+                ViewData["element"] = "Projet";
+                ViewData["create"] = "true";
+                return View("ErrorEmptyList");
+            }
             List<ProjectsModel> projetsModel = new List<ProjectsModel>();
 
             foreach (var prjt in projets)
@@ -87,14 +99,20 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllProjects", lst);
         }
 
-        public ActionResult updateProject(Guid id , ProjectsModel projetModel) {
-            if (!ModelState.IsValid)
-            {
-                return View("EditProject", projetModel);
-            }
+        public ActionResult updateProject(Guid id) {
             ProjetRepositery prtRep = new ProjetRepositery();
             ProjectsModel prjtModel = new ProjectsModel();
             Projects projet = prtRep.GetById(id);
+            if (!ModelState.IsValidField("Name") || !ModelState.IsValidField("Budget"))
+            {
+                prjtModel.Project_ID = projet.Project_ID;
+                prjtModel.Name = projet.Name;
+                prjtModel.Description = projet.Description;
+                prjtModel.CustomersList = prtRep.getAllCustomers().ToList();
+                prjtModel.PolesList = prtRep.getAllPoles().ToList();
+                return View("EditProject", prjtModel);
+            }
+            
             String name = Convert.ToString(Request.Form["Name"]);
             string description = Convert.ToString(Request.Form["Description"]);
             double budget = Convert.ToDouble(Request.Form["Budget"]);

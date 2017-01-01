@@ -89,6 +89,12 @@ namespace Project_NotesDeFrais.Controllers
         public ActionResult allRoles(int? pageIndex) {
             RolesRepositery rolRep = new RolesRepositery();
             var listRole = rolRep.allRoles();
+            if (listRole.Count() == 0)
+            {
+                ViewData["erreurMessage"] = "Aucun role existant!";
+                ViewData["create"] = "false";
+                return View("ErrorEmptyList");
+            }
             var countElementPage = 10;
             PaginatedList<AspNetRoles> lst = new PaginatedList<AspNetRoles>(listRole, pageIndex, countElementPage);
             return View("AllRoles", lst);
