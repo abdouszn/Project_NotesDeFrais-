@@ -162,14 +162,14 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllExpansesReports");
         }
 
-        [Authorize(Roles = "Comptable , Admin")]
+        [Authorize(Roles = "Comptable , Manager")]
         public ActionResult validateExpanseReportByAdminOrManager(Guid id) {
             ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
             String managerComment = "no comment";
             String comtableComment = "no comment";
             int StatusCode = 10;
             ExpanseReports expReport = expRep.GetById(id);
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole("Manager"))
             {
                 StatusCode = 20;
                 expRep.updateStatus(expReport, StatusCode, managerComment, comtableComment);
@@ -196,7 +196,7 @@ namespace Project_NotesDeFrais.Controllers
         }
 
 
-        [Authorize(Roles = "Comptable , Admin")]
+        [Authorize(Roles = "Comptable , Manager")]
         public ActionResult modifExpanseReports(Guid idExpanseReport) {
             ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
             ExpanseReports expRep = expRepRep.GetById(idExpanseReport);
@@ -209,7 +209,7 @@ namespace Project_NotesDeFrais.Controllers
         }
 
 
-        [Authorize(Roles = "Comptable , Admin")]
+        [Authorize(Roles = "Comptable , Manager")]
         public ActionResult modifCommentExpanseReports(Guid idExpanseReport) {
            
             ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
@@ -237,7 +237,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllExpansesReports");
         }
 
-        [Authorize(Roles = "Comptable , Admin")]
+        [Authorize(Roles = "Comptable , Manager")]
         public ActionResult AllExpansesReportsToValid(int? pageIndex)
         {
             var userId = User.Identity.GetUserId();

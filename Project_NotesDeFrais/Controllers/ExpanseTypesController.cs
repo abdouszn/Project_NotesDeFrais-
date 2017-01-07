@@ -42,7 +42,13 @@ namespace Project_NotesDeFrais.Controllers
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
             expansType.ExpenseType_ID = Guid.NewGuid();
             expansType.Name = Convert.ToString(Request.Form["Name"]);
-            expansType.Ceiling = Convert.ToDouble(Request.Form["Ceiling"]);
+            if (Request.Form["Ceiling"] == null || string.IsNullOrWhiteSpace(Request.Form["Ceiling"]))
+            {
+                expansType.Ceiling = 0;
+            }
+            else {
+                expansType.Ceiling = Convert.ToDouble(Request.Form["Ceiling"]);
+            }
             expansType.Fixed = Convert.ToBoolean(Request.Form["Fixed"]);
             expansType.OnlyManagers= Convert.ToBoolean(Request.Form["OnlyManagers"]);
             expansType.Tva_ID = new Guid(Convert.ToString(Request.Form["tvaSelect"]));

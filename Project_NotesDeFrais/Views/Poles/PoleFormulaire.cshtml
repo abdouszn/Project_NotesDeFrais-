@@ -16,18 +16,17 @@
         @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
     </div>
         <div class="editor-label">
-            @Html.Label("manager")
-            <select class="selectpicker" name="managerSelect">
+            @Html.Label("manager", new { @class = "control-label col-sm-1" })
+            <select class="form-control" name="managerSelect">
 
                 @foreach (var s in @Model.Employees)
                 {
                     <option value="@s.Employee_ID">@s.FirstName</option>
                 }
             </select>
-
         </div>
     <div class="form-group">
-        <button type="submit" class="btn-success" onclick="saveSuccess();"> Enregistrer </button>
+        <button type="submit" class="btn btn-success"> Enregistrer </button>
     </div>
     </fieldset>
 }

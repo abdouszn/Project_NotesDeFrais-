@@ -8,24 +8,25 @@
     <fieldset>
         <legend> @ViewData["id_Customer"] </legend>
 
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Name, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Name, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Description, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Description, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Description, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Budget, new { @class = "control-label col-sm-1" })
-            @Html.TextBoxFor(model => @Model.Budget, new { @required = "required", @class = " form-control" }) 
+            @Html.TextBoxFor(model => @Model.Budget, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Budget, "", new { @class = "text-danger" })
         </div>
+
         <div class="form-group">
-            @Html.LabelFor(model => @Model.Customers)
-            <select class="selectpicker" name="customersList">
+            @Html.LabelFor(model => @Model.Customers , new { @class = "control-label col-sm-1" })
+            <select class="form-control" name="customersList">
                 @foreach (var u in Model.CustomersList)
                 {
                     <option value="@u.Customer_ID">@u.Name</option>
@@ -34,8 +35,8 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => @Model.Poles)
-            <select class="selectpicker" name="polesList">
+            @Html.LabelFor(model => @Model.Poles , new { @class = "control-label col-sm-1" })
+            <select class="form-control" name="polesList">
                 @foreach (var u in Model.PolesList)
                 {
                     <option value="@u.Pole_ID">@u.Name</option>
@@ -43,7 +44,7 @@
             </select>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn-success" onclick="saveSuccess();"> Enregistrer </button>
+            <button type="submit" class="btn btn-success"> Enregistrer </button>
         </div>
     </fieldset>
 }

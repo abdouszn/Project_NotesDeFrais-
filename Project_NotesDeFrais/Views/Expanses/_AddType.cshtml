@@ -14,11 +14,12 @@
     {
 
             @Html.ValidationSummary(true)
-            <fieldset>
-                <legend>idrapport : @ViewData["idExpanseReport"]</legend>
-                <div class="editor-label">
-                    @Html.LabelFor(model => @Model.Day)
-                    <select class="selectpicker" name="monthSelect">
+
+            <br />
+            <fieldset style="padding:5px;">
+                <div class="form-group">
+                    @Html.LabelFor(model => @Model.Day, new { @class = "control-label col-sm-2" })
+                    <select class="form-control" name="monthSelect">
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -61,9 +62,9 @@
 
                     </select>
                 </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => @Model.Customers)
-                    <select class="selectpicker" id="selectedCustomer" name="customerSelect" onchange="selectProjects();">
+                <div class="form-group">
+                    @Html.LabelFor(model => @Model.Customers, new { @class = "control-label col-sm-2" })
+                    <select class="form-control" id="selectedCustomer" name="customerSelect" onchange="selectProjects();">
 
                         @foreach (var s in @Model.CustomersList)
                         {
@@ -72,9 +73,9 @@
 
                     </select>
                 </div>
-                <div class="editor-label" id="projectUpdated">
-                    @Html.LabelFor(model => @Model.Projects)
-                    <select class="selectpicker" name="projectSelect">
+                <div class="form-group" id="projectUpdated">
+                    @Html.LabelFor(model => @Model.Projects, new { @class = "control-label col-sm-2" })
+                    <select class="form-control" name="projectSelect">
 
                         @foreach (var s in @Model.ProjectsList)
                         {
@@ -84,9 +85,9 @@
                     </select>
 
                 </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => @Model.ExpanseTypes)
-                    <select class="selectpicker" name="typeSelect" id="expanseTypeSelect" onchange="selectCellingExpance();">
+                <div class="form-group">
+                    @Html.Label("Type", new { @class = "control-label col-sm-2" })
+                    <select class="form-control" name="typeSelect" id="expanseTypeSelect" onchange="selectCellingExpance();">
 
                         @foreach (var s in @Model.ExpanseTypesList)
                         {
@@ -95,26 +96,23 @@
                     </select>
 
                 </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => @Model.Amount_HT, new { @class = "control-label col-sm-1" })
+                <div class="form-group">
+                    @Html.LabelFor(model => @Model.Amount_HT, new { @class = "control-label col-sm-2" })
                     @Html.TextBoxFor(model => @Model.Amount_HT, new { @required = "required", @class = " form-control", @id = "updatHt" })
                     @Html.ValidationMessageFor(model => @Model.Amount_HT, "", new { @class = "text-danger" })
                 </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => @Model.Amount_TVA, new { @class = "control-label col-sm-1" })
+
+                <div class="form-group">
+                    @Html.LabelFor(model => @Model.Amount_TVA, new { @class = "control-label col-sm-2" })
                     @Html.TextBoxFor(model => @Model.Amount_TVA, new { @required = "required", @class = " form-control", @id = "updatTva" })
                     @Html.ValidationMessageFor(model => @Model.Amount_TVA, "", new { @class = "text-danger" })
                 </div>
-                <div class="editor-label">
-                    @Html.LabelFor(model => @Model.Amount_TTC, new { @class = "control-label col-sm-1" })
-                    @Html.TextBoxFor(model => @Model.Amount_TTC, new { @required = "required" })
-                    @Html.ValidationMessageFor(model => @Model.Amount_TTC, "", new { @class = "text-danger" })
-                </div>
                 <div class="form-group">
-                    <button type="submit" class="btn-success"> Enregistrer </button>
+                    <button type="submit" class="btn btn-success"> Enregistrer </button>
                 </div>
             </fieldset>
-        }
+
+     }
         <script>
 
         function selectProjects() {
@@ -143,8 +141,7 @@
                 cache: false,
                 success: function (result) {
                     montant = result.split("-");
-                    alert(montant[0]);
-                    if (result != 0) {
+                    if (montant[0] != 0) {
                         $('#updatHt').val(montant[0]);
                         $('#updatHt').prop('readonly', "readonly");
                     } else {

@@ -92,17 +92,17 @@
                                     </ul>
                                 </li>
                             }
-                            @if (Request.IsAuthenticated)
+                            @if (Request.IsAuthenticated && !User.IsInRole("Admin"))
                             {
                                 <li class="dropdown">
                                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">Notes de frais<b class="caret"></b></a>
                                     <ul class="dropdown-menu" role="navigation">
-                                        @if (!User.IsInRole("Admin") && !User.IsInRole("Comptable") && Request.IsAuthenticated)
+                                        @if (!User.IsInRole("Admin") && !User.IsInRole("Comptable") && !User.IsInRole("Manager")  && Request.IsAuthenticated)
                                         {
                                             <li class="dropdown">@Html.ActionLink("Mes notes e frais", "AllExpansesReports", "ExpanseReports")</li>
                                             <li class="dropdown">@Html.ActionLink("creer", "Index", "ExpanseReports", new { userName = User.Identity.Name }, new { id = "dayMonth" })</li>
                                         }
-                                        @if (User.IsInRole("Admin") || User.IsInRole("Comptable") && Request.IsAuthenticated)
+                                        @if (User.IsInRole("Manager") || User.IsInRole("Comptable") && Request.IsAuthenticated)
                                         {
                                             <li class="dropdown">@Html.ActionLink("Notes de frais à valider", "AllExpansesReportsToValid", "ExpanseReports")</li>
                                         }
@@ -125,7 +125,7 @@
             </footer>
         </div>
 
-        <div id='myModal' class='modal fade in'>
+        <div id='myModal' class='modal fade in' style="width:600px; height:800px;">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div id='myModalContent'></div>
