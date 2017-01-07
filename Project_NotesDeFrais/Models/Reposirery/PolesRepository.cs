@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
@@ -17,16 +19,28 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         }
 
+        public IQueryable<Employees> getAllManager() {
+            ApplicationDbContext context = new ApplicationDbContext();
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+            var userIds = roleManager.FindByName("Manager").Users.Select(e => e.UserId).ToList();
+            var managers = userManager.Users.Where(e => userIds.Contains(e.Id));
+            List<Employees> employerManager=new List<Employees>();
+            foreach (var manage in managers)
+            {
+               Employees user = (from man in e.Employees where man.User_ID == manage.Id select man).FirstOrDefault();
+                employerManager.Add(user);
+            }
+
+            return employerManager.AsQueryable();
+        }
         public void AddPoles(Poles pole)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.Poles.Add(pole);
                 e.SaveChanges();
-
             }
-
-
         }
 
         public void updatePole(Poles poles , String name)

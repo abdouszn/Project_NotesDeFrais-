@@ -15,15 +15,15 @@ namespace Project_NotesDeFrais.Controllers
         public ActionResult Index()
         {
             PolesModel pole = new PolesModel();
-            EmployesRepositery empRep = new EmployesRepositery();
+            PolesRepository poleRep = new PolesRepository();
             EmployeesModel empModel = new EmployeesModel();
-            var lisEmp = empRep.allEmployees();
-            if (lisEmp.ToList().Count() == 0)
+            var lisEmpManager = poleRep.getAllManager();
+            if (lisEmpManager.ToList().Count() == 0)
             {
                 ViewData["erreur"] = "Employers";
                 return View("ErrorEmptyElement");
             }
-            foreach (var emp in lisEmp) {
+            foreach (var emp in lisEmpManager) {
                 empModel.Employee_ID = emp.Employee_ID;
                 empModel.FirstName = emp.FirstName;
                 pole.Employees.Add(empModel);

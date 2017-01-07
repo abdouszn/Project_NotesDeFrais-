@@ -18,6 +18,7 @@ namespace Project_NotesDeFrais.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+
         public AccountController()
         {
         }

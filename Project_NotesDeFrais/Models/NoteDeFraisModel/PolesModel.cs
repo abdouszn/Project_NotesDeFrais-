@@ -29,5 +29,7 @@ namespace Project_NotesDeFrais.Models
         public virtual ICollection<EmployeesModel> Employees { get; set; }
         public virtual EmployeesModel Employees1 { get; set; }
         public virtual ICollection<ProjectsModel> Projects { get; set; }
+
+        public List<AspNetUsers> Manager { get; set; }
     }
 }

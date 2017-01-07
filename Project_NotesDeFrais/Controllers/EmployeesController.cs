@@ -19,7 +19,7 @@ namespace Project_NotesDeFrais.Controllers
 
             empModel.AspNetUsersList = empRp.getAllUsers().ToList();
             empModel.polesList = empRp.getAllPoles().ToList();
-            if (empRp.getAllUsers().ToList().Count() == 0 || empRp.getAllPoles().ToList().Count() == 0)
+            if (empRp.getAllUsers().ToList().Count() == 0)
             {
                 ViewData["erreur"] = "Utilisateurs et des Poles ";
                 return View("ErrorEmptyElement");
@@ -40,9 +40,15 @@ namespace Project_NotesDeFrais.Controllers
             }
             emp.Employee_ID = Guid.NewGuid();
             String userUmail = Convert.ToString(Request.Form["userList"]);
-            String userName = Convert.ToString(Request.Form["polesList"]);
             emp.User_ID = empRp.getUserByMail(userUmail);
-            emp.Pole_ID = empRp.getPoleByName(userName);
+            if (empRp.getAllPoles().ToList().Count() == 0)
+            {
+                emp.Pole_ID = null;
+            }
+            else {
+                emp.Pole_ID = new Guid(Convert.ToString(Request.Form["poleList"]));
+            }
+          
             emp.FirstName = Convert.ToString(Request.Form["FirstName"]);
             emp.LastName = Convert.ToString(Request.Form["LastName"]);
             emp.Email= Convert.ToString(Request.Form["Email"]);
@@ -57,7 +63,8 @@ namespace Project_NotesDeFrais.Controllers
             var countElementPage = 10;
             EmployesRepositery empRp = new EmployesRepositery();
             AspNetUsers user = new AspNetUsers();
-            PolesModel pole = new PolesModel();
+          
+            PolesRepository poleRepo = new PolesRepository();
             var employers = empRp.allEmployees();
             if (employers.Count() == 0)
             {
@@ -68,7 +75,7 @@ namespace Project_NotesDeFrais.Controllers
             List<EmployeesModel> employersModel = new List<EmployeesModel>();
             foreach (var emp in employers)
             {
-                var polId = emp.Pole_ID != null ? emp.Pole_ID : null;
+              
                 EmployeesModel empModel = new EmployeesModel();
                 empModel.Email = emp.Email;
                 empModel.Employee_ID = emp.Employee_ID;
@@ -76,10 +83,20 @@ namespace Project_NotesDeFrais.Controllers
                 empModel.LastName = emp.LastName;
                 empModel.Telephone = emp.Telephone;
                 empModel.User_ID = emp.User_ID;
-                empModel.Pole_ID = emp.Pole_ID;
                 empModel.AspNetUsers = empRp.getUserById(emp.User_ID);
-                pole.Name= empRp.getPoleById(emp.Pole_ID).Name;
-                empModel.Poles = pole;
+                if (emp.Poles == null)
+                {
+                    PolesModel pole = new PolesModel();
+                    pole.Name = "inconnu";
+                    empModel.Poles = pole;
+                }
+                else {
+                    PolesModel pole = new PolesModel();
+                    pole.Pole_ID = emp.Poles.Pole_ID;
+                    pole.Name = emp.Poles.Name;
+                    empModel.Poles = pole;
+                }
+                
                 employersModel.Add(empModel);
             }
             IQueryable<EmployeesModel> listEmp = employersModel.AsQueryable();
