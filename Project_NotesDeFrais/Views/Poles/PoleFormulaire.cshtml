@@ -10,12 +10,12 @@
     <fieldset>
         <legend>Nouveau produit</legend>
 
-    <div class="editor-label">
+    <div class="form-group">
         @Html.LabelFor(model => @Model.Name, new { @class = "control-label col-sm-1" })
         @Html.TextBoxFor(model => @Model.Name, new { @required = "required", @class = " form-control" })
         @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
     </div>
-        <div class="editor-label">
+        <div class="form-group">
             @Html.Label("manager", new { @class = "control-label col-sm-1" })
             <select class="form-control" name="managerSelect">
 

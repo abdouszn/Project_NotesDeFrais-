@@ -8,11 +8,11 @@
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Nouveau produit</legend>
+        <legend>Nouveau Role</legend>
 
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Name, new { @class = "control-label col-sm-1" })
-            <select class="selectpicker" name="roleSelected">
+            <select class="form-control" name="roleSelected">
                 <option>Admin</option>
                 <option>Comptable</option>
                 <option>Manager</option>
@@ -20,7 +20,7 @@
                 @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            <button type="submit" class="btn-success" onclick="saveSuccess();"> Enregistrer </button>
+            <button type="submit" class="btn btn-success"> Enregistrer </button>
         </div>
 
     </fieldset>

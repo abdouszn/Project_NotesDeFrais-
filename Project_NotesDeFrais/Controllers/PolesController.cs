@@ -2,6 +2,7 @@
 using Project_NotesDeFrais.Models.Reposirery;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -17,18 +18,21 @@ namespace Project_NotesDeFrais.Controllers
             PolesModel pole = new PolesModel();
             PolesRepository poleRep = new PolesRepository();
             EmployeesModel empModel = new EmployeesModel();
-            var lisEmpManager = poleRep.getAllManager();
+            List<Employees> lisEmpManager = poleRep.getAllManager();
+            Debug.WriteLine("nombre d element :"+lisEmpManager.Count());
             if (lisEmpManager.ToList().Count() == 0)
             {
                 ViewData["erreur"] = "Employers";
                 return View("ErrorEmptyElement");
+
             }
-            foreach (var emp in lisEmpManager) {
+            foreach (Employees emp in lisEmpManager) {
+                Debug.WriteLine("element de list :"+emp.Email);
                 empModel.Employee_ID = emp.Employee_ID;
                 empModel.FirstName = emp.FirstName;
                 pole.Employees.Add(empModel);
+                break;
             }
-            
             return View("PoleFormulaire" , pole);
         }
 

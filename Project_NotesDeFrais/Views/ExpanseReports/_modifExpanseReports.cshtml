@@ -3,15 +3,15 @@
 @using (Html.BeginForm("modifCommentExpanseReports", "ExpanseReports", new { idExpanseReport = @Model.ExpanseReport_ID}, FormMethod.Post, new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
-    <fieldset>
+    <fieldset style="padding:5px;">
         <legend>Commentaire de modification</legend>
         <div class="form-group">
-            @Html.LabelFor(model => @Model.ManagerComment, new { @class = "control-label col-sm-1" })
+            @Html.LabelFor(model => @Model.ManagerComment, new { @class = "control-label col-sm-3 " })
             @Html.TextAreaFor(model => @Model.ManagerComment, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.ManagerComment, "", new { @class = "text-danger" })
         </div>
         <p>
-            <button type="submit" class="btn-success" onclick="saveSuccess();"> Enregistrer </button>
+            <button type="submit" class="btn btn-success"> Enregistrer </button>
         </p>
     </fieldset>
 }

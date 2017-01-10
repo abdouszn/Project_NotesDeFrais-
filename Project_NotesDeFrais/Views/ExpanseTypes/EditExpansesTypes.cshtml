@@ -6,30 +6,31 @@
 @using (Html.BeginForm("update", "ExpanseTypes", new { id = @Model.ExpenseType_ID}, FormMethod.Post, new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
+    <br /><br />
     <fieldset>
-        <legend>Nouveau produit</legend>
-        <div class="editor-label">
+        <legend>Modifier type Expanse</legend>
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Name, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Name, new { @required = "required", @class = "control-label col-sm-1" })
             @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Ceiling, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Ceiling, new { @required = "required", @class = "control-label col-sm-1" })
             @Html.ValidationMessageFor(model => @Model.Ceiling, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Fixed, new { @class = "control-label col-sm-1" })
             <input type="checkbox" name="Fixed" value="true" />
             @Html.ValidationMessageFor(model => @Model.Fixed, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.OnlyManagers, new { @class = "control-label col-sm-1" })
             <input type="checkbox" name="OnlyManagers" value="true" />
             @Html.ValidationMessageFor(model => @Model.OnlyManagers, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            <button type="submit" class="btn-success"> Enregistrer </button>
+            <button type="submit" class="btn btn-success"> Enregistrer </button>
         </div>
     </fieldset>
 }

@@ -6,15 +6,15 @@
 @using (Html.BeginForm("updateTvas", "Tvas", new { id=Model.TVA_ID}, FormMethod.Post, new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
+    <br /><br />
     <fieldset>
-        <legend>Nouveau produit</legend>
-
-        <div class="editor-label">
+        <legend>Modifier Tva</legend>
+        <div class="form-group">
             @Html.LabelFor(model => @Model, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Name, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Name, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Value, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Value, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Value, "", new { @class = "text-danger" })

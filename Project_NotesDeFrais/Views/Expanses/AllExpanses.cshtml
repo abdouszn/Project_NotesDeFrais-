@@ -16,8 +16,14 @@
 {
     @Html.AntiForgeryToken()
     <div class="row">
-        <input type="text" name="query" class="text-info" />
-        <input type="submit" value="Search" class="btn btn-info" />
+        <div class="col-md-10">
+            <input type="text" name="query" class="text-info" />
+            <input type="submit" value="Search" class="btn btn-info" />
+        </div>
+       <div class="col-md-2">
+           @Html.ActionLink("notes de frais", "AllExpansesReports", "ExpanseReports", "", new { @class = "btn btn-default" })
+       </div>
+       
     </div>
 }
 <br />
@@ -33,12 +39,13 @@
         <th>Amount HT</th>
         <th>Amount TVA</th>
         <th>Amount TTC</th>
-        <th>Editer</th>
-        <th>Supprimer</th>
+        @if (Request.IsAuthenticated && !User.IsInRole("Manager") && !User.IsInRole("Comptable") && !User.IsInRole("Admin"))
+        {
+                <th>Editer</th>
+                <th>Supprimer</th>
+        }
         @foreach (var s in Model)
         {
-
-
             code = @s.ExpanseReports.StatusCode;
             idExpRep = @s.ExpanseReports.ExpanseReport_ID;
             <tr>
@@ -49,43 +56,42 @@
                 <td>@s.Amount_HT</td>
                 <td>@s.Amount_TVA</td>
                 <td>@s.Amount_TTC</td>
-                <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("edit", "Expanses", new { idExpanse = s.Expanse_ID}) + "'");" /></td>
-                <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete", "Expanses", new { id = s.Expanse_ID }) + "'");" /></td>
-                
+                @if (Request.IsAuthenticated && !User.IsInRole("Manager") && !User.IsInRole("Comptable") && !User.IsInRole("Admin"))
+                {
+                    <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("edit", "Expanses", new { idExpanse = s.Expanse_ID}) + "'");" /></td>
+                    <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete", "Expanses", new { id = s.Expanse_ID }) + "'");" /></td>
+                }
             </tr>
         }
     </table><br />
     <div class="row">
-        <div class="col-md-10">
-            <a href="?pageIndex=@(Model.PageIndex + 1)"><input type="button" value="suivant >>" class="btn btn-default" /></a>
+        <div class="col-md-8">
+            @if (Request.IsAuthenticated && !User.IsInRole("Manager") && !User.IsInRole("Comptable"))
+            {
+
+                @Html.ActionLink("nouveau frais", "popup", "expanses", new { idExpanseReport = @ViewData["idExpanseReport"] }, new { @class = "btn btn-default", id = "ajoutType" })
+
+                if (code == 00 || code == 15 || code == 25)
+                {
+                    <a href="@Url.Action("AllExpanses", "Expanses", new { idExpanseReport = @idExpRep })"><input type="button" value="enregistrer" class="btn btn-success" /></a>
+                    <a href="@Url.Action("validateExpanseReport", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" /></a>
+                    <a href="@Url.Action("annulExpanseReports", "ExpanseReports", new { idExpanseReport = @idExpRep })"><input type="button" value="annuler" class="btn btn-danger" /></a>
+                }
+            }
+
+            @if (Request.IsAuthenticated && User.IsInRole("Manager") || User.IsInRole("Comptable"))
+            {
+                @Html.ActionLink("demander des modification", "modifExpanseReports", "ExpanseReports", new { idExpanseReport = @ViewData["idExpanseReport"] }, new { @class = "btn btn-primary", id = "modif" })
+                <a href="@Url.Action("validateExpanseReportByAdminOrManager", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" onclick="saveSuccess();" /></a>
+            }
+        </div>
+        <div  style="float:right;">
             <a href="?pageIndex=@(Model.PageIndex - 1)"><input type="button" value="<< precedent " class="btn btn-default" /></a>
+            <a href="?pageIndex=@(Model.PageIndex + 1)"><input type="button" value="suivant >>" class="btn btn-default" /></a>
         </div>
-        <div class="col-md-2">
-            @Html.ActionLink("notes de frais", "AllExpansesReports", "ExpanseReports", "", new { @class = "btn btn-default" })
-        </div>
+       
     </div>
 </div>
-<div id="haut" style="position : relative;
-top:-240px; left: 770px;">
-    @if (Request.IsAuthenticated && !User.IsInRole("Manager") && !User.IsInRole("Comptable"))
-    {
-       
-        @Html.ActionLink("nouveau frais", "popup", "expanses", new { idExpanseReport = @ViewData["idExpanseReport"] }, new { @class = "btn btn-default", id = "ajoutType" })
-
-        if (code == 00 || code == 15 || code == 25)
-        {
-            <a href="@Url.Action("AllExpanses", "Expanses", new { idExpanseReport = @idExpRep })"><input type="button" value="enregistrer" class="btn btn-success" /></a>
-            <a href="@Url.Action("validateExpanseReport", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" /></a>
-            <a href="@Url.Action("annulExpanseReports", "ExpanseReports", new { idExpanseReport = @idExpRep })"><input type="button" value="annuler" class="btn btn-danger" /></a>
-        }
-    }
-
-    @if (Request.IsAuthenticated && User.IsInRole("Manager") || User.IsInRole("Comptable"))
-    {
-        @Html.ActionLink("demander des modification", "modifExpanseReports", "ExpanseReports", new { idExpanseReport = @ViewData["idExpanseReport"] }, new { @class = "btn btn-primary", id = "modif" })
-        <a href="@Url.Action("validateExpanseReportByAdminOrManager", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" onclick="saveSuccess();" /></a>
-    }
-</div>  
 <div id='myModal' class='modal fade in' style="padding:10px;">
     <div class="modal-dialog">
         <div class="modal-content">

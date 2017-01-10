@@ -39,7 +39,6 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
 
-
         public IQueryable<Employees> getSerachingemployees(String query)
         {
             using (new NotesDeFraisEntities())

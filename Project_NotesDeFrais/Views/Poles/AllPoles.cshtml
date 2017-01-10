@@ -3,9 +3,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>All Employers</h2>
+<h2>All Poles</h2>
 
+@using (Ajax.BeginForm("Searche", "Poles", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "SuccessMessage",
+    OnFailure = "FailMessage",
+    UpdateTargetId = "projectTable"
+}))
+{
+    @Html.AntiForgeryToken()
+    <input type="text" name="query" class="text-info" />
+    <input type="submit" value="Search" class="btn btn-info" />
 
+}
 <br />
 <br />
 <div id="projectTable">

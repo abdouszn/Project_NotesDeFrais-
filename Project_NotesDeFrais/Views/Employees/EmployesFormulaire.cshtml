@@ -21,8 +21,6 @@
                 @Html.ValidationMessageFor(model => @Model.LastName, "", new { @class = "text-danger" })
             </div>
             <div class="form-group">
-
-
                 @Html.LabelFor(model => @Model.Email, new { @class = "control-label col-sm-1" })
                 @Html.TextBoxFor(model => @Model.Email, new { @class = " form-control" })
                 @Html.ValidationMessageFor(model => @Model.Email, "", new { @class = "text-danger" })
@@ -35,8 +33,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => @Model.AspNetUsers)
-                <select class="selectpicker" name="userList">
+                @Html.LabelFor(model => @Model.AspNetUsers, new { @class = "control-label col-sm-1" })
+                <select class="form-control" name="userList">
                     @foreach (var u in Model.AspNetUsersList)
                 {
                         <option>@u.Email</option>
@@ -48,19 +46,18 @@
             @if (Model.polesList.Count() != 0)
             {
                 <div class="form-group">
-                    @Html.LabelFor(model => @Model.Poles)
-                    <select class="selectpicker" name="poleList">
+                    @Html.LabelFor(model => @Model.Poles, new { @class = "control-label col-sm-1" })
+                    <select class="form-control" name="poleList">
                         @foreach (var u in Model.polesList)
                         {
                             <option value="@u.Pole_ID">@u.Name</option>
                         }
-
                     </select>
                 </div>
             }
 
                 <div class="form-group">
-                    <button type="submit" class="btn-success" onclick="saveSuccess();"> Enregistrer </button>
+                    <button type="submit" class="btn btn-success"> Enregistrer </button>
                 </div>
 </fieldset>
     }

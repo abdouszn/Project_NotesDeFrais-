@@ -6,25 +6,26 @@
 @using (Html.BeginForm("updateExpanse", "Expanses", new { idExpanse = @Model.Expanse_ID}, FormMethod.Post, new { @class = "form-vertical", role = "form" }))
 {
     @Html.ValidationSummary(true)
+    <br /><br />
     <fieldset>
-        <legend>Frais d'une note de frais</legend>
-        <div class="editor-label">
+        <legend>Modifier Expanse</legend>
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Amount_TTC, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Amount_TTC, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Amount_TTC, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Amount_HT, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Amount_HT, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Amount_HT, "", new { @class = "text-danger" })
         </div>
-        <div class="editor-label">
+        <div class="form-group">
             @Html.LabelFor(model => @Model.Amount_TVA, new { @class = "control-label col-sm-1" })
             @Html.TextBoxFor(model => @Model.Amount_TVA, new { @required = "required", @class = " form-control" })
             @Html.ValidationMessageFor(model => @Model.Amount_TVA, "", new { @class = "text-danger" })
         </div>
         <div class="form-group">
-            <button type="submit" class="btn-success"> Enregistrer </button>
+            <button type="submit" class="btn btn-success"> Enregistrer </button>
         </div>
     </fieldset>
 }

@@ -5,6 +5,22 @@
 }
 
 <h2>All Tvas</h2>
+
+@using (Ajax.BeginForm("Searche", "Tvas", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "SuccessMessage",
+    OnFailure = "FailMessage",
+    UpdateTargetId = "projectTable"
+}))
+{
+    @Html.AntiForgeryToken()
+    <input type="text" name="query" class="text-info" />
+    <input type="submit" value="Search" class="btn btn-info" />
+
+}
+<br />
+<br />
 <table class="table table-striped">
     <th>Nom</th>
     <th>Valeur</th>

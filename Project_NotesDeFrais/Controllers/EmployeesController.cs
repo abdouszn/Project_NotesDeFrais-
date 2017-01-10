@@ -16,7 +16,6 @@ namespace Project_NotesDeFrais.Controllers
         {
             EmployeesModel empModel = new EmployeesModel();
             EmployesRepositery empRp = new EmployesRepositery();
-
             empModel.AspNetUsersList = empRp.getAllUsers().ToList();
             empModel.polesList = empRp.getAllPoles().ToList();
             if (empRp.getAllUsers().ToList().Count() == 0)
@@ -125,7 +124,6 @@ namespace Project_NotesDeFrais.Controllers
                 empModel.Pole_ID = emp.Pole_ID;
                 empModel.AspNetUsers = empRp.getUserById(emp.User_ID);
                 empModel.Poles.Name = empRp.getPoleById(emp.Pole_ID).Name;
-
                 employersModel.Add(empModel);
             }
             IQueryable<EmployeesModel> listEmp = employersModel.AsQueryable();

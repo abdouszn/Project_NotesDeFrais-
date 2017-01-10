@@ -19,7 +19,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         }
 
-        public IQueryable<Employees> getAllManager() {
+        public List<Employees> getAllManager() {
             ApplicationDbContext context = new ApplicationDbContext();
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
@@ -29,10 +29,9 @@ namespace Project_NotesDeFrais.Models.Reposirery
             foreach (var manage in managers)
             {
                Employees user = (from man in e.Employees where man.User_ID == manage.Id select man).FirstOrDefault();
-                employerManager.Add(user);
+               employerManager.Add(user);
             }
-
-            return employerManager.AsQueryable();
+            return employerManager;
         }
         public void AddPoles(Poles pole)
         {

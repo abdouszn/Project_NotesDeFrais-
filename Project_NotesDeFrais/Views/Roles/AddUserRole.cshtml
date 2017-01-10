@@ -12,7 +12,7 @@
         <legend>Ajouter des role à des utilisateur</legend>
         <div  class="form-group">
             @Html.Label("Role", new { @class = "control-label col-sm-1" })
-            <select class="selectpicker" name="roleSelected">
+            <select class="form-control" name="roleSelected">
             @foreach (var s in Model)
             {
                 <option>@s.Name</option>
@@ -21,7 +21,7 @@
         </div>
         <div  class="form-group">
             @Html.Label("Utilisateur", new { @class = "control-label col-sm-1" })
-            <select class="selectpicker" name="userSelected">
+            <select class="form-control" name="userSelected">
                 @foreach (var u in Model)
                 {
                     foreach (var user in u.AspNetUsersList)

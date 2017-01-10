@@ -4,6 +4,24 @@
 }
 
 <h2>All Employers</h2>
+
+@using (Ajax.BeginForm("Searche", "Employees", null, new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "SuccessMessage",
+    OnFailure = "FailMessage",
+    UpdateTargetId = "projectTable"
+}))
+{
+    @Html.AntiForgeryToken()
+  
+       
+            <input type="text" name="query" class="text-info" />
+            <input type="submit" value="Search" class="btn btn-info" />
+}
+
+<br />
+<br />
 <table class="table table-striped">
     <th>Nom</th>
     <th>Prenom</th>
@@ -31,7 +49,7 @@
                 <td><a href="@Url.Action("Searche", "Poles", new { query = s.Poles.Name }) ">@s.Poles.Name</a></td>
             }
 
-<td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Employees", new { id = s.Employee_ID}) + "'");" /></td>
+            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Employees", new { id = s.Employee_ID}) + "'");" /></td>
             <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Simulation" , new { id = s.Employee_ID})+"'");" /></td>
         </tr>
     }
