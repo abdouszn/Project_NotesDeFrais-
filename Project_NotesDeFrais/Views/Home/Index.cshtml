@@ -3,29 +3,95 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <div class="row">
+        
+        @if (!User.IsInRole("Admin"))
+        {
+            <legend class="scheduler-border"><span class="help-block"> Bienvenue sur votre application de gestion des notes de frais!</span></legend>
+            <div class="row">
+            @if (!User.IsInRole("Manager") && !User.IsInRole("Comptable"))
+            {
+                <a title="créer une note de frais" class="col-md-4" href="ExpanseReports/AllExpansesReports">
+                    <figure>
+                        <img src="/Content/images/NDF-n.png" width="168" height="168" />
+                        <figcaption class="figure-caption" style="position:absolute; left:15px;">Mes note de frais</figcaption>
+                    </figure>
+                </a>
+            }
+            @if (User.IsInRole("Manager") || User.IsInRole("Comptable"))
+            {
+                <a title="créer une note de frais" class="col-md-4" href="ExpanseReports/AllExpansesReportsToValid">
+                    <figure>
+                        <img src="/Content/images/NDF-n.png" width="168" height="168" />
+                        <figcaption class="figure-caption" style="position:absolute; left:15px;">Mes note de frais</figcaption>
+                    </figure>
+                </a>
+            }
+            
+                <a title="créer une note de frais" class="col-md-4" href="/Customer">
+                    <figure>
+                        <img src="/Content/images/customer.png" width="150" height="150" />
+                        <figcaption class="figure-caption" style="position:absolute; left:30px;">créer un client</figcaption>
+                    </figure>
+                </a>
+                <a title="créer une note de frais" class="col-md-4" href="/Projet">
+                    <figure>
+                        <img src="/Content/images/projet.png" width="150" height="150" />
+                        <figcaption class="figure-caption" style="position:absolute; left:30px;">créer un projet</figcaption>
+                    </figure>
+                </a>
+
+            </div><br /><br />
+            <div class="row">
+                <div class="row">
+                    <a title="créer une note de frais" class="col-md-4" href="/Tvas">
+                        <figure>
+                            <img src="/Content/images/tva.png" width="150" height="150" />
+                            <figcaption class="figure-caption" style="position:absolute; left:30px;">créer une tva</figcaption>
+                        </figure>
+                    </a>
+                    <a title="créer une note de frais" class="col-md-4" href="/Poles">
+                        <figure>
+                            <img src="/Content/images/pole.png" width="150" height="150" />
+                            <figcaption class="figure-caption" style="position:absolute; left:30px;">créer un pole</figcaption>
+                        </figure>
+                    </a>
+                    <a title="créer une note de frais" class="col-md-4" href="/ExpanseTypes">
+                        <figure>
+                            <img src="/Content/images/frais.png" width="150" height="150" />
+                            <figcaption class="figure-caption" style="position:absolute; left:30px;">créer un type de frai</figcaption>
+                        </figure>
+                    </a>
+                </div><br />
+            </div>
+        }
+        @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <legend class="scheduler-border"><span class="help-block"> Utilisateurs et droits</span></legend>
+            <div>
+                <a title="créer une note de frais" class="col-md-4" href="/Employees">
+                    <figure>
+                        <img src="/Content/images/employer.png" width="150" height="140" />
+                        <figcaption class="figure-caption" style="position:absolute; left:15px;">créer un employer</figcaption>
+                    </figure>
+                </a>
+                
+                <a title="créer une note de frais" class="col-md-4" href="/Roles">
+                    <figure>
+                        <img src="/Content/images/role.png" width="168" height="150" />
+                        <figcaption class="figure-caption" style="position:absolute; left:40px;">créer un role</figcaption>
+                    </figure>
+                </a>
+
+                <a title="créer une note de frais" class="col-md-4" href="/Roles/RolesUsers">
+                    <figure>
+                        <img src="/Content/images/roles.png" width="140" height="150" />
+                        <figcaption class="figure-caption" style="position:absolute; left:2px;">utilisateurs et roles</figcaption>
+                    </figure>
+                </a>
+            </div>
+        }
+
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>

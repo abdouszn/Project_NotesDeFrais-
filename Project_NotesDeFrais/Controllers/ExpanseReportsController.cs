@@ -9,9 +9,10 @@ using Microsoft.AspNet.Identity;
 
 namespace Project_NotesDeFrais.Controllers
 {
-    [Authorize]
+    
     public class ExpanseReportsController : Controller
     {
+        [Authorize]
         // GET: Expanses
         public PartialViewResult Index(String userName)
         { 
@@ -29,7 +30,7 @@ namespace Project_NotesDeFrais.Controllers
             return PartialView("_MonthYear", model);
         }
 
-   
+        [Authorize]
         public ActionResult createExpanseReportsDateDay(String userName)
         {
             ViewData["userName"] = userName;
@@ -63,12 +64,13 @@ namespace Project_NotesDeFrais.Controllers
 
         }
 
+        [Authorize]
         public ActionResult createExpanseReports(ExpanseReports exp, Guid? auther_id)
         {
             return null;
         }
 
-
+        [Authorize]
         public ActionResult AllExpansesReports(int? pageIndex)
         {
             var userId = User.Identity.GetUserId();
@@ -117,11 +119,15 @@ namespace Project_NotesDeFrais.Controllers
             return View("MyExpanseReports", lst);
         }
 
+        [Authorize]
         public ActionResult Searche(String query, int? pageIndex)
         {
+            EmployesRepositery empRepository = new EmployesRepositery();
+            var userId = User.Identity.GetUserId();
+            var idEmployer = empRepository.GetByIdUser(userId).Employee_ID;
             var countElementPage = 10;
             ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
-            var expanse = expRep.getSerachingExpanseReports(query);
+            var expanse = expRep.getSerachingExpanseReports(query , idEmployer);
             List<ExpanseReportsModel> expanseReportModelList = new List<ExpanseReportsModel>();
 
             foreach (var exp in expanse)
@@ -151,7 +157,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("MyExpanseReports", lst);
         }
 
-       
+        [Authorize]
         public ActionResult validateExpanseReport(Guid id) {
             ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
             ExpanseReports expReport = expRep.GetById(id);
@@ -185,7 +191,14 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllExpansesReportsToValid");
         }
 
-        
+        [Authorize]
+        public ActionResult confirmDelete(Guid id)
+        {
+            ViewData["confirmDelete"] = "/ExpanseReports/Delete?id=" + id;
+            return PartialView("_confirmDelet");
+        }
+
+        [Authorize]
         public ActionResult Delete(Guid id)
         {
             ExpanseRepportRepositery expRep = new ExpanseRepportRepositery();
@@ -220,13 +233,14 @@ namespace Project_NotesDeFrais.Controllers
             comtableComment = Convert.ToString(Request.Form["ManagerComment"]);
             if (User.IsInRole("Comptable")) {
                 StatusCode = 25;
-                comtableComment = Convert.ToString(Request.Form["AccountingComment"]);
+                comtableComment = Convert.ToString(Request.Form["ManagerComment"]);
             }
             expRepRep.updateStatus(expRep, StatusCode , managerComment, comtableComment);
             return RedirectToAction("AllExpansesReportsToValid");
 
         }
 
+        [Authorize]
         public ActionResult annulExpanseReports(Guid idExpanseReport) {
             ExpanseRepportRepositery expRepRep = new ExpanseRepportRepositery();
             ExpanseReports expRep = expRepRep.GetById(idExpanseReport);

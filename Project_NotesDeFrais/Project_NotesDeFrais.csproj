@@ -205,7 +205,6 @@
     <Compile Include="Controllers\ExpanseTypesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\NotesDeFraisController.cs" />
     <Compile Include="Controllers\PolesController.cs" />
     <Compile Include="Controllers\ProjetController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
@@ -410,10 +409,12 @@
     <Content Include="Views\Roles\AddUserRole.cshtml" />
     <Content Include="Views\Shared\ErrorEmptyElement.cshtml" />
     <Content Include="Views\Shared\ErrorEmptyList.cshtml" />
+    <Content Include="Views\Shared\_confirmDelet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Expanse\" />
+    <Folder Include="Content\App_LocalResources\" />
+    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

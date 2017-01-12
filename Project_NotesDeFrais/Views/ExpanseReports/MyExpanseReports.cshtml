@@ -60,7 +60,17 @@
                     <td><input type="button" value="Edit" disabled="disabled" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("AllExpanses", "Expanses", new { idExpanseReport = s.ExpanseReport_ID }) + "'");" /></td>
                     <td><input type="button" value="Annuler" disabled="disabled" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action(" annulExpanseReports", "ExpanseReports", new { idExpanseReport = s.ExpanseReport_ID }) + "'");" /></td>
                 }
-                <td>@Html.ActionLink("delete", "Delete", new { id = s.ExpanseReport_ID },new { @class ="btn btn-danger", onclick = "return confirm('Are you sure you wish to delete this article?');" }) 
+                <td>
+                    @if (s.StatusCode == 35)
+                    {
+                        @Html.ActionLink("supprimer", "confirmDelete", "ExpanseReports", new { id = @s.ExpanseReport_ID }, new { @class = "btn btn-danger deleteConf" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("supprimer", "confirmDelete", "ExpanseReports", new { id = @s.ExpanseReport_ID }, new { @class = "btn btn-danger", @disabled = "disabled" })
+                    }
+
+                </td>
             </tr>
         }
     </table>
@@ -68,5 +78,6 @@
     <a href="?pageIndex=@(Model.PageIndex + 1)"><input type="button" value="suivant >>" class="btn btn-default" /></a>
     <a href="?pageIndex=@(Model.PageIndex - 1)"><input type="button" value="<< precedent " class="btn btn-default" /></a>
 </div>
+
 
 

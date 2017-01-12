@@ -22,7 +22,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void AddEmployes(Employees emp)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.Employees.Add(emp);
                 e.SaveChanges();
@@ -31,7 +31,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Employees> allEmployees()
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 var employees = e.Employees.OrderBy(r => r.Employee_ID);
                 return employees;
@@ -41,7 +41,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Employees> getSerachingemployees(String query)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 var employer = (from s in e.Employees where s.FirstName.Contains(query) select s).OrderBy(r => r.Employee_ID);
                 return employer;
@@ -51,7 +51,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Employees GetByIdUser(String id)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 Employees employer = (from e in e.Employees where e.User_ID == id select e).FirstOrDefault();
                 return employer;
@@ -59,31 +59,44 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public IQueryable<AspNetUsers> getAllUsers() {
-            var Users = e.AspNetUsers.OrderBy(r => r.Id);
-            return Users;
+
+            using (e)
+            {
+                var Users = e.AspNetUsers.OrderBy(r => r.Id);
+                return Users;
+            }
         }
 
         public String getUserByMail(String email) {
-            String userId = (from e in e.AspNetUsers where e.Email == email select e.Id).FirstOrDefault();
-            return userId;
+            using (e)
+            {
+                String userId = (from e in e.AspNetUsers where e.Email == email select e.Id).FirstOrDefault();
+                return userId;
+            }
         }
 
 
         public IQueryable<Poles> getAllPoles()
         {
-            var poles = e.Poles.OrderBy(r => r.Pole_ID);
-            return poles;
+            using (e)
+            {
+                var poles = e.Poles.OrderBy(r => r.Pole_ID);
+                return poles;
+            }
         }
 
         public Guid getPoleByName(String name)
         {
-            Guid poleId = (from e in e.Poles where e.Name == name select e.Pole_ID).FirstOrDefault();
-            return poleId;
+            using (e)
+            {
+                Guid poleId = (from e in e.Poles where e.Name == name select e.Pole_ID).FirstOrDefault();
+                return poleId;
+            }
         }
 
         public void Delete(Employees employer)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.Employees.Remove(employer);
                
@@ -92,7 +105,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public String maxIdUser()
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 var id = (from s in e.AspNetUsers select s.Id).FirstOrDefault();
                 return id;
@@ -102,7 +115,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public AspNetUsers getUserById(String id)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 AspNetUsers userId = (from u in e.AspNetUsers where u.Id==id select u).FirstOrDefault();
                 return userId;
@@ -112,7 +125,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Guid maxIdPoles()
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 var id = (from s in e.Poles select s.Pole_ID).FirstOrDefault();
                 return id;
@@ -122,7 +135,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Poles getPoleById(Guid? id)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 Poles pole = (from p in e.Poles where p.Pole_ID == id select p).FirstOrDefault();
                 return pole;
@@ -131,14 +144,16 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public IQueryable<Employees> getByIdPole(Guid id) {
-            IQueryable<Employees> emp = (from e in e.Employees where e.Pole_ID == id select e);
-           
-            return emp;
+            using (e)
+            {
+                IQueryable<Employees> emp = (from e in e.Employees where e.Pole_ID == id select e);
+                return emp;
+            }
         }
 
         public IQueryable<Employees> getEmployersManager()
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 ApplicationDbContext context = new ApplicationDbContext();
                 var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));

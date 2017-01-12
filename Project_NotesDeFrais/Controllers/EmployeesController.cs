@@ -26,6 +26,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("EmployesFormulaire" , empModel);
         }
 
+        [Authorize]
         public ActionResult CreateEmploye(EmployeesModel empModel)
         {
             EmployesRepositery empRp = new EmployesRepositery();
@@ -57,6 +58,7 @@ namespace Project_NotesDeFrais.Controllers
 
         }
 
+        [Authorize]
         public ActionResult AllEmployees(int? pageIndex)
         {
             var countElementPage = 10;
@@ -103,6 +105,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllEmployes", lst);
         }
 
+        [Authorize]
         public ActionResult Searche(int? pageIndex , String query)
         {
             var countElementPage = 10;
@@ -131,6 +134,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("Allmployes", lst);
         }
 
+        [Authorize]
         public ActionResult createUserRole()
         {
             EmployeesModel empModel = new EmployeesModel();
@@ -141,6 +145,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("EmployesFormulaire", empModel);
         }
 
+        [Authorize]
         public ActionResult CreateUserRoles(EmployeesModel empModel)
         {
             EmployesRepositery empRp = new EmployesRepositery();
@@ -164,6 +169,13 @@ namespace Project_NotesDeFrais.Controllers
             empRp.AddEmployes(emp);
             return RedirectToAction("AllEmployees");
 
+        }
+
+        [Authorize]
+        public ActionResult confirmDelete(Guid id)
+        {
+            ViewData["confirmDelete"] = "/Employees/AllEmployees";
+            return PartialView("_confirmDelet");
         }
     }
 }

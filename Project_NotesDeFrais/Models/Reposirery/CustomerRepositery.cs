@@ -18,7 +18,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void AddCostumers(Customers cust)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.Customers.Add(cust);
                 e.SaveChanges();
@@ -27,34 +27,49 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void updateCustomers(Customers customer, String name, String code)
         {
-            customer.Name = name;
-            customer.Code = code;
-            e.SaveChanges();
+            using (e)
+            {
+                customer.Name = name;
+                customer.Code = code;
+                e.SaveChanges();
+            }
         }
 
         public IQueryable<Customers> allCustomers()
         {
-            var customers = e.Customers.OrderBy(r => r.Customer_ID);
-            return customers;
+            using (e)
+            {
+                var customers = e.Customers.OrderBy(r => r.Customer_ID);
+                return customers;
+            }
         }
 
         public IQueryable<Customers> getSerachingCustomers(String query)
         {
-            var customer = (from s in e.Customers where s.Name.Contains(query) select s).OrderBy(r => r.Customer_ID);
-            return customer;
+            using (e)
+            {
+                var customer = (from s in e.Customers where s.Name.Contains(query) select s).OrderBy(r => r.Customer_ID);
+                return customer;
+            }
         }
 
 
         public Customers GetById(Guid id)
         {
-            Customers customer = (from c in e.Customers where c.Customer_ID == id select c).FirstOrDefault();
-            return customer;
+            using (e)
+            {
+                Customers customer = (from c in e.Customers where c.Customer_ID == id select c).FirstOrDefault();
+                return customer;
+            }
         }
 
         public Guid GetIdByName(String name)
         {
-            Guid customerId = (from c in e.Customers where c.Name == name select c.Customer_ID).FirstOrDefault();
-            return customerId;
+            using (e)
+            {
+                Guid customerId = (from c in e.Customers where c.Name == name select c.Customer_ID).FirstOrDefault();
+                return customerId;
+            }
         }
 
         public void Delete(Customers c)

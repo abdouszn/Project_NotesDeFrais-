@@ -8,15 +8,18 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
-    [Authorize]
+    
     public class CustomerController : Controller
     {
+
+        [Authorize]
         // GET: Customer
         public ActionResult Index()
         {
             return View("CostumerFormulaire");
         }
 
+        [Authorize]
         public ActionResult createCustomer(CustomersModel customerModel) {
             if (!ModelState.IsValidField("Name") || !ModelState.IsValidField("Code")) {
                 return View("CostumerFormulaire", customerModel);
@@ -30,6 +33,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllCustomer");
         }
 
+        [Authorize]
         public ActionResult Edit(Guid id)
         {
             CustomerRepositery custRep = new CustomerRepositery();
@@ -41,6 +45,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("EditCustomer", custModel);
         }
 
+        [Authorize]
         public ActionResult updateCustomers(Guid id)
         {
             CustomerRepositery custRep = new CustomerRepositery();
@@ -60,6 +65,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllCustomer");
         }
 
+        [Authorize]
         public ActionResult AllCustomer(int? pageIndex)
         {
             CustomerRepositery costRep = new CustomerRepositery();
@@ -89,6 +95,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllCustomers" , lst);
         }
 
+        [Authorize]
         public ActionResult Searche(String query, int? pageIndex)
         {
             var countElementPage = 10;
@@ -109,6 +116,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllCustomers", lst);
         }
 
+        [Authorize]
         public ActionResult Delete(Guid id) {
             ProjetController prjtControleur = new ProjetController();
             CustomerRepositery cutoRepo = new CustomerRepositery();
@@ -122,6 +130,13 @@ namespace Project_NotesDeFrais.Controllers
             cutoRepo.Delete(cutomer);
             cutoRepo.Save();
             return RedirectToAction("AllCustomer");
+        }
+
+        [Authorize]
+        public ActionResult confirmDelete(Guid id)
+        {
+            ViewData["confirmDelete"] = "/Customer/Delete?id=" + id;
+            return PartialView("_confirmDelet");
         }
     }
 }

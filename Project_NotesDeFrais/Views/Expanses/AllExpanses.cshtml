@@ -6,7 +6,7 @@
 
 <h2>Les Frais</h2>
 
-@using (Ajax.BeginForm("Searche", "Expanses", null, new AjaxOptions
+@using (Ajax.BeginForm("Searche", "Expanses",new {id=@ViewData["idExpanseReport"]}, new AjaxOptions
 {
     HttpMethod = "POST",
     OnSuccess = "SuccessMessage",
@@ -44,24 +44,33 @@
                 <th>Editer</th>
                 <th>Supprimer</th>
         }
-        @foreach (var s in Model)
-        {
-            code = @s.ExpanseReports.StatusCode;
-            idExpRep = @s.ExpanseReports.ExpanseReport_ID;
-            <tr>
-                <td><a href="@Url.Action("Searche", "Customer", new { query = s.Customers.Name }) "> @s.Customers.Name  </a></td>
-                <td><a href="@Url.Action("Searche", "Projet", new { query = s.Projects.Name }) "> @s.Projects.Name  </a></td>
-                <td><a href="@Url.Action("Searche", "ExpanseTypes", new { query = s.ExpanseTypes.Name }) "> @s.ExpanseTypes.Name </a></td>
-                <td>@s.Day</td>
-                <td>@s.Amount_HT</td>
-                <td>@s.Amount_TVA</td>
-                <td>@s.Amount_TTC</td>
-                @if (Request.IsAuthenticated && !User.IsInRole("Manager") && !User.IsInRole("Comptable") && !User.IsInRole("Admin"))
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <div class="alert alert-danger">
+                     <strong>Aucun frais pour cette note de frais !!!</strong></div>
+                </tr>
+            }else {
+
+                foreach (var s in Model)
                 {
-                    <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("edit", "Expanses", new { idExpanse = s.Expanse_ID}) + "'");" /></td>
-                    <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete", "Expanses", new { id = s.Expanse_ID }) + "'");" /></td>
-                }
-            </tr>
+                    code = @s.ExpanseReports.StatusCode;
+                    idExpRep = @s.ExpanseReports.ExpanseReport_ID;
+                    <tr>
+                        <td><a href="@Url.Action("Searche", "Customer", new { query = s.Customers.Name }) "> @s.Customers.Name  </a></td>
+                        <td><a href="@Url.Action("Searche", "Projet", new { query = s.Projects.Name }) "> @s.Projects.Name  </a></td>
+                        <td><a href="@Url.Action("Searche", "ExpanseTypes", new { query = s.ExpanseTypes.Name }) "> @s.ExpanseTypes.Name </a></td>
+                        <td>@s.Day</td>
+                        <td>@s.Amount_HT</td>
+                        <td>@s.Amount_TVA</td>
+                        <td>@s.Amount_TTC</td>
+                        @if (Request.IsAuthenticated && !User.IsInRole("Manager") && !User.IsInRole("Comptable") && !User.IsInRole("Admin"))
+                        {
+                            <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("edit", "Expanses", new { idExpanse = s.Expanse_ID}) + "'");" /></td>
+                            <td>@Html.ActionLink("supprimer", "confirmDelete", "expanses", new { id= s.Expanse_ID }, new { @class = "btn btn-danger deleteConf"})</td>
+                        }
+                    </tr>
+            }
         }
     </table><br />
     <div class="row">
@@ -71,18 +80,20 @@
 
                 @Html.ActionLink("nouveau frais", "popup", "expanses", new { idExpanseReport = @ViewData["idExpanseReport"] }, new { @class = "btn btn-default", id = "ajoutType" })
 
-                if (code == 00 || code == 15 || code == 25)
+                if (Model.ToList().Count()!=0)
                 {
                     <a href="@Url.Action("AllExpanses", "Expanses", new { idExpanseReport = @idExpRep })"><input type="button" value="enregistrer" class="btn btn-success" /></a>
                     <a href="@Url.Action("validateExpanseReport", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" /></a>
                     <a href="@Url.Action("annulExpanseReports", "ExpanseReports", new { idExpanseReport = @idExpRep })"><input type="button" value="annuler" class="btn btn-danger" /></a>
                 }
             }
-
             @if (Request.IsAuthenticated && User.IsInRole("Manager") || User.IsInRole("Comptable"))
             {
                 @Html.ActionLink("demander des modification", "modifExpanseReports", "ExpanseReports", new { idExpanseReport = @ViewData["idExpanseReport"] }, new { @class = "btn btn-primary", id = "modif" })
-                <a href="@Url.Action("validateExpanseReportByAdminOrManager", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" onclick="saveSuccess();" /></a>
+               if (code == 00 || code == 15 || code == 25)
+               {
+                <a href="@Url.Action("validateExpanseReportByAdminOrManager", "ExpanseReports", new { id = @idExpRep })"><input type="button" value="valider" class="btn btn-success" /></a>
+               }
             }
         </div>
         <div  style="float:right;">
@@ -100,5 +111,17 @@
     </div>
 </div>
 
-
+<script>
+    $(function () {
+        $.ajaxSetup({ cache: false });
+        $(".deleteConf").on("click", function (e) {
+            $('#myModalContent').load(this.href, function () {
+                $('#myModal').modal({
+                    keyboard: true
+                }, 'show');
+            });
+            return false;
+        });
+    });
+</script>
 

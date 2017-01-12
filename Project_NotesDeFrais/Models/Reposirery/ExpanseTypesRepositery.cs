@@ -19,7 +19,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void AddExpanseType(ExpanseTypes expanseType)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.ExpanseTypes.Add(expanseType);
                 e.SaveChanges();
@@ -27,7 +27,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public void updateExpanseType(ExpanseTypes expType, String name, double celling, Boolean fix, Boolean only) {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 expType.Name = name;
                 expType.Ceiling = celling;
@@ -39,7 +39,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<ExpanseTypes> allExpanseTypes()
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 var expanseTypes = e.ExpanseTypes.OrderBy(r => r.ExpenseType_ID);
                 return expanseTypes;
@@ -48,7 +48,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<ExpanseTypes> allExpanseTypesManager()
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 var  expanseTypes = (from s in e.ExpanseTypes where s.OnlyManagers==true select s).OrderBy(r => r.ExpenseType_ID);
                 return expanseTypes;
@@ -56,7 +56,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
         public IQueryable<ExpanseTypes> getSerachingExpanses(String query)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 var expanseType = (from s in e.ExpanseTypes where s.Name.Contains(query) select s).OrderBy(r => r.ExpenseType_ID);
                 return expanseType;
@@ -65,7 +65,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Guid maxIdTva()
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 var id = (from s in e.Tvas select s.TVA_ID).FirstOrDefault();
                 return id;
@@ -75,7 +75,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Guid GetIdByName(String name)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 Guid typeId = (from c in e.ExpanseTypes where c.Name == name select c.ExpenseType_ID).FirstOrDefault();
                 return typeId;
@@ -84,7 +84,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public ExpanseTypes getById(Guid id)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 ExpanseTypes expType = (from c in e.ExpanseTypes where c.ExpenseType_ID == id select c).FirstOrDefault();
                 return expType;
@@ -92,14 +92,14 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public  IQueryable<ExpanseTypes> getByTvaId(Guid tvaId) {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 IQueryable<ExpanseTypes> expType = (from c in e.ExpanseTypes where c.Tva_ID == tvaId select c);
                 return expType;
             }
         }
         public void delete(ExpanseTypes expType) {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.ExpanseTypes.Remove(expType);
             }

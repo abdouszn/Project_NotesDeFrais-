@@ -20,18 +20,21 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public List<Employees> getAllManager() {
-            ApplicationDbContext context = new ApplicationDbContext();
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
-            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-            var userIds = roleManager.FindByName("Manager").Users.Select(e => e.UserId).ToList();
-            var managers = userManager.Users.Where(e => userIds.Contains(e.Id));
-            List<Employees> employerManager=new List<Employees>();
-            foreach (var manage in managers)
+            using (e)
             {
-               Employees user = (from man in e.Employees where man.User_ID == manage.Id select man).FirstOrDefault();
-               employerManager.Add(user);
+                ApplicationDbContext context = new ApplicationDbContext();
+                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+                var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                var userIds = roleManager.FindByName("Manager").Users.Select(e => e.UserId).ToList();
+                var managers = userManager.Users.Where(e => userIds.Contains(e.Id));
+                List<Employees> employerManager = new List<Employees>();
+                foreach (var manage in managers)
+                {
+                    Employees user = (from man in e.Employees where man.User_ID == manage.Id select man).FirstOrDefault();
+                    employerManager.Add(user);
+                }
+                return employerManager;
             }
-            return employerManager;
         }
         public void AddPoles(Poles pole)
         {
@@ -44,47 +47,68 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void updatePole(Poles poles , String name)
         {
-            poles.Name = name;
-            e.SaveChanges();
+            using (e)
+            {
+                poles.Name = name;
+                e.SaveChanges();
+            }
         }
 
         public IQueryable<Poles> allPoles()
         {
-            var poles = e.Poles.OrderBy(r => r.Pole_ID);
-            return poles;
+            using (e)
+            {
+                var poles = e.Poles.OrderBy(r => r.Pole_ID);
+                return poles;
+            }
         }
 
 
         public IQueryable<Poles> getSerachingPoles(String query)
         {
-            var poles = (from s in e.Poles where s.Name.Contains(query) select s).OrderBy(r => r.Pole_ID);
-            return poles;
+            using (e)
+            {
+                var poles = (from s in e.Poles where s.Name.Contains(query) select s).OrderBy(r => r.Pole_ID);
+                return poles;
+            }
         }
 
 
         public Poles GetById(Guid id)
         {
-            Poles pole = (from p in e.Poles where p.Pole_ID == id select p).FirstOrDefault();
-            return pole;
+            using (e)
+            {
+                Poles pole = (from p in e.Poles where p.Pole_ID == id select p).FirstOrDefault();
+                return pole;
+            }
         }
 
         public Poles GetByIdManager(Guid id)
         {
+            using (e)
+            {
 
-            Poles pole = (from p in e.Poles where p.Manager_ID == id select p).FirstOrDefault();
-            return pole;
+                Poles pole = (from p in e.Poles where p.Manager_ID == id select p).FirstOrDefault();
+                return pole;
+            }
         }
 
         public Guid maxIdEmployer() {
-            var id = (from s in e.Employees select s.Employee_ID).FirstOrDefault();
-            return id;
+            using (e)
+            {
+                var id = (from s in e.Employees select s.Employee_ID).FirstOrDefault();
+                return id;
+            }
             
         }
        
 
         public void Delete(Poles p)
         {
-            e.Poles.Remove(p);
+            using (e)
+            {
+                e.Poles.Remove(p);
+            }
         }
 
 

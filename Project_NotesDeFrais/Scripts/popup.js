@@ -75,3 +75,16 @@ function selectCellingExpance() {
         }
     });
 }
+
+$(function () {
+    $.ajaxSetup({ cache: false });
+    $(".deleteConf").on("click", function (e) {
+        $('#myModalContent').load(this.href, function () {
+            $('#myModal').modal({
+                keyboard: true
+            }, 'show');
+        });
+        return false;
+    });
+});
+

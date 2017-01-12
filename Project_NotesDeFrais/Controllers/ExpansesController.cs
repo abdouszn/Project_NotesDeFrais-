@@ -8,33 +8,40 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
-    [Authorize]
+  
     public class ExpansesController : Controller
     {
         private IEnumerable<object> costumers;
 
+        [Authorize]
         // GET: Expanses
         public ActionResult Index()
         {
             return View("ExpansesFormulaire");
         }
 
+        [Authorize]
         public ActionResult createExpanses(ExpansesModel expModel, Guid expanseReport_ID)
         {
-            if (!ModelState.IsValid) {
-                return View("ExpansesFormulaire" , expModel);
-            }
+           
 
             ExpanseRepositery expRepo = new ExpanseRepositery();
             Expanses exp = new Expanses();
+            if (!ModelState.IsValid)
+            {
+                exp.Amount_HT = Convert.ToInt32(0);
+                exp.Amount_TVA = Convert.ToInt32(0);
+            }
+            else {
+                  exp.Amount_HT = Convert.ToInt32(Request.Form["Amount_HT"]);
+            exp.Amount_TVA = Convert.ToInt32(Request.Form["Amount_TVA"]);
+            }
             var idCustomer = Request.Form["customerSelect"];
             var idexpanseType = Request.Form["typeSelect"];
             var idprojet = Request.Form["projectSelect"];
             exp.Expanse_ID = Guid.NewGuid();
-            exp.Amount_HT = Convert.ToInt32(Request.Form["Amount_HT"]);
-            exp.Amount_TVA = Convert.ToInt32(Request.Form["Amount_TVA"]);
             exp.Amount_TTC = exp.Amount_HT * exp.Amount_TVA / 100 + exp.Amount_HT;
-            exp.Day = Convert.ToInt32(Request.Form["monthSelect"]);
+            exp.Day = Convert.ToInt16(Request.Form["monthSelect"]);
             exp.ExpanseReport_ID = expanseReport_ID;
             exp.Customer_ID = new Guid(idCustomer);
             exp.ExpanseType_ID = new Guid(idexpanseType);
@@ -43,6 +50,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllExpanses",new {idExpanseReport= expanseReport_ID});
         }
 
+        [Authorize]
         public ActionResult edit(Guid idExpanse) {
             ExpanseRepositery expRep = new ExpanseRepositery();
             ExpansesModel expModel = new ExpansesModel();
@@ -58,6 +66,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("EditExpanses" , expModel);
         }
 
+        [Authorize]
         public ActionResult AllExpanses(int? pageIndex , Guid idExpanseReport)
         {
             ExpanseRepositery expRepo = new ExpanseRepositery();
@@ -67,7 +76,7 @@ namespace Project_NotesDeFrais.Controllers
 
             var countElementPage = 10;
             var expanses = expRepo.GetAllByIdExpansesRepport(idExpanseReport);
-           
+            ViewData["idExpanseReport"] = idExpanseReport;
             List<ExpansesModel> expanseModel = new List<ExpansesModel>();
             foreach (var exp in expanses)
             {
@@ -85,6 +94,7 @@ namespace Project_NotesDeFrais.Controllers
                 expanse.Amount_HT = exp.Amount_HT;
                 expanse.Amount_TTC = exp.Amount_TTC;
                 expanse.Amount_TVA = exp.Amount_TVA;
+                expanse.Day = exp.Day;
                 customer.Name = expRepo.GetByIdCutomer(exp.Customer_ID).Name;
                 projet.Name = expRepo.GetByIdProjects(exp.Project_ID).Name;
                 expType.Name = expRepo.GetByIdExpanseTypes(exp.ExpanseType_ID).Name;
@@ -104,13 +114,14 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllExpanses", lst);
         }
 
-        public ActionResult Searche(String query, int? pageIndex)
+        [Authorize]
+        public ActionResult Searche(String query, int? pageIndex ,Guid id)
         {
             var countElementPage = 10;
             ExpanseRepositery expRepo = new ExpanseRepositery();
-            var expanses = expRepo.getSerachingExpanses(query);
+            var expanses = expRepo.getSerachingExpanses(query , id);
             List<ExpansesModel> expanseModel = new List<ExpansesModel>();
-
+            ViewData["idExpanseReport"] = id;
             foreach (var exp in expanses)
             {
                 ExpansesModel expanse = new ExpansesModel();
@@ -138,6 +149,7 @@ namespace Project_NotesDeFrais.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ActionResult Popup(Guid idExpanseReport)
         {
             CustomerRepositery cstRepo = new CustomerRepositery();
@@ -208,6 +220,13 @@ namespace Project_NotesDeFrais.Controllers
             return PartialView("_AddType", expanseViewModel);
         }
 
+        [Authorize]
+        public ActionResult confirmDelete(Guid id) {
+            ViewData["confirmDelete"] = "/Expanses/Delete?id=" + id;
+            return PartialView("_confirmDelet");
+        }
+
+        [Authorize]
         public ActionResult updateExpanse(Guid idExpanse) {
             ExpanseRepositery expRepo = new ExpanseRepositery();
             Expanses exp = expRepo.GetById(idExpanse);
@@ -245,6 +264,7 @@ namespace Project_NotesDeFrais.Controllers
             return PartialView("_ProjectItem", expanseViewModel);
         }
 
+        [Authorize]
         public ActionResult Delete(Guid id)
         {
             ExpanseRepositery expRepo = new ExpanseRepositery();

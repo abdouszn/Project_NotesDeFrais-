@@ -19,7 +19,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void AddTva(Tvas tva)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.Tvas.Add(tva);
                 e.SaveChanges();
@@ -27,27 +27,35 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public void updateTvas(Tvas tva, String name, double value) {
-            tva.Name = name;
-            tva.Value = value;
-            e.SaveChanges();
+
+            using (e)
+            {
+                tva.Name = name;
+                tva.Value = value;
+                e.SaveChanges();
+            }
         }
         public IQueryable<Tvas> allTvas()
         {
-            var tvas = e.Tvas.OrderBy(r => r.TVA_ID);
-
-            return tvas;
+            using (e)
+            {
+                var tvas = e.Tvas.OrderBy(r => r.TVA_ID);
+                return tvas;
+            }
         }
 
         public Tvas tvasById(Guid Id)
         {
-            var tvas = (from t in e.Tvas where t.TVA_ID == Id select t).FirstOrDefault(); ;
-
-            return tvas;
+            using (e)
+            {
+                var tvas = (from t in e.Tvas where t.TVA_ID == Id select t).FirstOrDefault(); ;
+                return tvas;
+            }
         }
 
         public IQueryable<Tvas> getSerachingTvas(String query)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 var tvas = (from s in e.Tvas where s.Name.Contains(query) select s).OrderBy(r => r.TVA_ID);
                 return tvas;
@@ -55,7 +63,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public void delete(Tvas tva) {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.Tvas.Remove(tva);
             }

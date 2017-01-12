@@ -1,12 +1,12 @@
 ﻿@model Project_NotesDeFrais.Models.ExpansesModel
 
 
-@Html.LabelFor(model => @Model.Projects)
-<select class="selectpicker" name="projectSelect">
+@Html.LabelFor(model => @Model.Projects , new { @class = "control-label col-sm-2" })
+<select class="form-control" name="projectSelect">
 
     @foreach (var s in @Model.ProjectsList)
     {
-        <option value=" @s.Project_ID"> @s.Name </option>
+        <option   value="@s.Project_ID"> @s.Name </option>
     }
 </select>
 

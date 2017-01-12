@@ -8,9 +8,10 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
-    [Authorize]
+   
     public class ProjetController : Controller
     {
+        [Authorize]
         // GET: Projet
         public ActionResult Index(Guid? id_Customer) 
         {
@@ -29,7 +30,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("ProjectFormulaire" , prjtModel);
         }
 
-
+        [Authorize]
         public ActionResult createProject(ProjectsModel projetModel , Guid? id_Customer)
         {
             ProjetRepositery prtRep = new ProjetRepositery();
@@ -53,6 +54,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllProjets");
         }
 
+        [Authorize]
         public ActionResult edit(Guid id)
         {
             ProjetRepositery prtRep = new ProjetRepositery();
@@ -66,6 +68,8 @@ namespace Project_NotesDeFrais.Controllers
             prjtModel.Pole_ID = projet.Pole_ID;
             return View("EditProject", prjtModel);
         }
+
+        [Authorize]
         public ActionResult AllProjets(int? pageIndex)
         {
             ProjetRepositery prtRep = new ProjetRepositery();
@@ -99,6 +103,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllProjects", lst);
         }
 
+        [Authorize]
         public ActionResult updateProject(Guid id) {
             ProjetRepositery prtRep = new ProjetRepositery();
             ProjectsModel prjtModel = new ProjectsModel();
@@ -121,7 +126,7 @@ namespace Project_NotesDeFrais.Controllers
 
         }
 
-
+        [Authorize]
         public ActionResult Searche(String query, int? pageIndex)
         {
             var countElementPage = 10;
@@ -147,6 +152,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllProjects", lst);
         }
 
+        [Authorize]
         public ActionResult Delete(Guid id) {
             ProjetRepositery prjtRepo = new ProjetRepositery();
             Projects project = prjtRepo.GetById(id);
@@ -161,6 +167,13 @@ namespace Project_NotesDeFrais.Controllers
             prjtRepo.Delete(project);
             prjtRepo.Save();
             return RedirectToAction("AllProjets");
+        }
+
+        [Authorize]
+        public ActionResult confirmDelete(Guid id)
+        {
+            ViewData["confirmDelete"] = "/Projet/Delete?id=" + id;
+            return PartialView("_confirmDelet");
         }
     }
 }

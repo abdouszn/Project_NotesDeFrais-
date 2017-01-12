@@ -37,7 +37,7 @@
                    
                     <td><a href="@Url.Action("Searche", "Customer", new { query = s.Customers.Name }) "> @s.Customers.Name  </a></td>
                     <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("edit", "Projet", new { id = s.Project_ID }) + "'");" /></td>
-                    <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete", "Projet", new { id = s.Project_ID }) + "'");" /></td>
+                    <td>@Html.ActionLink("supprimer", "confirmDelete", "Projet", new { id = s.Project_ID }, new { @class = "btn btn-danger deleteConf" })</td>
                 </tr>
             }    
         </table>

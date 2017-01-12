@@ -8,9 +8,10 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
-    [Authorize]
+   
     public class ExpanseTypesController : Controller
     {
+        [Authorize]
         // GET: ExpanseTypes
         public ActionResult Index()
         {
@@ -26,7 +27,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("ExpansTypeFormulaire" , expTypeModel);
         }
 
-
+        [Authorize]
         public ActionResult createExpansTypes(ExpanseTypesModel expansTypeModel)
         {
             if (Convert.ToBoolean(Request.Form["Fixed"]) == true) {
@@ -56,6 +57,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllExpanseTypes");
         }
 
+        [Authorize]
         public ActionResult edit(Guid id) {
             
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
@@ -69,6 +71,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("EditExpansesTypes", expTypeModel);
         }
 
+        [Authorize]
         public ActionResult update(Guid id)
         {
             ExpanseTypesRepositery expTypeRep = new ExpanseTypesRepositery();
@@ -94,6 +97,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllExpanseTypes");
         }
 
+        [Authorize]
         public ActionResult AllExpanseTypes(int? pageIndex)
         {
             var countElementPage = 10;
@@ -132,6 +136,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllExpansesTypes", lst);
         }
 
+        [Authorize]
         public String cellingTvaById(Guid expanseTypeID) {
             double celling = 0;
             String cellingTva = null;
@@ -147,6 +152,7 @@ namespace Project_NotesDeFrais.Controllers
             return cellingTva;
         }
 
+        [Authorize]
         public ActionResult Searche(String query, int? pageIndex)
         {
 
@@ -175,12 +181,27 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllExpansesTypes", lst);
         }
 
+        [Authorize]
         public ActionResult Delete(Guid id) {
             ExpanseTypesRepositery expTypeRepo = new ExpanseTypesRepositery();
+            ExpanseRepositery expRep = new ExpanseRepositery();
+            List<Expanses> expList = expRep.GetExpansesByIdExpanseTypes(id).ToList();
+            foreach (var expanse in expList)
+            {
+                expRep.Delete(expanse);
+            }
+            expRep.Save();
             ExpanseTypes expanseType = expTypeRepo.getById(id);
             expTypeRepo.delete(expanseType);
             expTypeRepo.Save();
             return RedirectToAction("AllExpanseTypes");
+        }
+
+        [Authorize]
+        public ActionResult confirmDelete(Guid id)
+        {
+            ViewData["confirmDelete"] = "/ExpanseTypes/Delete?id=" + id;
+            return PartialView("_confirmDelet");
         }
     }
 }

@@ -30,7 +30,7 @@
             <tr>
                 <td>@s.Name</td>
                 <td><input type="button" value="Edit" class="btn btn-primary" onclick="@("window.location.href='" + @Url.Action("Edit", "Poles", new { id = s.Pole_ID}) + "'");" /></td>
-                <td><input type="button" value="Supprimer" class="btn btn-danger" onclick="@("window.location.href='" + @Url.Action("Delete" , "Poles" , new { id = s.Pole_ID})+"'");" /></td>
+                <td>@Html.ActionLink("supprimer", "confirmDelete", "Poles", new { id = s.Pole_ID }, new { @class = "btn btn-danger deleteConf" })</td>
             </tr>
         }
     </table>

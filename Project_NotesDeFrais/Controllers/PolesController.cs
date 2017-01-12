@@ -39,6 +39,24 @@ namespace Project_NotesDeFrais.Controllers
         public ActionResult createPole(PolesModel poleModel)
         {
             if (!ModelState.IsValid) {
+                PolesRepository poleRep = new PolesRepository();
+                EmployeesModel empModel = new EmployeesModel();
+                List<Employees> lisEmpManager = poleRep.getAllManager();
+                Debug.WriteLine("nombre d element :" + lisEmpManager.Count());
+                if (lisEmpManager.ToList().Count() == 0)
+                {
+                    ViewData["erreur"] = "Employers";
+                    return View("ErrorEmptyElement");
+
+                }
+                foreach (Employees emp in lisEmpManager)
+                {
+                    Debug.WriteLine("element de list :" + emp.Email);
+                    empModel.Employee_ID = emp.Employee_ID;
+                    empModel.FirstName = emp.FirstName;
+                    poleModel.Employees.Add(empModel);
+                    break;
+                }
                 return View("PoleFormulaire", poleModel);
             }
             Poles pole = new Poles();
@@ -157,6 +175,13 @@ namespace Project_NotesDeFrais.Controllers
             poleRep.Delete(pole);
             poleRep.Save();
             return RedirectToAction("AllPoles");
+        }
+
+        [Authorize]
+        public ActionResult confirmDelete(Guid id)
+        {
+            ViewData["confirmDelete"] = "/Poles/Delete?id=" + id;
+            return PartialView("_confirmDelet");
         }
     }
 }

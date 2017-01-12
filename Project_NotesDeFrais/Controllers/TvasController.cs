@@ -8,15 +8,18 @@ using System.Web.Mvc;
 
 namespace Project_NotesDeFrais.Controllers
 {
-    [Authorize]
+    
     public class TvasController : Controller
     {
+
+        [Authorize]
         // GET: Tvas
         public ActionResult Index()
         {
             return View("TvasFormulaire");
         }
 
+        [Authorize]
         public ActionResult createTvas(TvasModel tvaModel)
         {
             if (!ModelState.IsValid) {
@@ -31,6 +34,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllTvas");
         }
 
+        [Authorize]
         public ActionResult edit(Guid id) {
             TvasRepositery tvaRep = new TvasRepositery();
             Tvas tva = tvaRep.tvasById(id);
@@ -41,6 +45,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("EditTvas" , tvaModel);
         }
 
+        [Authorize]
         public ActionResult updateTvas(Guid id) {
             TvasRepositery tvaRep = new TvasRepositery();
             Tvas tva = tvaRep.tvasById(id);
@@ -49,6 +54,8 @@ namespace Project_NotesDeFrais.Controllers
             tvaRep.updateTvas(tva, name, value);
             return RedirectToAction("AllTvas");
         }
+
+        [Authorize]
         public ActionResult AllTvas(int? pageIndex)
         {
             var countElementPage = 10;
@@ -75,6 +82,8 @@ namespace Project_NotesDeFrais.Controllers
             PaginatedList<TvasModel> lst = new PaginatedList<TvasModel>(listTvas, pageIndex, countElementPage);
             return View("AllTvas", lst);
         }
+
+        [Authorize]
         public ActionResult Searche(String query, int? pageIndex)
         {
 
@@ -97,6 +106,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllTvas", lst);
         }
 
+        [Authorize]
         public ActionResult Delete(Guid id) {
             ExpanseTypesRepositery expTypeRepo = new ExpanseTypesRepositery();
             List<ExpanseTypes> expTypes = expTypeRepo.getByTvaId(id).ToList();
@@ -109,6 +119,13 @@ namespace Project_NotesDeFrais.Controllers
             tvaRepo.delete(tva);
             tvaRepo.Save();
             return RedirectToAction("AllTvas");
+        }
+
+        [Authorize]
+        public ActionResult confirmDelete(Guid id)
+        {
+            ViewData["confirmDelete"] = "/Tvas/Delete?id=" + id;
+            return PartialView("_confirmDelet");
         }
     }
 }

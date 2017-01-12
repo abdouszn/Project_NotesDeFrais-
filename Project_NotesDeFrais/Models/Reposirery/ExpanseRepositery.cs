@@ -19,7 +19,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void AddExpanses(Expanses exp)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.Expanses.Add(exp);
                 e.SaveChanges();
@@ -28,7 +28,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void updateExpanses(Expanses exp , double ttc, double ht, double tva)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 exp.Amount_TTC = ttc;
                 exp.Amount_HT = ht;
@@ -38,27 +38,36 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
         public IQueryable<Expanses> allExpanses()
         {
-            var expanses = e.Expanses.OrderBy(r => r.Expanse_ID);
-            return expanses;
+            using (e)
+            {
+                var expanses = e.Expanses.OrderBy(r => r.Expanse_ID);
+                return expanses;
+            }
         }
-        public IQueryable<Expanses> getSerachingExpanses(String query)
+        public IQueryable<Expanses> getSerachingExpanses(String query , Guid id)
         {
-            var expanseReport = (from s in e.Expanses where s.Customers.Name.Contains(query) select s).OrderBy(r => r.Day);
-            return expanseReport;
+            using (e)
+            {
+                var expanseReport = (from s in e.Expanses where s.Customers.Name.Contains(query) && s.ExpanseReport_ID == id select s).OrderBy(r => r.Day);
+                return expanseReport;
+            }
         }
 
 
         public Expanses GetById(Guid id)
         {
-            Expanses expanse = (from ex in e.Expanses where ex.Expanse_ID == id select ex).FirstOrDefault();
-            return expanse;
+            using (e)
+            {
+                Expanses expanse = (from ex in e.Expanses where ex.Expanse_ID == id select ex).FirstOrDefault();
+                return expanse;
+            }
         }
 
        
 
         public void Delete(Expanses exp)
         {
-            using (new NotesDeFraisEntities())
+            using (e)
             {
                 e.Expanses.Remove(exp);
                
@@ -67,63 +76,102 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Guid maxIdCustomers()
         {
-            var id = (from s in e.Customers select s.Customer_ID).FirstOrDefault();
-            return id;
+            using (e)
+            {
+                var id = (from s in e.Customers select s.Customer_ID).FirstOrDefault();
+                return id;
+            }
 
         }
         public Guid maxIdProject()
         {
-            var id = (from s in e.Projects select s.Project_ID).FirstOrDefault();
-            return id;
+            using (e)
+            {
+                var id = (from s in e.Projects select s.Project_ID).FirstOrDefault();
+                return id;
+            }
 
         }
         public Guid maxIdExpanseType()
         {
-            var id = (from s in e.ExpanseTypes select s.ExpenseType_ID).FirstOrDefault();
-            return id;
+            using (e)
+            {
+                var id = (from s in e.ExpanseTypes select s.ExpenseType_ID).FirstOrDefault();
+                return id;
+            }
 
         }
         public Guid maxIdExpanseReports()
         {
-            var id = (from s in e.ExpanseReports select s.ExpanseReport_ID).FirstOrDefault();
-            return id;
+            using (e)
+            {
+                var id = (from s in e.ExpanseReports select s.ExpanseReport_ID).FirstOrDefault();
+                return id;
+            }
 
         }
 
         public Customers GetByIdCutomer(Guid id)
         {
-            Customers customer = (from p in e.Customers where p.Customer_ID == id select p).FirstOrDefault();
-            return customer;
+            using (e)
+            {
+                Customers customer = (from p in e.Customers where p.Customer_ID == id select p).FirstOrDefault();
+                return customer;
+            }
         }
 
         public Projects GetByIdProjects(Guid id)
         {
-            Projects projet = (from p in e.Projects where p.Project_ID == id select p).FirstOrDefault();
-            return projet;
+            using (e)
+            {
+                Projects projet = (from p in e.Projects where p.Project_ID == id select p).FirstOrDefault();
+                return projet;
+            }
         }
 
         public ExpanseReports GetByIdExpansesRepport(Guid id)
         {
-            ExpanseReports expanseRepport = (from p in e.ExpanseReports where p.ExpanseReport_ID == id select p).FirstOrDefault();
-            return expanseRepport;
+            using (e)
+            {
+                ExpanseReports expanseRepport = (from p in e.ExpanseReports where p.ExpanseReport_ID == id select p).FirstOrDefault();
+                return expanseRepport;
+            }
         }
 
         public IQueryable<Expanses> GetByProject(Guid id)
         {
-            IQueryable<Expanses> expanse = (from p in e.Expanses where p.Project_ID == id select p);
-            return expanse;
+            using (e)
+            {
+                IQueryable<Expanses> expanse = (from p in e.Expanses where p.Project_ID == id select p);
+                return expanse;
+            }
         }
 
         public IQueryable<Expanses> GetAllByIdExpansesRepport(Guid id)
         {
-            var expanse = (from p in e.Expanses where p.ExpanseReport_ID == id select p);
-            return expanse;
+            using (e)
+            {
+                var expanse = (from p in e.Expanses where p.ExpanseReport_ID == id select p);
+                return expanse;
+            }
         }
 
         public ExpanseTypes GetByIdExpanseTypes(Guid id)
         {
-            ExpanseTypes expanseType = (from p in e.ExpanseTypes where p.ExpenseType_ID == id select p).FirstOrDefault();
-            return expanseType;
+            using (e)
+            {
+                ExpanseTypes expanseType = (from p in e.ExpanseTypes where p.ExpenseType_ID == id select p).FirstOrDefault();
+                return expanseType;
+            }
+        }
+
+        public IQueryable<Expanses> GetExpansesByIdExpanseTypes(Guid id)
+        {
+            using (e)
+            {
+                IQueryable<Expanses> expanses = (from p in e.Expanses where p.ExpanseType_ID == id select p);
+                return expanses;
+            }
         }
 
         public void Save()
