@@ -18,7 +18,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void AddProjet(Projects projet)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 e.Projects.Add(projet);
                 e.SaveChanges();
@@ -28,7 +28,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void updateProject(Projects projet, String name, String discription, double budget) {
 
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 projet.Name = name;
                 projet.Description = discription;
@@ -38,7 +38,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
         public IQueryable<Projects> allProjects()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var projects = e.Projects.OrderBy(r => r.Project_ID);
                 return projects;
@@ -48,7 +48,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Projects> getSerachingProjects(String query)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var projects = (from s in e.Projects where s.Name.Contains(query) select s).OrderBy(r => r.Project_ID);
                 return projects;
@@ -58,7 +58,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Projects GetById(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 Projects projet = (from p in e.Projects where p.Project_ID == id select p).FirstOrDefault();
                 return projet;
@@ -67,7 +67,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Projects> GetByIdPole(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 IQueryable<Projects> projet = (from p in e.Projects where p.Pole_ID == id select p);
                 return projet;
@@ -76,7 +76,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Projects> GetByCustomerId(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 IQueryable<Projects> projet = (from p in e.Projects where p.Customer_ID == id select p);
                 return projet;
@@ -85,7 +85,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Customers GetByIdCutomer(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 Customers customer = (from p in e.Customers where p.Customer_ID == id select p).FirstOrDefault();
                 return customer;
@@ -94,7 +94,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Projects>  GetProjectsByIdCutomer(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var projets = (from p in e.Projects where p.Customer_ID == id select p);
                 return projets;
@@ -103,7 +103,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Guid GetIdByName(String name)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 Guid projectId = (from c in e.Projects where c.Name == name select c.Project_ID).FirstOrDefault();
                 return projectId;
@@ -111,7 +111,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public IQueryable<Customers> getAllCustomers() {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var Customers = (from p in e.Customers  select p);
                 return Customers;
@@ -120,7 +120,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Poles> getAllPoles()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var poles = (from p in e.Poles select p);
                 return poles;
@@ -130,7 +130,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void Delete(Projects p)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 e.Projects.Remove(p);
             }
@@ -139,7 +139,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Guid maxIdPoles()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var id = (from s in e.Poles select s.Pole_ID).FirstOrDefault();
                 return id;
@@ -149,7 +149,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Guid maxIdCustomers()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var id = (from s in e.Customers select s.Customer_ID).FirstOrDefault();
                 return id;

@@ -16,7 +16,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void addRoles(AspNetRoles role)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 e.AspNetRoles.Add(role);
                 e.SaveChanges();
@@ -25,7 +25,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<AspNetRoles> allRoles()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var rolesList = e.AspNetRoles.OrderBy(r=>r.Name);
                 return rolesList;
@@ -34,7 +34,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public AspNetRoles getRole(String  name)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var role = (from s in e.AspNetRoles where s.Name == name select s).FirstOrDefault();
                 return role;

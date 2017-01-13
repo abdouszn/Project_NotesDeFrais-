@@ -160,7 +160,7 @@ namespace Project_NotesDeFrais.Controllers
             List<ExpanseTypesModel> expansesTypeListModel = new List<ExpanseTypesModel>();
             ViewData["empty"] = "false";
 
-            IQueryable<Customers> costumers = cstRepo.allCustomers();
+            IQueryable<Customers> costumers = cstRepo.getlistCustomersHasProject();
 
             foreach (var cust in costumers)
             {

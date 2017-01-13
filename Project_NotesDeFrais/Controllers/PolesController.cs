@@ -27,7 +27,7 @@ namespace Project_NotesDeFrais.Controllers
 
             }
             foreach (Employees emp in lisEmpManager) {
-                Debug.WriteLine("element de list :"+emp.Email);
+               
                 empModel.Employee_ID = emp.Employee_ID;
                 empModel.FirstName = emp.FirstName;
                 pole.Employees.Add(empModel);

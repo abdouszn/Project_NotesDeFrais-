@@ -19,7 +19,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void AddExpanses(Expanses exp)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 e.Expanses.Add(exp);
                 e.SaveChanges();
@@ -28,7 +28,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void updateExpanses(Expanses exp , double ttc, double ht, double tva)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 exp.Amount_TTC = ttc;
                 exp.Amount_HT = ht;
@@ -38,7 +38,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
         public IQueryable<Expanses> allExpanses()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var expanses = e.Expanses.OrderBy(r => r.Expanse_ID);
                 return expanses;
@@ -46,7 +46,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
         public IQueryable<Expanses> getSerachingExpanses(String query , Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var expanseReport = (from s in e.Expanses where s.Customers.Name.Contains(query) && s.ExpanseReport_ID == id select s).OrderBy(r => r.Day);
                 return expanseReport;
@@ -56,7 +56,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Expanses GetById(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 Expanses expanse = (from ex in e.Expanses where ex.Expanse_ID == id select ex).FirstOrDefault();
                 return expanse;
@@ -67,7 +67,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void Delete(Expanses exp)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 e.Expanses.Remove(exp);
                
@@ -76,7 +76,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Guid maxIdCustomers()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var id = (from s in e.Customers select s.Customer_ID).FirstOrDefault();
                 return id;
@@ -85,7 +85,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
         public Guid maxIdProject()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var id = (from s in e.Projects select s.Project_ID).FirstOrDefault();
                 return id;
@@ -94,7 +94,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
         public Guid maxIdExpanseType()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var id = (from s in e.ExpanseTypes select s.ExpenseType_ID).FirstOrDefault();
                 return id;
@@ -103,7 +103,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
         public Guid maxIdExpanseReports()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var id = (from s in e.ExpanseReports select s.ExpanseReport_ID).FirstOrDefault();
                 return id;
@@ -113,7 +113,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Customers GetByIdCutomer(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 Customers customer = (from p in e.Customers where p.Customer_ID == id select p).FirstOrDefault();
                 return customer;
@@ -122,7 +122,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Projects GetByIdProjects(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 Projects projet = (from p in e.Projects where p.Project_ID == id select p).FirstOrDefault();
                 return projet;
@@ -131,7 +131,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public ExpanseReports GetByIdExpansesRepport(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 ExpanseReports expanseRepport = (from p in e.ExpanseReports where p.ExpanseReport_ID == id select p).FirstOrDefault();
                 return expanseRepport;
@@ -140,7 +140,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Expanses> GetByProject(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 IQueryable<Expanses> expanse = (from p in e.Expanses where p.Project_ID == id select p);
                 return expanse;
@@ -149,7 +149,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Expanses> GetAllByIdExpansesRepport(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var expanse = (from p in e.Expanses where p.ExpanseReport_ID == id select p);
                 return expanse;
@@ -158,7 +158,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public ExpanseTypes GetByIdExpanseTypes(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 ExpanseTypes expanseType = (from p in e.ExpanseTypes where p.ExpenseType_ID == id select p).FirstOrDefault();
                 return expanseType;
@@ -167,7 +167,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Expanses> GetExpansesByIdExpanseTypes(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 IQueryable<Expanses> expanses = (from p in e.Expanses where p.ExpanseType_ID == id select p);
                 return expanses;

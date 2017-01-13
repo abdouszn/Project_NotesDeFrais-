@@ -51,9 +51,9 @@ namespace Project_NotesDeFrais.Controllers
             exp.Month = mois;
             exp.StatusCode = Convert.ToInt32(00);
             exp.ManagerValidationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
-            exp.ManagerComment = Convert.ToString(" ");
+            exp.ManagerComment = Convert.ToString(" no comment");
             exp.AccountingValidatationDate = Convert.ToDateTime(Request.Form["CreationDate"]);
-            exp.AccountingComment = Convert.ToString(" ");
+            exp.AccountingComment = Convert.ToString(" no comment");
             exp.Total_HT = Convert.ToDouble(0);
             exp.Total_TTC = Convert.ToDouble(0);
             exp.Total_TVA = Convert.ToDouble(0);
@@ -230,10 +230,11 @@ namespace Project_NotesDeFrais.Controllers
             String managerComment ="no comment";
             String comtableComment = "no comment";
             int StatusCode = 15;
-            comtableComment = Convert.ToString(Request.Form["ManagerComment"]);
+            managerComment = Convert.ToString(Request.Form["ManagerComment"]);
             if (User.IsInRole("Comptable")) {
                 StatusCode = 25;
                 comtableComment = Convert.ToString(Request.Form["ManagerComment"]);
+                managerComment = "no comment";
             }
             expRepRep.updateStatus(expRep, StatusCode , managerComment, comtableComment);
             return RedirectToAction("AllExpansesReportsToValid");

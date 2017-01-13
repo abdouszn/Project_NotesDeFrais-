@@ -13,12 +13,13 @@ namespace Project_NotesDeFrais.Controllers
     {
 
         [Authorize]
-        // GET: Customer
+        // GET: formulaire to add customer
         public ActionResult Index()
         {
             return View("CostumerFormulaire");
         }
 
+        // add customer to the database
         [Authorize]
         public ActionResult createCustomer(CustomersModel customerModel) {
             if (!ModelState.IsValidField("Name") || !ModelState.IsValidField("Code")) {
@@ -33,6 +34,8 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllCustomer");
         }
 
+        //Get : edit customer 
+
         [Authorize]
         public ActionResult Edit(Guid id)
         {
@@ -45,6 +48,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("EditCustomer", custModel);
         }
 
+        // update sutomer after edit
         [Authorize]
         public ActionResult updateCustomers(Guid id)
         {
@@ -65,6 +69,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllCustomer");
         }
 
+        //get all custmer in the database
         [Authorize]
         public ActionResult AllCustomer(int? pageIndex)
         {
@@ -95,6 +100,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllCustomers" , lst);
         }
 
+        // searche some customer in the database by name
         [Authorize]
         public ActionResult Searche(String query, int? pageIndex)
         {
@@ -116,6 +122,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllCustomers", lst);
         }
 
+        //delet customer by id
         [Authorize]
         public ActionResult Delete(Guid id) {
             ProjetController prjtControleur = new ProjetController();
@@ -132,6 +139,7 @@ namespace Project_NotesDeFrais.Controllers
             return RedirectToAction("AllCustomer");
         }
 
+        //to show popup for cofirm or now delete customer
         [Authorize]
         public ActionResult confirmDelete(Guid id)
         {

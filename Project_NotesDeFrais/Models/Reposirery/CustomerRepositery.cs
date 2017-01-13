@@ -18,7 +18,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void AddCostumers(Customers cust)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 e.Customers.Add(cust);
                 e.SaveChanges();
@@ -27,7 +27,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void updateCustomers(Customers customer, String name, String code)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 customer.Name = name;
                 customer.Code = code;
@@ -37,7 +37,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Customers> allCustomers()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var customers = e.Customers.OrderBy(r => r.Customer_ID);
                 return customers;
@@ -46,7 +46,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<Customers> getSerachingCustomers(String query)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var customer = (from s in e.Customers where s.Name.Contains(query) select s).OrderBy(r => r.Customer_ID);
                 return customer;
@@ -56,7 +56,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Customers GetById(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 Customers customer = (from c in e.Customers where c.Customer_ID == id select c).FirstOrDefault();
                 return customer;
@@ -65,10 +65,24 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Guid GetIdByName(String name)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 Guid customerId = (from c in e.Customers where c.Name == name select c.Customer_ID).FirstOrDefault();
                 return customerId;
+            }
+        }
+
+        public IQueryable<Customers> getlistCustomersHasProject() {
+            using (new NotesDeFraisEntities())
+            {
+                List<Customers> listCustomers = new List<Customers>();
+                var customersId = from p in e.Projects select p.Customer_ID;
+                foreach (var idCust in customersId)
+                {
+                    var customer = (from c in e.Customers where c.Customer_ID == idCust select c).FirstOrDefault();
+                    listCustomers.Add(customer);
+                }
+                return listCustomers.AsQueryable();
             }
         }
 

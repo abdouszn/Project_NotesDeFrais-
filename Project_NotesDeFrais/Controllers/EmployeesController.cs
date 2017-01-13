@@ -11,6 +11,8 @@ namespace Project_NotesDeFrais.Controllers
 {
     public class EmployeesController : Controller
     {
+
+        //add employer formulaire
         [Authorize]
         public ActionResult Index()
         {
@@ -26,6 +28,7 @@ namespace Project_NotesDeFrais.Controllers
             return View("EmployesFormulaire" , empModel);
         }
 
+        //add employer to the database
         [Authorize]
         public ActionResult CreateEmploye(EmployeesModel empModel)
         {
@@ -58,6 +61,8 @@ namespace Project_NotesDeFrais.Controllers
 
         }
 
+
+        //get all employer from database
         [Authorize]
         public ActionResult AllEmployees(int? pageIndex)
         {
@@ -105,6 +110,8 @@ namespace Project_NotesDeFrais.Controllers
             return View("AllEmployes", lst);
         }
 
+
+        //searche some employer in the database by name
         [Authorize]
         public ActionResult Searche(int? pageIndex , String query)
         {
@@ -134,12 +141,12 @@ namespace Project_NotesDeFrais.Controllers
             return View("Allmployes", lst);
         }
 
+        //select user to add to the employer
         [Authorize]
         public ActionResult createUserRole()
         {
             EmployeesModel empModel = new EmployeesModel();
             EmployesRepositery empRp = new EmployesRepositery();
-
             empModel.AspNetUsersList = empRp.getAllUsers().ToList();
             empModel.polesList = empRp.getAllPoles().ToList();
             return View("EmployesFormulaire", empModel);
@@ -171,6 +178,7 @@ namespace Project_NotesDeFrais.Controllers
 
         }
 
+        //show popup to confirm delete employer
         [Authorize]
         public ActionResult confirmDelete(Guid id)
         {

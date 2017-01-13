@@ -261,7 +261,6 @@
     <Compile Include="Models\Reposirery\ExpanseRepositery.cs" />
     <Compile Include="Models\Reposirery\ExpanseRepportRepositery.cs" />
     <Compile Include="Models\Reposirery\ExpanseTypesRepositery.cs" />
-    <Compile Include="Models\Reposirery\NoteDeFraisRepositery.cs" />
     <Compile Include="Models\Poles.cs">
       <DependentUpon>ProjectModel.tt</DependentUpon>
     </Compile>

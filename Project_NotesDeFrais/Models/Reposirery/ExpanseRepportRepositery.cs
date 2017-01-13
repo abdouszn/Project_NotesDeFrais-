@@ -20,7 +20,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void AddExpansesReports(ExpanseReports exp)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 e.ExpanseReports.Add(exp);
                 e.SaveChanges();
@@ -36,7 +36,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<ExpanseReports> allExpanseReports(Guid idEmployer)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var expansesRepport = (from s in e.ExpanseReports where s.Employee_ID == idEmployer select s).OrderBy(r => r.CreationDate.Month);
                 return expansesRepport;
@@ -46,7 +46,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         //expanse Report to valid by manager
         public IQueryable<ExpanseReports> allExpanseReportsToValid()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var expansesRepport = (from s in e.ExpanseReports where s.StatusCode == 10 select s).OrderBy(r => r.CreationDate.Month);
                 return expansesRepport;
@@ -56,7 +56,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
         //expanse Report to valid by comptable
         public IQueryable<ExpanseReports> allExpanseReportsToValidComptable()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var expansesRepport = (from s in e.ExpanseReports where (s.StatusCode == 10 || s.StatusCode == 20) select s).OrderBy(r => r.CreationDate.Month);
                 return expansesRepport;
@@ -65,7 +65,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public IQueryable<ExpanseReports> getSerachingExpanseReports(String query, Guid idEmployer)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var expanseReport = (from s in e.ExpanseReports where s.Employees.FirstName.Contains(query) && s.Employee_ID == idEmployer select s).OrderBy(r => r.ExpanseReport_ID);
                 return expanseReport;
@@ -75,7 +75,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public ExpanseReports GetById(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 ExpanseReports expanseRepport = (from ex in e.ExpanseReports where ex.ExpanseReport_ID == id select ex).FirstOrDefault();
                 return expanseRepport;
@@ -86,7 +86,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public void Delete(ExpanseReports expRep)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var expanse = (from exp in e.Expanses where (exp.ExpanseReport_ID == expRep.ExpanseReport_ID) select exp);
                 foreach (var exp in expanse.ToList())
@@ -102,7 +102,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
        
         public Guid maxIdEmployee()
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 var id = (from s in e.Employees select s.Employee_ID).FirstOrDefault();
                 return id;
@@ -112,7 +112,7 @@ namespace Project_NotesDeFrais.Models.Reposirery
 
         public Employees GetByIdEmployes(Guid id)
         {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 Employees employer = (from p in e.Employees where p.Employee_ID == id select p).FirstOrDefault();
                 return employer;
@@ -120,14 +120,14 @@ namespace Project_NotesDeFrais.Models.Reposirery
         }
 
         public IQueryable<ExpanseReports> GetByEmployesId(Guid idEmployer) {
-            using (e)
+            using (new NotesDeFraisEntities())
             {
                 IQueryable<ExpanseReports> expanseRepport = (from ex in e.ExpanseReports where ex.Employee_ID == idEmployer select ex);
                 return expanseRepport;
             }
         }
         public void updateStatus(ExpanseReports expRep, int statut , String managerComment, String comptableComment) {
-            using ( e)
+            using (new NotesDeFraisEntities())
             {
                 expRep.StatusCode = statut;
                 expRep.ManagerComment = managerComment;

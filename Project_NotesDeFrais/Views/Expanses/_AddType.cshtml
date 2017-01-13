@@ -4,19 +4,21 @@
  {
     <br />
     <br />
-    <div class="alert alert-danger">
+    <div class="alert alert-danger" style="margin:5px;">
         Vous devez d'abord créer des <strong>@ViewData["erreur"]</strong>
-
     </div>
- }else{
+    <button type="button" class="btn btn-info" data-dismiss="modal" style="margin:15px;">Ok</button> 
+ }
+ else
+ {
 
-    using (Html.BeginForm("createExpanses", "Expanses", new { expanseReport_ID = @Model.ExpanseReport_ID} , FormMethod.Post , new { @class = "form-vertical", role = "form" }))
-    {
+     using (Html.BeginForm("createExpanses", "Expanses", new { expanseReport_ID = @Model.ExpanseReport_ID }, FormMethod.Post, new { @class = "form-vertical", role = "form" }))
+     {
 
             @Html.ValidationSummary(true)
 
             <br/>
-            <fieldset style="padding:5px;">
+            <fieldset style="padding:15px;">
                 <div class="form-group">
                     @Html.LabelFor(model => @Model.Day, new { @class = "control-label col-sm-2" })
                     <select class="form-control" name="monthSelect">
